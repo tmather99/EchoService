@@ -1,0 +1,12 @@
+{
+  "profiles": {
+    "Server-Client-Communication-WCF": {
+      "commandName": "Project"
+    },
+    "Docker": {
+        "commandName": "Docker",
+        "publishAllPorts": true,
+        "useSSL": false
+    }
+  }
+}
