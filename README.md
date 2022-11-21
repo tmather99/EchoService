@@ -7,7 +7,7 @@ This WCF server uses
   * NetTcpBinding 
 
 and exposes EndPoints for each binding. It uses ASP.NET Core as the host for the services. 
-The server also exposes a WSDL endpoint at /EchoService for HTTP. A client can be created using the svcutil tool against the WSDL endpoint. 
+The server also exposes a WSDL endpoint at http://localhost:8088/EchoService. A client can be created using the svcutil tool against the WSDL endpoint. 
 
 The client makes manual calls endpoints with the BasicHttpBinding, WsHttpBinding and NetTcpBindings.
 A base address is specified for http which is use as the basis for each of the binding endpoints. 
