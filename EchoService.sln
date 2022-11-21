@@ -8,6 +8,10 @@ EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "echo_server", "echo_server\echo_server.csproj", "{2D6F4929-41A0-47FD-AC05-1C01AD578E13}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{A63D38FB-22D6-46F4-9DDE-42DB8A6DF683}"
+	ProjectSection(SolutionItems) = preProject
+		README.md = README.md
+		wcfstorm.png = wcfstorm.png
+	EndProjectSection
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LoadTests", "LoadTests\LoadTests.csproj", "{4039E93C-B916-44E6-BBE5-E59982227E48}"
 EndProject
