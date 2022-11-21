@@ -1,6 +1,6 @@
 # Core WCF Server and Client
 
-This WCF server uses 
+The WCF server uses 
 
   * BasicHttpBinding
   * WsHttpBinding
