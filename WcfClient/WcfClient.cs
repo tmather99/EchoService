@@ -7,9 +7,10 @@ namespace Wcf
 {
     public class Client
     {
-        public const int HTTP_PORT = 8088;
-        public const int HTTPS_PORT = 8443;
-        public const int NETTCP_PORT = 8090;
+        public static int HTTP_PORT = int.Parse(Environment.GetEnvironmentVariable("HTTP_PORT") ?? "8088");
+        public static int HTTPS_PORT = int.Parse(Environment.GetEnvironmentVariable("HTTP_PORT") ?? "8443");
+        public static int NETTCP_PORT = int.Parse(Environment.GetEnvironmentVariable("NETTCP_PORT") ?? "8090");
+        public static int TCP_PORT = int.Parse(Environment.GetEnvironmentVariable("TCP_PORT") ?? "8089");
 
         public static string ECHO_SERVER = Environment.GetEnvironmentVariable("ECHO_SERVER") ?? "localhost";
         public static string TCP_SERVER = Environment.GetEnvironmentVariable("TCP_SERVER") ?? "localhost";
@@ -106,7 +107,7 @@ namespace Wcf
             binding.TransferMode = TransferMode.Streamed;
             binding.Security.Mode = SecurityMode.None;
 
-            EndpointAddress endpointAddress = new EndpointAddress($"net.tcp://{TCP_SERVER}:8089/nettcp");
+            EndpointAddress endpointAddress = new EndpointAddress($"net.tcp://{TCP_SERVER}:{TCP_PORT}/nettcp");
             var factory = new ChannelFactory<ICalculate>(binding, endpointAddress);
             factory.Open();
 
@@ -135,7 +136,7 @@ namespace Wcf
             ((IClientChannel)client).Close();
             Console.WriteLine("Closed Proxy");
 
-            EndpointAddress endpointAddress2 = new EndpointAddress($"net.tcp://{TCP_SERVER}:8089/nettcp2");
+            EndpointAddress endpointAddress2 = new EndpointAddress($"net.tcp://{TCP_SERVER}:{TCP_PORT}/nettcp2");
             var factory2 = new ChannelFactory<ICalculate2>(binding, endpointAddress2);
             factory2.Open();
 
