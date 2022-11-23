@@ -1,0 +1,10 @@
+{
+  "profiles": {
+    "Bechmark": {
+      "commandName": "Project"
+    },
+    "Docker": {
+      "commandName": "Docker"
+    }
+  }
+}

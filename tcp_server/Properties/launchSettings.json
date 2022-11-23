@@ -1,0 +1,10 @@
+{
+  "profiles": {
+    "Server-Client-Communication-WCF": {
+      "commandName": "Project"
+    },
+    "Docker": {
+      "commandName": "Docker"
+    }
+  }
+}

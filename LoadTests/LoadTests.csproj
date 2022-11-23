@@ -55,12 +55,6 @@
     </CodeAnalysisDependentAssemblyPaths>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="..\echo_client\IEchoService.cs">
-      <Link>IEchoService.cs</Link>
-    </Compile>
-    <Compile Include="..\echo_client\Program.cs">
-      <Link>Program.cs</Link>
-    </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="UnitTest.cs" />
   </ItemGroup>
@@ -69,6 +63,12 @@
     <None Include="LoadTest.loadtest">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\WcfClient\WcfClient.csproj">
+      <Project>{8f5f1a27-5bbb-46c7-8c6a-6c78b1d27383}</Project>
+      <Name>WcfClient</Name>
+    </ProjectReference>
   </ItemGroup>
   <Choose>
     <When Condition="'$(VisualStudioVersion)' == '10.0' And '$(IsCodedUITest)' == 'True'">

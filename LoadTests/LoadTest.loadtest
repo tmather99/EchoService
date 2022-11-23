@@ -5,9 +5,10 @@
       <ThinkProfile Value="0.2" Pattern="NormalDistribution" />
       <LoadProfile Pattern="Constant" InitialUsers="25" />
       <TestMix>
-        <TestProfile Name="CallBasicHttpBinding" Path="bin\debug\webandloadtests.dll" Id="378d874d-d527-84af-4c8b-a2ca964cea7f" Percentage="34" Type="Microsoft.VisualStudio.TestTools.TestTypes.Unit.UnitTestElement, Microsoft.VisualStudio.QualityTools.Tips.UnitTest.ObjectModel, Version=17.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" />
-        <TestProfile Name="CallNetTcpBinding" Path="bin\debug\webandloadtests.dll" Id="7f495dce-2001-70ef-4574-8198f8807b99" Percentage="33" Type="Microsoft.VisualStudio.TestTools.TestTypes.Unit.UnitTestElement, Microsoft.VisualStudio.QualityTools.Tips.UnitTest.ObjectModel, Version=17.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" />
-        <TestProfile Name="CallWsHttpBinding" Path="bin\debug\webandloadtests.dll" Id="7a3e90f1-96e0-15c1-047e-ad971c9b46b9" Percentage="33" Type="Microsoft.VisualStudio.TestTools.TestTypes.Unit.UnitTestElement, Microsoft.VisualStudio.QualityTools.Tips.UnitTest.ObjectModel, Version=17.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" />
+        <TestProfile Name="CallBasicHttpBinding" Path="bin\release\webandloadtests.dll" Id="378d874d-d527-84af-4c8b-a2ca964cea7f" Percentage="25" Type="Microsoft.VisualStudio.TestTools.TestTypes.Unit.UnitTestElement, Microsoft.VisualStudio.QualityTools.Tips.UnitTest.ObjectModel, Version=17.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" />
+        <TestProfile Name="CallWsHttpBinding" Path="bin\release\webandloadtests.dll" Id="7a3e90f1-96e0-15c1-047e-ad971c9b46b9" Percentage="25" Type="Microsoft.VisualStudio.TestTools.TestTypes.Unit.UnitTestElement, Microsoft.VisualStudio.QualityTools.Tips.UnitTest.ObjectModel, Version=17.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" />
+        <TestProfile Name="CallNetTcpBinding" Path="bin\release\webandloadtests.dll" Id="7f495dce-2001-70ef-4574-8198f8807b99" Percentage="25" Type="Microsoft.VisualStudio.TestTools.TestTypes.Unit.UnitTestElement, Microsoft.VisualStudio.QualityTools.Tips.UnitTest.ObjectModel, Version=17.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" />
+        <TestProfile Name="CallCalculator" Path="bin\release\webandloadtests.dll" Id="dabd70c3-59bf-8ee8-b04b-2a7a0a0f9fa1" Percentage="25" Type="Microsoft.VisualStudio.TestTools.TestTypes.Unit.UnitTestElement, Microsoft.VisualStudio.QualityTools.Tips.UnitTest.ObjectModel, Version=17.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" />
       </TestMix>
       <BrowserMix>
         <BrowserProfile Percentage="100">
