@@ -1,6 +1,6 @@
 {
   "profiles": {
-    "NetCoreClient": {
+    "echo_client": {
       "commandName": "Project"
     },
     "Docker": {

@@ -7,7 +7,7 @@
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <ProjectGuid>{089B5FDB-A09D-481B-A1A2-2C5BD85CDD01}</ProjectGuid>
     <OutputType>Exe</OutputType>
-    <RootNamespace>WCF_client_windows</RootNamespace>
+    <RootNamespace>TCP_client</RootNamespace>
     <AssemblyName>tcp_client</AssemblyName>
     <TargetFrameworkVersion>v4.8.1</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>

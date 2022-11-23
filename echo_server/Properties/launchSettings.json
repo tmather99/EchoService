@@ -1,6 +1,6 @@
 {
   "profiles": {
-    "Server-Client-Communication-WCF": {
+    "echo_server": {
       "commandName": "Project"
     },
     "Docker": {
