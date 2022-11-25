@@ -5,16 +5,16 @@ push:
 	docker push tmather99/benchmark
 
 run-http:
-	docker run -e ECHO_SERVER='flash.vmwuem.com' -e HTTP_PORT=8088 tmather99/benchmark -f *CallBasicHttpBinding* --iterationCount 1 -m
+	docker run -e ECHO_SERVER='flash.vmwuem.com' -e HTTP_PORT=8088 --rm tmather99/benchmark -f *CallBasicHttpBinding* --iterationCount 1 -m
 
 run-wshttp:
-	docker run -e ECHO_SERVER='flash.vmwuem.com' -e HTTP_PORT=8088 tmather99/benchmark -f *CallWsHttpBinding* --iterationCount 1
+	docker run -e ECHO_SERVER='flash.vmwuem.com' -e HTTP_PORT=8088 --rm tmather99/benchmark -f *CallWsHttpBinding* --iterationCount 1
 
 run-tcp:
-	docker run -e ECHO_SERVER='flash.vmwuem.com' -e NETTCP_PORT=8090 tmather99/benchmark -f *CallNetTcpBinding* --iterationCount 1
+	docker run -e ECHO_SERVER='flash.vmwuem.com' -e NETTCP_PORT=8090 --rm tmather99/benchmark -f *CallNetTcpBinding* --iterationCount 1
 
 run-cal:
-	docker run -e TCP_SERVER='flash.vmwuem.com' -e TCP_PORT=8089 tmather99/benchmark -f *CallCalculator* --iterationCount 1
+	docker run -e TCP_SERVER='flash.vmwuem.com' -e TCP_PORT=8089 --rm tmather99/benchmark -f *CallCalculator* --iterationCount 1
 
 dotnet-build:
 	dotnet build -c Release

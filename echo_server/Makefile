@@ -5,7 +5,7 @@ push:
 	docker push tmather99/echo_server
 
 run:
-	docker run -p 8088:8088 -p 8443:8443 -p 8090:8090 -e SEQ_SERVER_URL='http://flash.vmwuem.com:5341' tmather99/echo_server
+	docker run -p 8088:8088 -p 8443:8443 -p 8090:8090 -e SEQ_SERVER_URL='http://flash.vmwuem.com:5341' --rm tmather99/echo_server
 
 dotnet-build:
 	dotnet build -c Release

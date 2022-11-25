@@ -5,7 +5,7 @@ push:
 	docker push tmather99/echo_client
 
 run:
-	docker run -e ECHO_SERVER='flash.vmwuem.com' -e HTTP_PORT=8088 -e NETTCP_PORT=8090 tmather99/echo_client
+	docker run -e ECHO_SERVER='flash.vmwuem.com' -e HTTP_PORT=8088 -e NETTCP_PORT=8090 --rm tmather99/echo_client
 
 dotnet-build:
 	dotnet build -c Release
