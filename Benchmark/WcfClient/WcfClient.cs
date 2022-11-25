@@ -1,7 +1,7 @@
 ﻿using System;
 using System.ServiceModel;
 using System.Threading.Tasks;
-using Bechmark.Contracts;
+using Contracts;
 
 namespace Wcf
 {

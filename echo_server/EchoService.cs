@@ -1,5 +1,6 @@
 using Contract;
 using CoreWCF;
+using Serilog;
 
 namespace NetCoreServer
 {
@@ -7,13 +8,13 @@ namespace NetCoreServer
     {
         public string Echo(string text)
         {
-            System.Console.WriteLine($"Received {text} client!");
+            Log.Information($"Received {text} client!");
             return $"Response for {text} client!";
         }
 
         public string ComplexEcho(EchoMessage text)
         {
-            System.Console.WriteLine($"Received {text.Text} client!");
+            Log.Information($"Received {text.Text} client!");
             return $"Response for {text.Text} client!";
         }
 

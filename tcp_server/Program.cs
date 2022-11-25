@@ -2,25 +2,38 @@
 using CoreWCF.Configuration;
 using Microsoft.AspNetCore;
 using Microsoft.AspNetCore.Hosting;
+using Serilog;
 
 namespace TCP_Server
 {
     class Program
     {
+        public static string SEQ_SERVER_URL = Environment.GetEnvironmentVariable("SEQ_SERVER_URL") ?? "http://localhost:5341";
+
         static void Main(string[] args)
         {
             var host = CreateWebHostBuilder(args).Build();
-
-            Console.WriteLine("Starting up ------");
-
+            Log.Information($"SEQ_SERVER_URL={SEQ_SERVER_URL}");
             host.Run();
+            Log.CloseAndFlush();
         }
 
         public static IWebHostBuilder CreateWebHostBuilder(string[] args) =>
             WebHost.CreateDefaultBuilder(args)
-            .UseKestrel(options =>
-            { })
+            .UseKestrel()
             .UseNetTcp(8089)
-            .UseStartup<Startup>();
+            .UseStartup<Startup>()
+            .UseSerilog((ctx, lc) =>
+                lc.ReadFrom.Configuration(ctx.Configuration)
+                  .Enrich.WithEnvironmentName()
+                  .Enrich.WithMachineName()
+                  .Enrich.WithProcessName()
+                  .Enrich.WithProcessId()
+                  .Enrich.WithThreadId()
+                  .Enrich.WithMemoryUsage()
+                  .WriteTo.Console()
+                  .WriteTo.Seq(SEQ_SERVER_URL),
+                preserveStaticLogger: false,
+                writeToProviders: false);
     }
 }

@@ -1,0 +1,26 @@
+version: '3.7'
+
+services:
+  echo_server:
+    image: tmather99/echo_server
+    build:
+      context: ./echo_server
+      dockerfile: Dockerfile
+
+  tcp_server:
+    image: tmather99/tcp_server
+    build:
+      context: ./tcp_server
+      dockerfile: Dockerfile
+
+  echo_client:
+    image: tmather99/echo_client
+    build:
+      context: ./echo_client
+      dockerfile: Dockerfile
+
+  benchmark:
+    image: tmather99/benchmark
+    build:
+      context: ./Benchmark
+      dockerfile: Dockerfile

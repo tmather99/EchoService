@@ -1,6 +1,7 @@
 ﻿using System;
 using Contract;
 using CoreWCF;
+using Serilog;
 
 namespace TCP_Server
 {
@@ -25,28 +26,28 @@ namespace TCP_Server
         public double Add(double A, double B)
         {
             var C = A + B; 
-            Console.WriteLine("{0} {1} {2} = {3}", A, nameof(Add), B, C); 
+            Log.Information("{0} {1} {2} = {3}", A, nameof(Add), B, C); 
             return C; 
         }
 
         public double Add2(double A, double B)
         {
             var C = A + B;
-            Console.WriteLine("Add2 ---------- {0} {1} {2} = {3}", A, nameof(Add), B, C);
+            Log.Information("Add2 ---------- {0} {1} {2} = {3}", A, nameof(Add), B, C);
             return C;
         }
 
         public double multiply(double A, double B)
         {
             var C = A * B;
-            Console.WriteLine("{0} {1} {2} = {3}", A, nameof(multiply), B, C);
+            Log.Information("{0} {1} {2} = {3}", A, nameof(multiply), B, C);
             return C;
         }
 
         public double Substract(double A, double B)
         {
             var C = A - B;
-            Console.WriteLine("{0} {1} {2} = {3}", A, nameof(Substract), B, C);
+            Log.Information("{0} {1} {2} = {3}", A, nameof(Substract), B, C);
             return C;
         }
     }

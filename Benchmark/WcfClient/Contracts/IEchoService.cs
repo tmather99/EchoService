@@ -2,7 +2,7 @@
 using System.ServiceModel;
 using System.Threading.Tasks;
 
-namespace Bechmark.Contracts
+namespace Contracts
 {
     [DataContract]
     public class EchoFault

@@ -180,26 +180,32 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="..\Bechmark\UnitTest.cs">
+    <Compile Include="..\Benchmark\UnitTest.cs">
       <Link>UnitTest.cs</Link>
+    </Compile>
+    <Compile Include="..\Benchmark\WcfClient\Contracts\ICalculate.cs">
+      <Link>WcfClient\Contracts\ICalculate.cs</Link>
+    </Compile>
+    <Compile Include="..\Benchmark\WcfClient\Contracts\ICalculate2.cs">
+      <Link>WcfClient\Contracts\ICalculate2.cs</Link>
+    </Compile>
+    <Compile Include="..\Benchmark\WcfClient\Contracts\IEchoService.cs">
+      <Link>WcfClient\Contracts\IEchoService.cs</Link>
     </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="WcfClient\WcfClient.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
+    <None Include="Makefile" />
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
     <Analyzer Include="..\packages\Microsoft.CodeAnalysis.Analyzers.2.6.2\analyzers\dotnet\cs\Microsoft.CodeAnalysis.Analyzers.dll" />
     <Analyzer Include="..\packages\Microsoft.CodeAnalysis.Analyzers.2.6.2\analyzers\dotnet\cs\Microsoft.CodeAnalysis.CSharp.Analyzers.dll" />
   </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\WcfClient\WcfClient.csproj">
-      <Project>{8f5f1a27-5bbb-46c7-8c6a-6c78b1d27383}</Project>
-      <Name>WcfClient</Name>
-    </ProjectReference>
-  </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
     <PropertyGroup>

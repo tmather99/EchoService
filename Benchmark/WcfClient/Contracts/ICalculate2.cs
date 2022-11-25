@@ -1,7 +1,7 @@
 ﻿using System.ServiceModel;
 using System.Threading.Tasks;
 
-namespace Bechmark.Contracts
+namespace Contracts
 {
     [ServiceContract]
     public interface ICalculate2

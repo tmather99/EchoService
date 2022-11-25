@@ -12,11 +12,6 @@
 
     <PackageReference Include="System.ServiceModel.Http" Version="4.10.0" />
     <PackageReference Include="System.ServiceModel.NetTcp" Version="4.10.0" />
-    <PackageReference Include="System.ServiceModel.Primitives" Version="4.10.0" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <ProjectReference Include="..\WcfClient\WcfClient.csproj" />
   </ItemGroup>
 
 </Project>

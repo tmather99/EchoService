@@ -5,6 +5,7 @@ using CoreWCF.Configuration;
 using CoreWCF.Description;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.Extensions.DependencyInjection;
+using Serilog;
 
 namespace NetCoreServer
 {
@@ -27,6 +28,8 @@ namespace NetCoreServer
 
         public void Configure(IApplicationBuilder app)
         {
+            //app.UseSerilogRequestLogging();
+
             var netTcpBinding = new NetTcpBinding();
             netTcpBinding.Security.Mode = SecurityMode.None;
             netTcpBinding.TransferMode = TransferMode.Streamed;
