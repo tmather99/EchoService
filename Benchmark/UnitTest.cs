@@ -8,7 +8,7 @@ namespace Bechmark
 {
     [MemoryDiagnoser]
     [TestClass]
-    public class UnitTest
+    public class UnitTest : IDisposable
     {
         public UnitTest()
         {
@@ -45,6 +45,11 @@ namespace Bechmark
         public async Task CallCalculator()
         {
             await Wcf.Client.CallCalculator();
+        }
+
+        public void Dispose()
+        {
+            Log.CloseAndFlush();
         }
     }
 }
