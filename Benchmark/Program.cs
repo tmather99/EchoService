@@ -4,6 +4,8 @@ namespace Bechmark
     using System.Threading;
     using BenchmarkDotNet.Configs;
     using BenchmarkDotNet.Running;
+    using Serilog.Events;
+    using Serilog;
 
     /// <summary>
     /// Singleton instance Command Processor.
@@ -16,6 +18,13 @@ namespace Bechmark
         /// <param name="args">command args.</param>
         public static void Main(string[] args)
         {
+            Log.Logger = new LoggerConfiguration()
+                .MinimumLevel.Override("Microsoft", LogEventLevel.Information)
+                .Enrich.FromLogContext()
+                .WriteTo.Console()
+                .WriteTo.Seq(Wcf.Client.SEQ_SERVER_URL)
+                .CreateLogger();
+
             int minimumWorkerThreadCount, minimumIOCThreadCount;
             int maximumWorkerThreadCount, maximumIOCThreadCount;
             int availableWorkerThreadCount, availableIOCThreadCount;
@@ -24,10 +33,10 @@ namespace Bechmark
             ThreadPool.GetMaxThreads(out maximumWorkerThreadCount, out maximumIOCThreadCount);
             ThreadPool.GetAvailableThreads(out availableWorkerThreadCount, out availableIOCThreadCount);
             
-            Console.WriteLine("              No. of processors: {0}", logicalProcessorCount);
-            Console.WriteLine("  Minimum no. of Worker threads: {0}, IOCP threads: {1}", minimumWorkerThreadCount, minimumIOCThreadCount);
-            Console.WriteLine("  Maximum no. of Worker threads: {0}, IOCP threads: {1}", maximumWorkerThreadCount, maximumIOCThreadCount);
-            Console.WriteLine("Available no. of Worker threads: {0}, IOCP threads: {1}", availableWorkerThreadCount, availableIOCThreadCount);
+            Log.Information("              No. of processors: {0}", logicalProcessorCount);
+            Log.Information("  Minimum no. of Worker threads: {0}, IOCP threads: {1}", minimumWorkerThreadCount, minimumIOCThreadCount);
+            Log.Information("  Maximum no. of Worker threads: {0}, IOCP threads: {1}", maximumWorkerThreadCount, maximumIOCThreadCount);
+            Log.Information("Available no. of Worker threads: {0}, IOCP threads: {1}", availableWorkerThreadCount, availableIOCThreadCount);
 
             BenchmarkSwitcher.FromAssembly(typeof(Program).Assembly).Run(args,
                 ManualConfig

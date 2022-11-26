@@ -1,5 +1,4 @@
-﻿using System.Runtime.Serialization;
-using System.ServiceModel;
+﻿using System.ServiceModel;
 using System.Threading.Tasks;
 
 namespace Contracts
@@ -15,29 +14,5 @@ namespace Contracts
 
         [OperationContract]
         Task<double> multiply(double A, double B);
-
-        [OperationContract]
-        Task<double> Action(Inputs A);
-    }
-
-    [DataContract]
-    public class Inputs
-    {
-        [DataMember]
-        public double A { get; set; }
-
-
-        [DataMember]
-        public double B { get; set; }
-
-        public enum OperationEnum
-        {
-            Addition,
-            Substraction,
-            Multiplication
-        }
-
-        [DataMember]
-        public OperationEnum Operation { get; set; }
     }
 }

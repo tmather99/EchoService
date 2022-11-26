@@ -1,5 +1,7 @@
 ﻿using System;
 using System.Threading.Tasks;
+using Serilog.Events;
+using Serilog;
 
 namespace NetCoreClient
 {
@@ -8,6 +10,15 @@ namespace NetCoreClient
         static async Task Main(string[] args)
         {
             Console.Title = "WCF .Net Core Client";
+
+            Log.Logger = new LoggerConfiguration()
+                .MinimumLevel.Override("Microsoft", LogEventLevel.Information)
+                .Enrich.FromLogContext()
+                .WriteTo.Console()
+                .WriteTo.Seq(Wcf.Client.SEQ_SERVER_URL)
+                .CreateLogger();
+
+            Log.Information($"SEQ_SERVER_URL={Wcf.Client.SEQ_SERVER_URL}");
 
             await Wcf.Client.CallBasicHttpBinding($"http://{Wcf.Client.ECHO_SERVER}:{Wcf.Client.HTTP_PORT}");
             //await CallBasicHttpBinding($"https://{ECHO_SERVER}:{HTTPS_PORT}");
