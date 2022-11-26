@@ -12,10 +12,16 @@ namespace TCP_Server
 
         static void Main(string[] args)
         {
-            var host = CreateWebHostBuilder(args).Build();
-            Log.Information($"SEQ_SERVER_URL={SEQ_SERVER_URL}");
-            host.Run();
-            Log.CloseAndFlush();
+            try
+            {
+                var host = CreateWebHostBuilder(args).Build();
+                Log.Information($"SEQ_SERVER_URL={SEQ_SERVER_URL}");
+                host.Run();
+            }
+            finally
+            {
+                Log.CloseAndFlush();
+            }
         }
 
         public static IWebHostBuilder CreateWebHostBuilder(string[] args) =>

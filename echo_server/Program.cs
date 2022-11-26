@@ -13,10 +13,16 @@ namespace NetCoreServer
 
         static void Main(string[] args)
         {
-            IWebHost host = CreateWebHostBuilder(args).Build();
-            Log.Information($"SEQ_SERVER_URL={SEQ_SERVER_URL}");
-            host.Run();
-            Log.CloseAndFlush();
+            try
+            {
+                IWebHost host = CreateWebHostBuilder(args).Build();
+                Log.Information($"SEQ_SERVER_URL={SEQ_SERVER_URL}");
+                host.Run();
+            }
+            finally
+            {
+                Log.CloseAndFlush();
+            }
         }
 
         // Listen on 8088 for http, and 8443 for https, 8089 for NetTcp.

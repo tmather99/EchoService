@@ -14,7 +14,6 @@ namespace TCP_client
             try
             {
                 Log.Logger = new LoggerConfiguration()
-                    .ReadFrom.AppSettings()
                     .Enrich.FromLogContext()
                     .WriteTo.Console()
                     .WriteTo.Seq(Wcf.Client.SEQ_SERVER_URL)

@@ -11,22 +11,29 @@ namespace NetCoreClient
         {
             Console.Title = "WCF .Net Core Client";
 
-            Log.Logger = new LoggerConfiguration()
+            try
+            {
+                Log.Logger = new LoggerConfiguration()
                 .MinimumLevel.Override("Microsoft", LogEventLevel.Information)
                 .Enrich.FromLogContext()
                 .WriteTo.Console()
                 .WriteTo.Seq(Wcf.Client.SEQ_SERVER_URL)
                 .CreateLogger();
 
-            Log.Information($"SEQ_SERVER_URL={Wcf.Client.SEQ_SERVER_URL}");
+                Log.Information($"SEQ_SERVER_URL={Wcf.Client.SEQ_SERVER_URL}");
 
-            await Wcf.Client.CallBasicHttpBinding($"http://{Wcf.Client.ECHO_SERVER}:{Wcf.Client.HTTP_PORT}");
-            //await CallBasicHttpBinding($"https://{ECHO_SERVER}:{HTTPS_PORT}");
-            
-            await Wcf.Client.CallWsHttpBinding($"http://{Wcf.Client.ECHO_SERVER}:{Wcf.Client.HTTP_PORT}");
-            //await CallWsHttpBinding($"https://{ECHO_SERVER}:{HTTPS_PORT}");
-            
-            await Wcf.Client.CallNetTcpBinding($"net.tcp://{Wcf.Client.ECHO_SERVER}:{Wcf.Client.NETTCP_PORT}");
+                await Wcf.Client.CallBasicHttpBinding($"http://{Wcf.Client.ECHO_SERVER}:{Wcf.Client.HTTP_PORT}");
+                //await CallBasicHttpBinding($"https://{ECHO_SERVER}:{HTTPS_PORT}");
+
+                await Wcf.Client.CallWsHttpBinding($"http://{Wcf.Client.ECHO_SERVER}:{Wcf.Client.HTTP_PORT}");
+                //await CallWsHttpBinding($"https://{ECHO_SERVER}:{HTTPS_PORT}");
+
+                await Wcf.Client.CallNetTcpBinding($"net.tcp://{Wcf.Client.ECHO_SERVER}:{Wcf.Client.NETTCP_PORT}");
+            }
+            finally
+            {
+                Log.CloseAndFlush();
+            }
         }
     }
 }
