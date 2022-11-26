@@ -16,6 +16,8 @@ run-tcp:
 run-cal:
 	docker run -e TCP_SERVER='flash.vmwuem.com' -e TCP_PORT=8089 --rm tmather99/benchmark -f *CallCalculator* --iterationCount 1
 
+
+
 dotnet-build:
 	dotnet build -c Release
 
@@ -30,3 +32,11 @@ dotnet-run-tcp:
 
 dotnet-run-cal:
 	powershell $$env:TCP_SERVER='127.0.0.1'; $$env:TCP_PORT=8089; dotnet .\bin\Release\net6.0\Benchmark.dll -f *CallCalculator* --iterationCount 1
+
+
+
+k8s-run-http:
+	powershell $$env:ECHO_SERVER=\'echo.local.com\'; $$env:HTTP_PORT=443; $$env:SEQ_SERVER_URL=\'https://seq.local.com\'; dotnet .\bin\Release\net6.0\Benchmark.dll -f *CallSecureBasicHttpBinding* --iterationCount 1
+
+k8s-run-wshttp:
+	powershell $$env:ECHO_SERVER=\'echo.local.com\'; $$env:HTTP_PORT=443; $$env:SEQ_SERVER_URL=\'https://seq.local.com\'; dotnet .\bin\Release\net6.0\Benchmark.dll -f *CallSecureWsHttpBinding* --iterationCount 1

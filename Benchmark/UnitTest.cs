@@ -35,6 +35,20 @@ namespace Bechmark
 
         [Benchmark]
         [TestMethod]
+        public async Task CallSecureBasicHttpBinding()
+        {
+            await Wcf.Client.CallBasicHttpBinding($"https://{Wcf.Client.ECHO_SERVER}:{Wcf.Client.HTTP_PORT}");
+        }
+
+        [Benchmark]
+        [TestMethod]
+        public async Task CallSecureWsHttpBinding()
+        {
+            await Wcf.Client.CallWsHttpBinding($"https://{Wcf.Client.ECHO_SERVER}:{Wcf.Client.HTTP_PORT}");
+        }
+
+        [Benchmark]
+        [TestMethod]
         public async Task CallNetTcpBinding()
         {
             await Wcf.Client.CallNetTcpBinding($"net.tcp://{Wcf.Client.ECHO_SERVER}:{Wcf.Client.NETTCP_PORT}");
