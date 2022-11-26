@@ -1,6 +1,7 @@
 using System.Threading.Tasks;
 using BenchmarkDotNet.Attributes;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+using Serilog;
 
 namespace Bechmark
 {
@@ -8,6 +9,15 @@ namespace Bechmark
     [TestClass]
     public class UnitTest
     {
+        public UnitTest()
+        {
+            Log.Logger = new LoggerConfiguration()
+                .Enrich.FromLogContext()
+                .WriteTo.Console()
+                .WriteTo.Seq(Wcf.Client.SEQ_SERVER_URL)
+                .CreateLogger();
+        }
+
         [Benchmark]
         [TestMethod]
         public async Task CallBasicHttpBinding()
