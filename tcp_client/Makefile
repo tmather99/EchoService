@@ -12,3 +12,10 @@ run-tcp:
 
 run-cal:
 	powershell $$env:TCP_SERVER='127.0.0.1'; $$env:TCP_PORT=8089; .\bin\Release\tcp_client.exe -f *CallCalculator* --iterationCount 1
+
+
+k8s-run-http:
+	powershell $$env:ECHO_SERVER=\'echo.local.com\'; $$env:HTTP_PORT=443; $$env:SEQ_SERVER_URL=\'https://seq.local.com\'; .\bin\Release\tcp_client.exe -f *CallSecureBasicHttpBinding* --iterationCount 1
+
+k8s-run-wshttp:
+	powershell $$env:ECHO_SERVER=\'echo.local.com\'; $$env:HTTP_PORT=443; $$env:SEQ_SERVER_URL=\'https://seq.local.com\'; .\bin\Release\tcp_client.exe -f *CallSecureWsHttpBinding* --iterationCount 1
