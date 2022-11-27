@@ -19,3 +19,9 @@ k8s-run-http:
 
 k8s-run-wshttp:
 	powershell $$env:ECHO_SERVER=\'echo.local.com\'; $$env:HTTP_PORT=443; $$env:SEQ_SERVER_URL=\'https://seq.local.com\'; .\bin\Release\tcp_client.exe -f *CallSecureWsHttpBinding* --iterationCount 1
+
+#make scale REPLICAS=2
+REPLICAS = 1
+
+scale:
+	kubectl scale deployment echo-server-app --replicas=$(REPLICAS)
