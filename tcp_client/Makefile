@@ -1,6 +1,3 @@
-build:
-	dotnet build -c Release
-
 run:
 	powershell $$env:TCP_SERVER='127.0.0.1'; $$env:TCP_PORT=8089; $$env:SEQ_SERVER_URL=\'http://flash.vmwuem.com:5341\'; .\bin\Release\tcp_client.exe
 

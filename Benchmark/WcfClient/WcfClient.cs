@@ -32,7 +32,7 @@ namespace Wcf
                 channel.Open();
 
                 string clientId = Guid.NewGuid().ToString();
-                string msg = $"Hello World...BasicHttpBinding from {clientId}";
+                string msg = $"Hello World...{(IsHttps(hostAddr) ? "SecureBasicHttpBinding" : "BasicHttpBinding")} from {clientId}";
                 Log.Information("Sending " + msg);
                 var result = await client.Echo(msg);
                 channel.Close();
@@ -57,7 +57,7 @@ namespace Wcf
                 channel.Open();
 
                 string clientId = Guid.NewGuid().ToString();
-                string msg = $"Hello World...WsHttpBinding from {clientId}";
+                string msg = $"Hello World...{(IsHttps(hostAddr) ? "SecureWsHttpBinding" : "WsHttpBinding")} from {clientId}";
                 Log.Information("Sending " + msg);
                 var result = await client.Echo(msg);
                 channel.Close();
