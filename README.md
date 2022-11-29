@@ -66,6 +66,24 @@ $env:ECHO_SERVER='flash.vmwuem.com'; dotnet  C:\github\EchoService\Bechmark\bin\
         | CallNetTcpBinding    | 12.05 ms | 0.178 ms  | 0.167 ms  | 31.2500 | 15.6250 |  233.9 KB |
 ```
 
+```
+BenchmarkDotNet=v0.13.2, OS=Windows 11 (10.0.22621.819)
+Intel Core i7-7820HQ CPU 2.90GHz (Kaby Lake), 1 CPU, 8 logical and 4 physical cores
+.NET SDK=7.0.100
+  [Host]     : .NET 6.0.11 (6.0.1122.52304), X64 RyuJIT AVX2
+  Job-UJXFKU : .NET 6.0.11 (6.0.1122.52304), X64 RyuJIT AVX2
+
+IterationCount=1
+
+        |                                          Method |     Mean | Error |     Gen0 |    Gen1 | Allocated |
+        |------------------------------------------------ |---------:|------:|---------:|--------:|----------:|
+        | CallNetTcpBinding                               | 2.875 ms |    NA | 54.6875  | 11.7188 | 239.98 KB |
+        | CallNetTcpTransportBinding                      | 4.991 ms |    NA | 54.6875  | 23.4375 | 249.86 KB |
+        | CallNetTcpTransportWithMessageCredentialBinding | 21.01 ms |    NA | 187.5000 | 93.7500 | 927.35 KB |
+
+```
+
+
 
 ## tcp_server
 ```
