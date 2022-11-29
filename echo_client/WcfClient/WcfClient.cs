@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Security.Cryptography.X509Certificates;
 using System.ServiceModel;
 using System.Threading.Tasks;
 using Contracts;
@@ -90,6 +91,10 @@ namespace Wcf
                 var result = await client.Echo(msg);
                 channel.Close();
                 Log.Information(result);
+            }
+            catch (Exception e)
+            {
+                Log.Error(e.Message);
             }
             finally
             {

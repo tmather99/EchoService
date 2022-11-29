@@ -59,6 +59,20 @@ namespace Bechmark
 
         [Benchmark]
         [TestMethod]
+        public async Task CallNetTcpTransportBinding()
+        {
+            await Wcf.Client.CallNetTcpTransportBinding($"net.tcp://{Wcf.Client.ECHO_SERVER}:{Wcf.Client.NETTCP_PORT}");
+        }
+
+        [Benchmark]
+        [TestMethod]
+        public async Task CallNetTcpTransportWithMessageCredentialBinding()
+        {
+            await Wcf.Client.CallNetTcpTransportWithMessageCredentialBinding($"net.tcp://{Wcf.Client.ECHO_SERVER}:{Wcf.Client.NETTCP_PORT}");
+        }
+
+        [Benchmark]
+        [TestMethod]
         public async Task CallCalculator()
         {
             await Wcf.Client.CallCalculator();

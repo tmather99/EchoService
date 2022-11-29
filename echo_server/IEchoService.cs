@@ -33,6 +33,20 @@ namespace Contract
         string EchoForPermission(string text);
     }
 
+    [ServiceContract]
+    public interface IEchoService1
+    {
+        [OperationContract]
+        string Echo(string text);
+    }
+
+    [ServiceContract]
+    public interface IEchoService2
+    {
+        [OperationContract]
+        string Echo(string text);
+    }
+
     [DataContract]
     public class EchoMessage
     {

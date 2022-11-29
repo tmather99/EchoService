@@ -4,7 +4,7 @@ using Serilog;
 
 namespace NetCoreServer
 {
-    public class EchoService : IEchoService
+    public class EchoService : IEchoService, IEchoService1, IEchoService2
     {
         public string Echo(string text)
         {

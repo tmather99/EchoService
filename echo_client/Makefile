@@ -11,4 +11,4 @@ dotnet-build:
 	dotnet build -c Release
 
 dotnet-run:
-	powershell $$env:ECHO_SERVER='127.0.0.1'; $$env:HTTP_PORT=8088; $$env:NETTCP_PORT=8090; dotnet run -c Release
+	powershell $$env:ECHO_SERVER=\'echo.local.com\'; $$env:HTTP_PORT=8088; $$env:NETTCP_PORT=8090; dotnet run -c Release

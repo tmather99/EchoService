@@ -26,6 +26,20 @@ namespace Contracts
         Task<string> FailEcho(string text);
     }
 
+    [ServiceContract]
+    public interface IEchoService1
+    {
+        [OperationContract]
+        Task<string> Echo(string text);
+    }
+
+    [ServiceContract]
+    public interface IEchoService2
+    {
+        [OperationContract]
+        Task<string> Echo(string text);
+    }
+
     [DataContract]
     public class EchoMessage
     {

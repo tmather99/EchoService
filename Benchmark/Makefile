@@ -28,7 +28,13 @@ dotnet-run-wshttp:
 	powershell $$env:ECHO_SERVER='127.0.0.1'; $$env:HTTP_PORT=8088; dotnet .\bin\Release\net6.0\Benchmark.dll -f *CallWsHttpBinding* --iterationCount 1
 
 dotnet-run-tcp:
-	powershell $$env:ECHO_SERVER=\'127.0.0.1\'; $$env:NETTCP_PORT=8090; dotnet .\bin\Release\net6.0\Benchmark.dll -f *CallNetTcpBinding* --iterationCount 1
+	powershell $$env:ECHO_SERVER=\'echo.local.com\'; $$env:NETTCP_PORT=8090; dotnet .\bin\Release\net6.0\Benchmark.dll -f *CallNetTcpBinding* --iterationCount 1
+
+dotnet-run-transport:
+	powershell $$env:ECHO_SERVER=\'echo.local.com\'; $$env:NETTCP_PORT=8090; dotnet .\bin\Release\net6.0\Benchmark.dll -f *CallNetTcpTransportBinding* --iterationCount 1
+
+dotnet-run-msg:
+	powershell $$env:ECHO_SERVER=\'echo.local.com\'; $$env:NETTCP_PORT=8090; dotnet .\bin\Release\net6.0\Benchmark.dll -f *CallNetTcpTransportWithMessageCredentialBinding* --iterationCount 1
 
 dotnet-run-cal:
 	powershell $$env:TCP_SERVER='127.0.0.1'; $$env:TCP_PORT=8089; dotnet .\bin\Release\net6.0\Benchmark.dll -f *CallCalculator* --iterationCount 1

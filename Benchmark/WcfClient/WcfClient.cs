@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Security.Cryptography.X509Certificates;
 using System.ServiceModel;
 using System.Threading.Tasks;
 using Contracts;
@@ -72,10 +73,12 @@ namespace Wcf
         public static async Task CallNetTcpBinding(string hostAddr)
         {
             var binding = new NetTcpBinding();
+            
             binding.Security.Mode = SecurityMode.None;
             binding.TransferMode = TransferMode.Streamed;
 
             var factory = new ChannelFactory<IEchoService>(binding, new EndpointAddress($"{hostAddr}/netTcp"));
+            factory.Credentials.ClientCertificate.SetCertificate(StoreLocation.LocalMachine, StoreName.My, X509FindType.FindByThumbprint, "c6779716aea1546aef89ef03a720fb6a1330629f");
             factory.Open();
 
             try
@@ -86,6 +89,68 @@ namespace Wcf
 
                 string clientId = Guid.NewGuid().ToString();
                 string msg = $"Hello World...NetTcpBinding from {clientId}";
+                Log.Information("Sending " + msg);
+                var result = await client.Echo(msg);
+                channel.Close();
+                Log.Information(result);
+            }
+            finally
+            {
+                factory.Close();
+            }
+        }
+
+        public static async Task CallNetTcpTransportBinding(string hostAddr)
+        {
+            var binding = new NetTcpBinding();
+
+            binding.Security.Mode = SecurityMode.Transport;
+            binding.TransferMode = TransferMode.Streamed;
+            binding.Security.Transport.ClientCredentialType = TcpClientCredentialType.Certificate;
+
+            var factory = new ChannelFactory<IEchoService1>(binding, new EndpointAddress($"{hostAddr}/netTcp1"));
+            factory.Credentials.ClientCertificate.SetCertificate(StoreLocation.LocalMachine, StoreName.My, X509FindType.FindByThumbprint, "c6779716aea1546aef89ef03a720fb6a1330629f");
+            factory.Open();
+
+            try
+            {
+                IEchoService1 client = factory.CreateChannel();
+                var channel = client as IClientChannel;
+                channel.Open();
+
+                string clientId = Guid.NewGuid().ToString();
+                string msg = $"Hello World...CallNetTcpTransportBinding from {clientId}";
+                Log.Information("Sending " + msg);
+                var result = await client.Echo(msg);
+                channel.Close();
+                Log.Information(result);
+            }
+            finally
+            {
+                factory.Close();
+            }
+        }
+
+        public static async Task CallNetTcpTransportWithMessageCredentialBinding(string hostAddr)
+        {
+            hostAddr = "net.tcp://echo.local.com:8090";
+
+            var binding = new NetTcpBinding();
+            binding.Security.Mode = SecurityMode.TransportWithMessageCredential;
+            binding.Security.Message.ClientCredentialType = MessageCredentialType.Certificate;
+
+            var factory = new ChannelFactory<IEchoService2>(binding, new EndpointAddress($"{hostAddr}/netTcp2"));
+            factory.Credentials.ClientCertificate.SetCertificate(StoreLocation.LocalMachine, StoreName.My, X509FindType.FindByThumbprint, "c6779716aea1546aef89ef03a720fb6a1330629f");
+            factory.Open();
+
+            try
+            {
+                IEchoService2 client = factory.CreateChannel();
+                var channel = client as IClientChannel;
+                channel.Open();
+
+                string clientId = Guid.NewGuid().ToString();
+                string msg = $"Hello World...NetTcpTransportWithMessageCredentialBinding from {clientId}";
                 Log.Information("Sending " + msg);
                 var result = await client.Echo(msg);
                 channel.Close();

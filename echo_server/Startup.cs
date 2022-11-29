@@ -1,11 +1,11 @@
 ﻿using System;
+using System.Security.Cryptography.X509Certificates;
 using Contract;
 using CoreWCF;
 using CoreWCF.Configuration;
 using CoreWCF.Description;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.Extensions.DependencyInjection;
-using Serilog;
 
 namespace NetCoreServer
 {
@@ -34,6 +34,15 @@ namespace NetCoreServer
             netTcpBinding.Security.Mode = SecurityMode.None;
             netTcpBinding.TransferMode = TransferMode.Streamed;
 
+            var netTcpBinding1 = new NetTcpBinding();
+            netTcpBinding1.Security.Mode = SecurityMode.Transport;
+            netTcpBinding1.TransferMode = TransferMode.Streamed;
+            netTcpBinding1.Security.Transport.ClientCredentialType = TcpClientCredentialType.Certificate;
+
+            var netTcpBinding2 = new NetTcpBinding();
+            netTcpBinding2.Security.Mode = SecurityMode.TransportWithMessageCredential;
+            netTcpBinding2.Security.Message.ClientCredentialType = MessageCredentialType.Certificate;
+
             app.UseServiceModel(builder =>
             {
                 // Add the Echo Service
@@ -53,12 +62,25 @@ namespace NetCoreServer
                 //.AddServiceEndpoint<EchoService, IEchoService>(new WSHttpBinding(SecurityMode.Transport), "/wsHttp")
 
                 // Add NetTcpBinding
-                .AddServiceEndpoint<EchoService, IEchoService>(netTcpBinding, $"net.tcp://localhost:{NETTCP_PORT}/netTcp");
+                .AddServiceEndpoint<EchoService, IEchoService>(netTcpBinding,   $"net.tcp://localhost:{NETTCP_PORT}/netTcp")
+                .AddServiceEndpoint<EchoService, IEchoService1>(netTcpBinding1, $"net.tcp://localhost:{NETTCP_PORT}/netTcp1")
+                .AddServiceEndpoint<EchoService, IEchoService2>(netTcpBinding2, $"net.tcp://localhost:{NETTCP_PORT}/netTcp2")
+
+                // Add server certificate
+                .ConfigureServiceHostBase<EchoService>(h => ChangeHostBehavior(h));
 
                 // Configure WSDL to be available over http & https
                 var serviceMetadataBehavior = app.ApplicationServices.GetRequiredService<CoreWCF.Description.ServiceMetadataBehavior>();
                 serviceMetadataBehavior.HttpGetEnabled = serviceMetadataBehavior.HttpsGetEnabled = true;
             });
+        }
+
+        private static void ChangeHostBehavior(ServiceHostBase host)
+        {
+            var srvCredentials = new ServiceCredentials();
+            srvCredentials.ClientCertificate.Authentication.CertificateValidationMode = CoreWCF.Security.X509CertificateValidationMode.None;
+            srvCredentials.ServiceCertificate.SetCertificate(StoreLocation.LocalMachine, StoreName.My, X509FindType.FindByThumbprint, "c6779716aea1546aef89ef03a720fb6a1330629f");
+            host.Description.Behaviors.Add(srvCredentials);
         }
     }
 }

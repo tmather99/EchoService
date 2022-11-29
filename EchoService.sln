@@ -10,6 +10,7 @@ EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{A63D38FB-22D6-46F4-9DDE-42DB8A6DF683}"
 	ProjectSection(SolutionItems) = preProject
 		.editorconfig = .editorconfig
+		echo-local.pfx = echo-local.pfx
 		README.md = README.md
 		wcfstorm.png = wcfstorm.png
 	EndProjectSection
