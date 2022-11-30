@@ -1,4 +1,5 @@
-﻿using CoreWCF;
+﻿using System.Threading.Tasks;
+using CoreWCF;
 
 namespace Contract
 {
@@ -6,6 +7,6 @@ namespace Contract
     public interface ICalculate2
     {
         [OperationContract]
-        double Add2(double A, double B);
+        Task<int> Add2(int A, int B);
     }
 }

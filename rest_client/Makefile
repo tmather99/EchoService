@@ -21,10 +21,10 @@ dotnet-build:
 	dotnet build -c Release
 
 dotnet-run-path: 
-	powershell $$env:API_SERVER='127.0.0.1'; $$env:API_PORT=8080; dotnet .\bin\Release\net6.0\rest_client.dll -f *PathEndpoint* --iterationCount 1
+	powershell $$env:API_SERVER='127.0.0.1'; $$env:API_PORT=8080; dotnet run -c Release -- -f *PathEndpoint* --iterationCount 1
 
 dotnet-run-query: 
-	powershell $$env:API_SERVER='127.0.0.1'; $$env:API_PORT=8080; dotnet .\bin\Release\net6.0\rest_client.dll -f *QueryEndpoint* --iterationCount 1
+	powershell $$env:API_SERVER='127.0.0.1'; $$env:API_PORT=8080; dotnet run -c Release -- -f *QueryEndpoint* --iterationCount 1
 
 dotnet-run-body: 
-	powershell $$env:API_SERVER='127.0.0.1'; $$env:API_PORT=8080; dotnet .\bin\Release\net6.0\rest_client.dll -f *BodyContract* --iterationCount 1
+	powershell $$env:API_SERVER='127.0.0.1'; $$env:API_PORT=8080; dotnet run -c Release -- -f *BodyContract* --iterationCount 1

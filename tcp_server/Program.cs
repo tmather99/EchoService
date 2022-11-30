@@ -9,13 +9,14 @@ namespace TCP_Server
     class Program
     {
         public static string SEQ_SERVER_URL = Environment.GetEnvironmentVariable("SEQ_SERVER_URL") ?? "http://localhost:5341";
+        public static int TCP_PORT = int.Parse(Environment.GetEnvironmentVariable("TCP_PORT") ?? "8089");
 
         static void Main(string[] args)
         {
             try
             {
                 var host = CreateWebHostBuilder(args).Build();
-                Log.Information($"SEQ_SERVER_URL={SEQ_SERVER_URL}");
+                Log.Information($"SEQ_SERVER_URL={Program.SEQ_SERVER_URL}");
                 host.Run();
             }
             finally
@@ -27,7 +28,7 @@ namespace TCP_Server
         public static IWebHostBuilder CreateWebHostBuilder(string[] args) =>
             WebHost.CreateDefaultBuilder(args)
             .UseKestrel()
-            .UseNetTcp(8089)
+            .UseNetTcp(Program.TCP_PORT)
             .UseStartup<Startup>()
             .UseSerilog((ctx, lc) =>
                 lc.ReadFrom.Configuration(ctx.Configuration)

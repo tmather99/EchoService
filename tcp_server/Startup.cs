@@ -21,6 +21,7 @@ namespace TCP_Server
             NetTcpBinding binding = new NetTcpBinding();
             binding.TransferMode = TransferMode.Streamed;
             binding.Security.Mode = SecurityMode.None;
+            binding.ReaderQuotas.MaxStringContentLength = int.MaxValue;
 
             app.UseServiceModel(builder =>
             {

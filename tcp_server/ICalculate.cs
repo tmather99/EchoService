@@ -1,4 +1,5 @@
 ﻿using System.Runtime.Serialization;
+using System.Threading.Tasks;
 using CoreWCF;
 
 namespace Contract
@@ -7,12 +8,12 @@ namespace Contract
     public interface ICalculate
     {
         [OperationContract]
-        double Add(double A, double B);
+        Task<int> Add(int A, int B);
 
         [OperationContract]
-        double Substract(double A, double B);
+        Task<int> Substract(int A, int B);
 
         [OperationContract]
-        double multiply(double A, double B);
+        Task<int> multiply(int A, int B);
     }
 }

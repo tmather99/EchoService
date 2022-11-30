@@ -179,12 +179,12 @@ namespace Wcf
 
             Log.Information("Invoking CalculatorService at {0}", endpointAddress);
 
-            double value1 = random.NextDouble();
-            double value2 = random.NextDouble();
+            int value1 = random.Next(1, 10);
+            int value2 = random.Next(1, 10);
 
             // Call the Add service operation.
             ICalculate client = factory.CreateChannel();
-            double result = await client.Add(value1, value2);
+            int result = await client.Add(value1, value2);
             Log.Information("Add({0},{1}) = {2}", value1, value2, result);
 
             // Call the Subtract service operation.
@@ -205,13 +205,13 @@ namespace Wcf
 
             Log.Information("Invoking CalculatorService2 at {0}", endpointAddress2);
 
-            double value11 = random.NextDouble();
-            double value22 = random.NextDouble();
+            int value11 = random.Next(1, 10);
+            int value22 = random.Next(1, 10);
 
             ICalculate2 client2 = factory2.CreateChannel();
 
             // Call the Add service operation.
-            double result2 = await client2.Add2(value11, value22);
+            int result2 = await client2.Add2(value11, value22);
             Log.Information("Add({0},{1}) = {2}", value11, value22, result2);
 
             //Closing the client gracefully closes the connection and cleans up resources

@@ -7,12 +7,12 @@ namespace Contracts
     public interface ICalculate
     {
         [OperationContract]
-        Task<double> Add(double A, double B);
+        Task<int> Add(int A, int B);
 
         [OperationContract]
-        Task<double> Substract(double A, double B);
+        Task<int> Substract(int A, int B);
 
         [OperationContract]
-        Task<double> multiply(double A, double B);
+        Task<int> multiply(int A, int B);
     }
 }
