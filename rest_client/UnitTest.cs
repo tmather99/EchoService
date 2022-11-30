@@ -33,7 +33,7 @@ namespace Bechmark
         public async Task PathEndpoint()
         {
             // Calls /api/path/{param}
-            string result = await client.PathAsync($"Testing Path Endpoint {Guid.NewGuid()}");
+            string result = await client.PathAsync($"Testing_Path_Endpoint_{Guid.NewGuid()}");
             Log.Information(result);
         }
 
