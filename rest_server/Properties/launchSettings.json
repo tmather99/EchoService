@@ -1,0 +1,10 @@
+{
+  "profiles": {
+    "rest_server": {
+      "commandName": "Project"
+    },
+    "Docker": {
+      "commandName": "Docker"
+    }
+  }
+}

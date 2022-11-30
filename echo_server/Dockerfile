@@ -7,7 +7,7 @@ WORKDIR "/src"
 RUN dotnet build "echo_server.csproj" -c Release -o /app/build /p:UseAppHost=false
 
 FROM build AS publish
-RUN dotnet publish "echo_server.csproj" -c Release -o /app
+RUN dotnet publish "echo_server.csproj" -c Release -o /app 
 
 WORKDIR /app
 EXPOSE 8088
