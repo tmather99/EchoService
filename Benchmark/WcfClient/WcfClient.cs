@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Security.Cryptography.X509Certificates;
 using System.ServiceModel;
+using System.ServiceModel.Security;
 using System.Threading.Tasks;
 using Contracts;
 using Serilog;
@@ -78,7 +79,6 @@ namespace Wcf
             binding.TransferMode = TransferMode.Streamed;
 
             var factory = new ChannelFactory<IEchoService>(binding, new EndpointAddress($"{hostAddr}/netTcp"));
-            factory.Credentials.ClientCertificate.SetCertificate(StoreLocation.LocalMachine, StoreName.My, X509FindType.FindByThumbprint, "c6779716aea1546aef89ef03a720fb6a1330629f");
             factory.Open();
 
             try
@@ -109,7 +109,9 @@ namespace Wcf
             binding.Security.Transport.ClientCredentialType = TcpClientCredentialType.Certificate;
 
             var factory = new ChannelFactory<IEchoService1>(binding, new EndpointAddress($"{hostAddr}/netTcp1"));
-            factory.Credentials.ClientCertificate.SetCertificate(StoreLocation.LocalMachine, StoreName.My, X509FindType.FindByThumbprint, "c6779716aea1546aef89ef03a720fb6a1330629f");
+            //factory.Credentials.ClientCertificate.SetCertificate(StoreLocation.LocalMachine, StoreName.My, X509FindType.FindByThumbprint, "c6779716aea1546aef89ef03a720fb6a1330629f");
+            factory.Credentials.ClientCertificate.Certificate = new X509Certificate2("WcfClient/echo-local.pfx", "Th@nhy99");
+            factory.Credentials.ServiceCertificate.Authentication.CertificateValidationMode = X509CertificateValidationMode.None;
             factory.Open();
 
             try
@@ -140,7 +142,9 @@ namespace Wcf
             binding.Security.Message.ClientCredentialType = MessageCredentialType.Certificate;
 
             var factory = new ChannelFactory<IEchoService2>(binding, new EndpointAddress($"{hostAddr}/netTcp2"));
-            factory.Credentials.ClientCertificate.SetCertificate(StoreLocation.LocalMachine, StoreName.My, X509FindType.FindByThumbprint, "c6779716aea1546aef89ef03a720fb6a1330629f");
+            //factory.Credentials.ClientCertificate.SetCertificate(StoreLocation.LocalMachine, StoreName.My, X509FindType.FindByThumbprint, "c6779716aea1546aef89ef03a720fb6a1330629f");
+            factory.Credentials.ClientCertificate.Certificate = new X509Certificate2("WcfClient/echo-local.pfx", "Th@nhy99");
+            factory.Credentials.ServiceCertificate.Authentication.CertificateValidationMode = X509CertificateValidationMode.None;
             factory.Open();
 
             try
