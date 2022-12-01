@@ -10,6 +10,12 @@ run-wshttp:
 run-tcp:
 	powershell $$env:ECHO_SERVER=\'127.0.0.1\'; $$env:NETTCP_PORT=8090; .\bin\Release\tcp_client.exe -f *CallNetTcpBinding* --iterationCount 1
 
+run-transport:
+	powershell $$env:ECHO_SERVER=\'echo.local.com\'; $$env:NETTCP_PORT=8090; .\bin\Release\tcp_client.exe -f *CallNetTcpTransportBinding* --iterationCount 1
+
+run-msg:
+	powershell $$env:ECHO_SERVER=\'echo.local.com\'; $$env:NETTCP_PORT=8090; .\bin\Release\tcp_client.exe -f *CallNetTcpTransportWithMessageCredentialBinding* --iterationCount 1
+
 run-cal:
 	powershell $$env:TCP_SERVER='127.0.0.1'; $$env:TCP_PORT=8089; .\bin\Release\tcp_client.exe -f *CallCalculator* --iterationCount 1
 
