@@ -84,7 +84,7 @@ namespace Bechmark
         [TestMethod]
         public async Task DaprGetEvents()
         {
-            var client = new RestClient("http://localhost:3501");
+            var client = new RestClient($"http://localhost:{Program.DAPR_PORT}");
             var request = new RestRequest("event");
             request.AddHeader("user-agent", "vscode-restclient");
             request.AddHeader("dapr-app-id", "catalog");
@@ -96,7 +96,7 @@ namespace Bechmark
         [TestMethod]
         public async Task DaprGetEventById()
         {
-            var client = new RestClient("http://localhost:3501/event");
+            var client = new RestClient($"http://localhost:{Program.DAPR_PORT}/event");
             var request = new RestRequest("cfb88e29-4744-48c0-94fa-b25b92dea317");
             request.AddHeader("user-agent", "vscode-restclient");
             request.AddHeader("dapr-app-id", "catalog");
