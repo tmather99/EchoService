@@ -28,3 +28,17 @@ dotnet-run-query:
 
 dotnet-run-body: 
 	powershell $$env:API_SERVER='127.0.0.1'; $$env:API_PORT=8080; dotnet run -c Release -- -f *BodyContract* --iterationCount 1
+
+
+
+webapi-run-events: 
+	powershell $$env:API_SERVER='127.0.0.1'; $$env:API_PORT=8081; dotnet run -c Release -- -f *WebApiGetEvents* --iterationCount 1
+
+webapi-run-id: 
+	powershell $$env:API_SERVER='127.0.0.1'; $$env:API_PORT=8081; dotnet run -c Release -- -f *WebApiGetEventById* --iterationCount 1
+
+dapr-run-events: 
+	powershell $$env:API_SERVER='127.0.0.1'; $$env:API_PORT=8081; dotnet run -c Release -- -f *DaprGetEvents* --iterationCount 1
+
+dapr-run-id: 
+	powershell $$env:API_SERVER='127.0.0.1'; $$env:API_PORT=8081; dotnet run -c Release -- -f *DaprGetEventById* --iterationCount 1

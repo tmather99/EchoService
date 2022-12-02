@@ -29,19 +29,7 @@ namespace WebHttpServer
                         options.AllowSynchronousIO = true;
                         options.ListenAnyIP(Program.API_PORT);
                     })
-                    .UseStartup<Startup>()
-                    .UseSerilog((ctx, lc) =>
-                            lc.ReadFrom.Configuration(ctx.Configuration)
-                                .Enrich.WithEnvironmentName()
-                                .Enrich.WithMachineName()
-                                .Enrich.WithProcessName()
-                                .Enrich.WithProcessId()
-                                .Enrich.WithThreadId()
-                                .Enrich.WithMemoryUsage()
-                                .WriteTo.Console()
-                                .WriteTo.Seq(Program.SEQ_SERVER_URL),
-                        preserveStaticLogger: false,
-                        writeToProviders: false);
+                    .UseStartup<Startup>();
                 
                 IWebHost app = builder.Build();
                 app.Run();

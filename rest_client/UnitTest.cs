@@ -1,5 +1,6 @@
 using BenchmarkDotNet.Attributes;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+using RestSharp;
 using Serilog;
 using WebHttpClient;
 
@@ -54,6 +55,53 @@ namespace Bechmark
             var data = Program.CreateExampleContract();
             var result2 = await client.BodyAsync(data);
             Log.Information(Program.JsonSerialize(result2));
+        }
+
+        [Benchmark]
+        [TestMethod]
+        public async Task WebApiGetEvents()
+        {
+            var client = new RestClient($"http://localhost:{Program.API_PORT}");
+            var request = new RestRequest("event");
+            request.AddHeader("user-agent", "vscode-restclient");
+            var response = await client.GetAsync(request);
+            Log.Information(response.Content);
+        }
+
+        [Benchmark]
+        [TestMethod]
+        public async Task WebApiGetEventById()
+        {
+            var client = new RestClient($"http://localhost:{Program.API_PORT}/event");
+            var request = new RestRequest("cfb88e29-4744-48c0-94fa-b25b92dea317");
+            request.AddHeader("user-agent", "vscode-restclient");
+            var response = await client.GetAsync(request);
+            Log.Information(response.Content);
+        }
+
+
+        [Benchmark]
+        [TestMethod]
+        public async Task DaprGetEvents()
+        {
+            var client = new RestClient("http://localhost:3501");
+            var request = new RestRequest("event");
+            request.AddHeader("user-agent", "vscode-restclient");
+            request.AddHeader("dapr-app-id", "catalog");
+            var response = await client.GetAsync(request);
+            Log.Information(response.Content);
+        }
+
+        [Benchmark]
+        [TestMethod]
+        public async Task DaprGetEventById()
+        {
+            var client = new RestClient("http://localhost:3501/event");
+            var request = new RestRequest("cfb88e29-4744-48c0-94fa-b25b92dea317");
+            request.AddHeader("user-agent", "vscode-restclient");
+            request.AddHeader("dapr-app-id", "catalog");
+            var response = await client.GetAsync(request);
+            Log.Information(response.Content);
         }
 
         public void Dispose()
