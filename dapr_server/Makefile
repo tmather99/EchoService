@@ -4,6 +4,9 @@ dotnet-build:
 dotnet-run:
 	dotnet run -c Release
 
+dapr-dashboard:
+	dapr dashboard -p 8888
+
 dapr-run:
 	powershell $$env:API_PORT=8081; \
 		dapr run \

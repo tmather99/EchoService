@@ -38,6 +38,13 @@ webapi-run-id:
 	powershell $$env:API_SERVER='127.0.0.1'; $$env:API_PORT=8081; dotnet run -c Release -- -f *WebApiGetEventById* --iterationCount 1
 
 
+dapr-run-body: 
+	powershell $$env:DAPR_PORT=3500; \
+		dapr run --app-id rest_client \
+		         --dapr-http-port 3500 \
+				 --components-path ../dapr/components \
+				 -- dotnet run -c Release -- -f *DaprStateStoreBodyContract* --iterationCount 1
+
 dapr-run-events: 
 	powershell $$env:DAPR_PORT=3500; \
 		dapr run --app-id rest_client \

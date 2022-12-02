@@ -1,4 +1,5 @@
 using BenchmarkDotNet.Attributes;
+using Dapr.Client;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using RestSharp;
 using Serilog;
@@ -55,6 +56,17 @@ namespace Bechmark
             var data = Program.CreateExampleContract();
             var result2 = await client.BodyAsync(data);
             Log.Information(Program.JsonSerialize(result2));
+        }
+
+        [Benchmark]
+        [TestMethod]
+        public async Task DaprStateStoreBodyContract()
+        {
+            using var client = new DaprClientBuilder().Build();
+            var data = Program.CreateExampleContract();
+            await client.SaveStateAsync<ExampleContract>(storeName: "shopstate", key: "example", value: data);
+            var result = await client.GetStateAsync<ExampleContract>(storeName: "shopstate", key: "example");
+            Log.Information(Program.JsonSerialize(result));
         }
 
         [Benchmark]
