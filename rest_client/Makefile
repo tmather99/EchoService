@@ -38,6 +38,10 @@ webapi-run-id:
 	powershell $$env:API_SERVER='127.0.0.1'; $$env:API_PORT=8081; dotnet run -c Release -- -f *WebApiGetEventById* --iterationCount 1
 
 
+dapr-sidecar: 
+	powershell $$env:DAPR_HTTP_PORT=3500; \
+		dapr run --dapr-http-port 3500 
+
 dapr-statestore: 
 	powershell $$env:DAPR_PORT=3500; \
 		dapr run --app-id rest_client \
@@ -58,14 +62,26 @@ dapr-publish:
 		         --dapr-http-port 3500 \
 				 -- dotnet run -c Release -- -f *DaprStatePublishOrder* --iterationCount 1
 
-dapr-run-events: 
+dapr-http-events: 
 	powershell $$env:DAPR_PORT=3500; \
 		dapr run --app-id rest_client \
 		         --dapr-http-port 3500 \
-				 -- dotnet run -c Release -- -f *DaprGetEvents* --iterationCount 1
+				 -- dotnet run -c Release -- -f *RestClientGetEvents* --iterationCount 1
 
-dapr-run-id: 
+dapr-http-id: 
 	powershell $$env:DAPR_PORT=3500; \
 		dapr run --app-id rest_client \
 		         --dapr-http-port 3500 \
-				 -- dotnet run -c Release -- -f *DaprGetEventById* --iterationCount 1
+				 -- dotnet run -c Release -- -f *RestClientGetEventById* --iterationCount 1
+
+dapr-sdk-events: 
+	powershell $$env:DAPR_PORT=3500; \
+		dapr run --app-id rest_client \
+		         --dapr-http-port 3500 \
+				 -- dotnet run -c Release -- -f *DaprSDKGetEvents* --iterationCount 1
+
+dapr-sdk-id: 
+	powershell $$env:DAPR_PORT=3500; \
+		dapr run --app-id rest_client \
+		         --dapr-http-port 3500 \
+				 -- dotnet run -c Release -- -f *DaprSDKGetEventById* --iterationCount 1

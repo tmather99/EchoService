@@ -5,6 +5,8 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 using RestSharp;
 using Serilog;
 using WebHttpClient;
+using System.Linq;
+using System.Linq.Expressions;
 
 namespace Bechmark
 {
@@ -74,11 +76,17 @@ namespace Bechmark
         [TestMethod]
         public async Task DaprGetSecrets()
         {
-            using var daprClient = new DaprClientBuilder().Build();
-            var secretStoreName = Environment.GetEnvironmentVariable("SECRET_STORE_NAME") ?? "secretstore";
-            var secretKey = "eventcatalogdb";
-            var secret = await daprClient.GetSecretAsync(storeName: secretStoreName, key: secretKey);
-            Log.Information(secret[secretKey]);
+            try
+            {
+                using var daprClient = new DaprClientBuilder().Build();
+                var secretStoreName = Environment.GetEnvironmentVariable("SECRET_STORE_NAME") ?? "secretstore";
+                var secrets = await daprClient.GetBulkSecretAsync(storeName: secretStoreName);
+                secrets.OrderBy(o => o.Key).ToList().ForEach(secret => Log.Information($"{secret.Key} = {secret.Value.Values.First()}"));
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e);
+            }
         }
 
         [Benchmark]
@@ -143,7 +151,7 @@ namespace Bechmark
 
         [Benchmark]
         [TestMethod]
-        public async Task DaprGetEvents()
+        public async Task RestClientGetEvents()
         {
             var restClient = new RestClient($"http://localhost:{Program.DAPR_PORT}");
             var request = new RestRequest("event");
@@ -155,7 +163,18 @@ namespace Bechmark
 
         [Benchmark]
         [TestMethod]
-        public async Task DaprGetEventById()
+        public async Task DaprSDKGetEvents()
+        {
+            using var daprClient = new DaprClientBuilder().Build();
+            var request = daprClient.CreateInvokeMethodRequest(HttpMethod.Get, appId: "catalog", methodName: "event");
+            var respone = await daprClient.InvokeMethodWithResponseAsync(request);
+            var content = await respone.Content.ReadAsStringAsync();
+            Log.Information(content);
+        }
+
+        [Benchmark]
+        [TestMethod]
+        public async Task RestClientGetEventById()
         {
             var restClient = new RestClient($"http://localhost:{Program.DAPR_PORT}/event");
             var request = new RestRequest(Guid.NewGuid().ToString());
@@ -163,6 +182,18 @@ namespace Bechmark
             request.AddHeader("dapr-app-id", "catalog");
             var response = await restClient.GetAsync(request);
             Log.Information(response.Content);
+        }
+
+        [Benchmark]
+        [TestMethod]
+        public async Task DaprSDKGetEventById()
+        {
+            using var daprClient = new DaprClientBuilder().Build();
+            var request = daprClient.CreateInvokeMethodRequest(
+                HttpMethod.Get, appId: "catalog", methodName: $"event/{Guid.NewGuid()}");
+            var respone = await daprClient.InvokeMethodWithResponseAsync(request);
+            var content = await respone.Content.ReadAsStringAsync();
+            Log.Information(content);
         }
 
         public void Dispose()
