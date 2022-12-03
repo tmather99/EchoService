@@ -44,6 +44,10 @@ if (app.Environment.IsDevelopment())
     app.UseSwaggerUI();
 }
 
+app.UseRouting();
+app.UseCloudEvents();
+app.MapSubscribeHandler();
+
 app.UseHttpsRedirection();
 app.UseAuthorization();
 app.MapControllers();

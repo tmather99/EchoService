@@ -45,6 +45,13 @@ dapr-run-body:
 				 --components-path ../dapr/components \
 				 -- dotnet run -c Release -- -f *DaprStateStoreBodyContract* --iterationCount 1
 
+dapr-publish: 
+	powershell $$env:DAPR_PORT=3500; \
+		dapr run --app-id rest_client \
+		         --dapr-http-port 3500 \
+				 --components-path ../dapr/components \
+				 -- dotnet run -c Release -- -f *DaprStatePublishOrder* --iterationCount 1
+
 dapr-run-events: 
 	powershell $$env:DAPR_PORT=3500; \
 		dapr run --app-id rest_client \

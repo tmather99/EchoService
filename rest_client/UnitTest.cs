@@ -1,5 +1,6 @@
 using BenchmarkDotNet.Attributes;
 using Dapr.Client;
+using GloboTicket.Frontend.Models.Api;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using RestSharp;
 using Serilog;
@@ -67,6 +68,43 @@ namespace Bechmark
             await client.SaveStateAsync<ExampleContract>(storeName: "shopstate", key: "example", value: data);
             var result = await client.GetStateAsync<ExampleContract>(storeName: "shopstate", key: "example");
             Log.Information(Program.JsonSerialize(result));
+        }
+
+        [Benchmark]
+        [TestMethod]
+        public async Task DaprStatePublishOrder()
+        {
+            var guid = Guid.NewGuid();
+            var order = new OrderForCreation()
+            {
+                Date = DateTimeOffset.Now,
+                OrderId = guid,
+                Lines = new List<OrderLine>()
+                {
+                    new OrderLine()
+                    {
+                        EventId = guid,
+                        EventName = "Event.Name",
+                        ArtistName = "Event.Artist",
+                        Price = 1,
+                        TicketCount = 1
+                    }
+                },
+                CustomerDetails = new CustomerDetails()
+                {
+                    Address = "Address",
+                    CreditCardNumber = "CreditCard",
+                    Email = "user@email.com",
+                    Name = $"Name_{guid}",
+                    PostalCode = "PostalCode",
+                    Town = "Town",
+                    CreditCardExpiryDate = "CreditCardDate"
+                }
+            };
+
+            using var client = new DaprClientBuilder().Build();
+            await client.PublishEventAsync<OrderForCreation>(pubsubName: "pubsub", topicName: "orders", data: order);
+            Log.Information($"Publihsed orderId={order.OrderId}");
         }
 
         [Benchmark]

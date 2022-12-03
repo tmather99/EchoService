@@ -16,6 +16,15 @@ dapr-run:
 			--components-path ../dapr/components \
 			-- dotnet run -c Release
 
+dapr-run-debug:
+	powershell $$env:API_PORT=8081; \
+		dapr run \
+			--app-id catalog \
+			--app-port 8081 \
+			--dapr-http-port 3501 \
+			--components-path ../dapr/components \
+			-- dotnet run -c Debug
+
 dapr-run-1:
 	powershell $$env:API_PORT=8082; \
 		dapr run \
