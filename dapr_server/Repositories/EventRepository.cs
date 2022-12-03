@@ -89,11 +89,14 @@ public class EventRepository : IEventRepository
 
     public Task<Event> GetEventById(Guid eventId)
     {
-        var @event = events.FirstOrDefault(e => e.EventId == eventId);
+        //var @event = events.FirstOrDefault(e => e.EventId == eventId);
+        var @event = events.FirstOrDefault();
         if (@event == null)
         {
             throw new InvalidOperationException("Event not found");
         }
+
+        @event.EventId = eventId;
         return Task.FromResult(@event);
     }
 

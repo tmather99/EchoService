@@ -7,25 +7,27 @@ namespace GloboTicket.Catalog.Controllers;
 [Route("[controller]")]
 public class EventController : ControllerBase
 {
-    private readonly IEventRepository _eventRepository;
-    
-    private readonly ILogger<EventController> _logger;
+    private readonly IEventRepository eventRepository;
+
+    private readonly ILogger<EventController> logger;
 
     public EventController(IEventRepository eventRepository, ILogger<EventController> logger)
     {
-        _eventRepository = eventRepository;
-        _logger = logger;
+        this.eventRepository = eventRepository;
+        this.logger = logger;
     }
 
     [HttpGet(Name = "GetEvents")]
     public async Task<IEnumerable<Event>> GetAll()
     {
-      return await _eventRepository.GetEvents();
+        this.logger.LogInformation($"Received get request.");
+        return await this.eventRepository.GetEvents();
     }
 
     [HttpGet("{id}", Name = "GetById")]
     public async Task<Event> GetById(Guid id)
     {
-        return await _eventRepository.GetEventById(id);
+        this.logger.LogInformation($"Received request {id}");
+        return await this.eventRepository.GetEventById(id);
     }
 }

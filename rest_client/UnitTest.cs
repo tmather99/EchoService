@@ -147,7 +147,7 @@ namespace Bechmark
         public async Task DaprGetEventById()
         {
             var client = new RestClient($"http://localhost:{Program.DAPR_PORT}/event");
-            var request = new RestRequest("cfb88e29-4744-48c0-94fa-b25b92dea317");
+            var request = new RestRequest(Guid.NewGuid().ToString());
             request.AddHeader("user-agent", "vscode-restclient");
             request.AddHeader("dapr-app-id", "catalog");
             var response = await client.GetAsync(request);
