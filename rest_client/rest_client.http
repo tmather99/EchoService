@@ -1,0 +1,49 @@
+### Dapr statestore
+POST http://localhost:3501/v1.0/state/shopstate
+content-type: application/json
+
+[{"key": "example", "value": {
+    "SimpleProperty": "House Stark",
+    "ComplexProperty": {
+        "Name": "Jon Snow"
+    },
+    "SimpleCollection": [
+        "Winter",
+        "is",
+        "coming"
+    ],
+    "ComplexCollection": [
+        {
+        "Name": "cfb88e29-4744-48c0-94fa-b25b92dea317"
+        },
+        {
+        "Name": "Arya Stark"
+        },
+        {
+        "Name": "Sansa Stark"
+        }
+    ]
+    }
+}]
+
+###
+GET  http://localhost:3501/v1.0/state/shopstate/example
+
+
+
+### WebApi
+GET http://localhost:8081/event
+###
+GET http://localhost:8081/event/cfb88e29-4744-48c0-94fa-b25b92dea317
+
+
+### Dapr service invoke
+GET http://localhost:3501/v1.0/invoke/catalog/method/event
+
+###
+GET http://localhost:3501/v1.0/invoke/catalog/method/event/cfb88e29-4744-48c0-94fa-b25b92dea317
+###
+GET http://localhost:3501/event/cfb88e29-4744-48c0-94fa-b25b92dea319
+dapr-app-id: catalog
+
+

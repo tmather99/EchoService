@@ -80,7 +80,7 @@ namespace NetCoreServer
         {
             var srvCredentials = new ServiceCredentials();
             //srvCredentials.ServiceCertificate.SetCertificate(StoreLocation.LocalMachine, StoreName.My, X509FindType.FindByThumbprint, "c6779716aea1546aef89ef03a720fb6a1330629f");
-            srvCredentials.ServiceCertificate.Certificate = new X509Certificate2("echo-local.pfx", "Th@nhy99");
+            srvCredentials.ServiceCertificate.Certificate = new X509Certificate2("../assets/echo-local.pfx", "Th@nhy99");
             srvCredentials.ClientCertificate.Authentication.CertificateValidationMode = CoreWCF.Security.X509CertificateValidationMode.None;
             host.Description.Behaviors.Add(srvCredentials);
         }

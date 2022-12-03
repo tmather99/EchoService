@@ -36,7 +36,7 @@ docker run -e ECHO_SERVER=flash.vmwuem.com tmather99/echo_client
 
 http://www.wcfstorm.com/wcf/wcfstorm-lite.aspx
 
-![wcfstorm](./wcfstorm.png)
+![wcfstorm](./assets/wcfstorm.png)
 
 
 ## Benchmark
