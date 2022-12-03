@@ -5,8 +5,6 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 using RestSharp;
 using Serilog;
 using WebHttpClient;
-using System.Linq;
-using System.Linq.Expressions;
 
 namespace Bechmark
 {
@@ -130,7 +128,7 @@ namespace Bechmark
         [TestMethod]
         public async Task WebApiGetEvents()
         {
-            var restClient = new RestClient($"http://localhost:{Program.API_PORT}");
+            var restClient = new RestClient($"http://{Program.API_SERVER}:{Program.API_PORT}");
             var request = new RestRequest("event");
             request.AddHeader("user-agent", "vscode-restclient");
             var response = await restClient.GetAsync(request);
@@ -141,25 +139,13 @@ namespace Bechmark
         [TestMethod]
         public async Task WebApiGetEventById()
         {
-            var restClient = new RestClient($"http://localhost:{Program.API_PORT}/event");
+            var restClient = new RestClient($"http://{Program.API_SERVER}:{Program.API_PORT}/event");
             var request = new RestRequest("cfb88e29-4744-48c0-94fa-b25b92dea317");
             request.AddHeader("user-agent", "vscode-restclient");
             var response = await restClient.GetAsync(request);
             Log.Information(response.Content);
         }
 
-
-        [Benchmark]
-        [TestMethod]
-        public async Task RestClientGetEvents()
-        {
-            var restClient = new RestClient($"http://localhost:{Program.DAPR_PORT}");
-            var request = new RestRequest("event");
-            request.AddHeader("user-agent", "vscode-restclient");
-            request.AddHeader("dapr-app-id", "catalog");
-            var response = await restClient.GetAsync(request);
-            Log.Information(response.Content);
-        }
 
         [Benchmark]
         [TestMethod]
@@ -174,10 +160,10 @@ namespace Bechmark
 
         [Benchmark]
         [TestMethod]
-        public async Task RestClientGetEventById()
+        public async Task RestClientGetEvents()
         {
-            var restClient = new RestClient($"http://localhost:{Program.DAPR_PORT}/event");
-            var request = new RestRequest(Guid.NewGuid().ToString());
+            var restClient = new RestClient($"http://localhost:{Program.DAPR_HTTP_PORT}");
+            var request = new RestRequest("event");
             request.AddHeader("user-agent", "vscode-restclient");
             request.AddHeader("dapr-app-id", "catalog");
             var response = await restClient.GetAsync(request);
@@ -194,6 +180,18 @@ namespace Bechmark
             var respone = await daprClient.InvokeMethodWithResponseAsync(request);
             var content = await respone.Content.ReadAsStringAsync();
             Log.Information(content);
+        }
+
+        [Benchmark]
+        [TestMethod]
+        public async Task RestClientGetEventById()
+        {
+            var restClient = new RestClient($"http://localhost:{Program.DAPR_HTTP_PORT}/event");
+            var request = new RestRequest(Guid.NewGuid().ToString());
+            request.AddHeader("user-agent", "vscode-restclient");
+            request.AddHeader("dapr-app-id", "catalog");
+            var response = await restClient.GetAsync(request);
+            Log.Information(response.Content);
         }
 
         public void Dispose()

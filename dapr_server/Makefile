@@ -29,7 +29,7 @@ dapr-run:
 	powershell $$env:API_PORT=8081; \
 		dapr run \
 			--app-id catalog \
-			--app-port 8081 \
+			--app-port $$env:API_PORT \
 			--dapr-http-port 3501 \
 			--components-path ../dapr/components \
 			-- dotnet run -c Release --urls http://loalhost:8081
@@ -38,7 +38,7 @@ dapr-run-debug:
 	powershell $$env:API_PORT=8081; \
 		dapr run \
 			--app-id catalog \
-			--app-port 8081 \
+			--app-port $$env:API_PORT \
 			--dapr-http-port 3501 \
 			--components-path ../dapr/components \
 			-- dotnet run -c Debug --urls http://loalhost:8081
@@ -47,7 +47,7 @@ dapr-run-1:
 	powershell $$env:API_PORT=8082; \
 		dapr run \
 			--app-id catalog \
-			--app-port 8082 \
+			--app-port $$env:API_PORT \
 			--dapr-http-port 3502 \
 			--components-path ../dapr/components \
 			-- dotnet run -c Release --urls http://loalhost:8082
