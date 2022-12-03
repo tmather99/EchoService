@@ -61,7 +61,7 @@ namespace Bechmark
 
         [Benchmark]
         [TestMethod]
-        public async Task DaprStateStoreBodyContract()
+        public async Task DaprStateStore()
         {
             using var daprClient = new DaprClientBuilder().Build();
             var data = Program.CreateExampleContract();
