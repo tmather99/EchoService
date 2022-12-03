@@ -63,11 +63,22 @@ namespace Bechmark
         [TestMethod]
         public async Task DaprStateStoreBodyContract()
         {
-            using var client = new DaprClientBuilder().Build();
+            using var daprClient = new DaprClientBuilder().Build();
             var data = Program.CreateExampleContract();
-            await client.SaveStateAsync<ExampleContract>(storeName: "shopstate", key: "example", value: data);
-            var result = await client.GetStateAsync<ExampleContract>(storeName: "shopstate", key: "example");
+            await daprClient.SaveStateAsync<ExampleContract>(storeName: "shopstate", key: "example", value: data);
+            var result = await daprClient.GetStateAsync<ExampleContract>(storeName: "shopstate", key: "example");
             Log.Information(Program.JsonSerialize(result));
+        }
+
+        [Benchmark]
+        [TestMethod]
+        public async Task DaprGetSecrets()
+        {
+            using var daprClient = new DaprClientBuilder().Build();
+            var secretStoreName = Environment.GetEnvironmentVariable("SECRET_STORE_NAME") ?? "secretstore";
+            var secretKey = "eventcatalogdb";
+            var secret = await daprClient.GetSecretAsync(storeName: secretStoreName, key: secretKey);
+            Log.Information(secret[secretKey]);
         }
 
         [Benchmark]
@@ -102,8 +113,8 @@ namespace Bechmark
                 }
             };
 
-            using var client = new DaprClientBuilder().Build();
-            await client.PublishEventAsync<OrderForCreation>(pubsubName: "pubsub", topicName: "orders", data: order);
+            using var daprClient = new DaprClientBuilder().Build();
+            await daprClient.PublishEventAsync<OrderForCreation>(pubsubName: "pubsub", topicName: "orders", data: order);
             Log.Information($"Publihsed orderId={order.OrderId}");
         }
 
@@ -111,10 +122,10 @@ namespace Bechmark
         [TestMethod]
         public async Task WebApiGetEvents()
         {
-            var client = new RestClient($"http://localhost:{Program.API_PORT}");
+            var restClient = new RestClient($"http://localhost:{Program.API_PORT}");
             var request = new RestRequest("event");
             request.AddHeader("user-agent", "vscode-restclient");
-            var response = await client.GetAsync(request);
+            var response = await restClient.GetAsync(request);
             Log.Information(response.Content);
         }
 
@@ -122,10 +133,10 @@ namespace Bechmark
         [TestMethod]
         public async Task WebApiGetEventById()
         {
-            var client = new RestClient($"http://localhost:{Program.API_PORT}/event");
+            var restClient = new RestClient($"http://localhost:{Program.API_PORT}/event");
             var request = new RestRequest("cfb88e29-4744-48c0-94fa-b25b92dea317");
             request.AddHeader("user-agent", "vscode-restclient");
-            var response = await client.GetAsync(request);
+            var response = await restClient.GetAsync(request);
             Log.Information(response.Content);
         }
 
@@ -134,11 +145,11 @@ namespace Bechmark
         [TestMethod]
         public async Task DaprGetEvents()
         {
-            var client = new RestClient($"http://localhost:{Program.DAPR_PORT}");
+            var restClient = new RestClient($"http://localhost:{Program.DAPR_PORT}");
             var request = new RestRequest("event");
             request.AddHeader("user-agent", "vscode-restclient");
             request.AddHeader("dapr-app-id", "catalog");
-            var response = await client.GetAsync(request);
+            var response = await restClient.GetAsync(request);
             Log.Information(response.Content);
         }
 
@@ -146,11 +157,11 @@ namespace Bechmark
         [TestMethod]
         public async Task DaprGetEventById()
         {
-            var client = new RestClient($"http://localhost:{Program.DAPR_PORT}/event");
+            var restClient = new RestClient($"http://localhost:{Program.DAPR_PORT}/event");
             var request = new RestRequest(Guid.NewGuid().ToString());
             request.AddHeader("user-agent", "vscode-restclient");
             request.AddHeader("dapr-app-id", "catalog");
-            var response = await client.GetAsync(request);
+            var response = await restClient.GetAsync(request);
             Log.Information(response.Content);
         }
 

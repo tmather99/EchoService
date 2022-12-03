@@ -23,7 +23,7 @@ Log.Logger = new LoggerConfiguration()
 builder.WebHost.ConfigureKestrel((context, options) =>
 {
     options.AllowSynchronousIO = true;
-    options.ListenAnyIP(API_PORT);
+    //options.ListenAnyIP(API_PORT);
 });
 
 // Add services to the container.
@@ -48,7 +48,6 @@ app.UseRouting();
 app.UseCloudEvents();
 app.MapSubscribeHandler();
 
-app.UseHttpsRedirection();
 app.UseAuthorization();
 app.MapControllers();
 app.Run();

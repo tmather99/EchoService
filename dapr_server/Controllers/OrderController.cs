@@ -17,8 +17,8 @@ public class OrderController : ControllerBase
 
     [HttpPost("", Name = "SubmitOrder")]
     [Topic("pubsub", "orders")]
-    public async Task<IActionResult> Submit(OrderForCreation order)
-    {
+    public IActionResult Submit(OrderForCreation order)
+    { 
         logger.LogInformation($"Received a new order from {order.CustomerDetails.Name}");
         return Ok();
     }
