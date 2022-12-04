@@ -1,7 +1,6 @@
 using GloboTicket.Catalog.Repositories;
 using Serilog;
 
-int API_PORT = int.Parse(Environment.GetEnvironmentVariable("API_PORT") ?? "8081");
 string SEQ_SERVER_URL = Environment.GetEnvironmentVariable("SEQ_SERVER_URL") ?? "http://localhost:5341";
 
 Log.Information($"SEQ_SERVER_URL={SEQ_SERVER_URL}");
@@ -23,7 +22,6 @@ Log.Logger = new LoggerConfiguration()
 builder.WebHost.ConfigureKestrel((context, options) =>
 {
     options.AllowSynchronousIO = true;
-    //options.ListenAnyIP(API_PORT);
 });
 
 // Add services to the container.

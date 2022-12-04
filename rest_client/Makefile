@@ -58,14 +58,14 @@ webapi-run-id:
 dapr-http-events: 
 	powershell $$env:DAPR_HTTP_PORT=3500; \
 		dapr run --app-id rest_client \
-		         --dapr-http-port $$env:DAPR_HTTP_PORT \
-				 -- dotnet run -c Release -- -f *RestClientGetEvents* --iterationCount 1
+                 --dapr-http-port $$env:DAPR_HTTP_PORT \
+                 -- dotnet run -c Release -- -f *RestClientGetEvents* --iterationCount 1
 
 dapr-http-id: 
 	powershell $$env:DAPR_HTTP_PORT=3500; \
 		dapr run --app-id rest_client \
-		         --dapr-http-port $$env:DAPR_HTTP_PORT \
-				 -- dotnet run -c Release -- -f *RestClientGetEventById* --iterationCount 1
+                 --dapr-http-port $$env:DAPR_HTTP_PORT \
+                 -- dotnet run -c Release -- -f *RestClientGetEventById* --iterationCount 1
 
 
 ### Dapr SDK service invoke
@@ -74,14 +74,14 @@ dapr-http-id:
 dapr-sdk-events: 
 	powershell $$env:DAPR_HTTP_PORT=3500; \
 		dapr run --app-id rest_client \
-		         --dapr-http-port $$env:DAPR_HTTP_PORT \
-				 -- dotnet run -c Release -- -f *DaprSDKGetEvents* --iterationCount 1
+                 --dapr-http-port $$env:DAPR_HTTP_PORT \
+                 -- dotnet run -c Release -- -f *DaprSDKGetEvents* --iterationCount 1
 
 dapr-sdk-id: 
 	powershell $$env:DAPR_HTTP_PORT=3500; \
 		dapr run --app-id rest_client \
-		         --dapr-http-port $$env:DAPR_HTTP_PORT \
-				 -- dotnet run -c Release -- -f *DaprSDKGetEventById* --iterationCount 1
+                 --dapr-http-port $$env:DAPR_HTTP_PORT \
+                 -- dotnet run -c Release -- -f *DaprSDKGetEventById* --iterationCount 1
 
 
 ### Dapr sidecar for unit test debugging
@@ -96,23 +96,23 @@ dapr-sidecar:
 dapr-statestore: 
 	powershell $$env:DAPR_HTTP_PORT=3500; \
 		dapr run --app-id rest_client \
-		         --dapr-http-port $$env:DAPR_HTTP_PORT \
-				 --components-path ../dapr/components \
-				 -- dotnet run -c Release -- -f *DaprStateStore* --iterationCount 1
+                 --dapr-http-port $$env:DAPR_HTTP_PORT \
+                 --components-path ../dapr/components \
+                 -- dotnet run -c Release -- -f *DaprStateStore* --iterationCount 1
 
 ### Dapr secrets
 
 dapr-get-secrets: 
 	powershell $$env:DAPR_HTTP_PORT=3500; \
 		dapr run --app-id rest_client \
-		         --dapr-http-port $$env:DAPR_HTTP_PORT \
-				 --components-path ../dapr/components \
-				 -- dotnet run -c Release -- -f *DaprGetSecrets* --iterationCount 1
+                 --dapr-http-port $$env:DAPR_HTTP_PORT \
+                 --components-path ../dapr/components \
+                 -- dotnet run -c Release -- -f *DaprGetSecrets* --iterationCount 1
 
 ### Dapr pubsub
 
 dapr-publish: 
 	powershell $$env:DAPR_HTTP_PORT=3500; \
 		dapr run --app-id rest_client \
-		         --dapr-http-port $$env:DAPR_HTTP_PORT \
-				 -- dotnet run -c Release -- -f *DaprStatePublishOrder* --iterationCount 1
+                 --dapr-http-port $$env:DAPR_HTTP_PORT \
+                 -- dotnet run -c Release -- -f *DaprStatePublishOrder* --iterationCount 1
