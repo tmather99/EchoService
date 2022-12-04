@@ -50,4 +50,4 @@ dapr-run-1:
             --app-port $$env:ASPNETCORE_URLS \
             --dapr-http-port 3502 \
             --components-path ../dapr/components \
-            -- dotnet run -c Release
+            -- dotnet run -c Release --urls http://loalhost:8082
