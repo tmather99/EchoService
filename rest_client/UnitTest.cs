@@ -79,11 +79,15 @@ namespace Bechmark
                 using var daprClient = new DaprClientBuilder().Build();
                 var secretStoreName = Environment.GetEnvironmentVariable("SECRET_STORE_NAME") ?? "secretstore";
                 var secrets = await daprClient.GetBulkSecretAsync(storeName: secretStoreName);
-                secrets.OrderBy(o => o.Key).ToList().ForEach(secret => Log.Information($"{secret.Key} = {secret.Value.Values.First()}"));
+                secrets.Keys.Order().ToList().ForEach(key =>
+                {
+                    var secret = secrets[key].First();
+                    Log.Information($"{secret.Key} => {secret.Value}");
+                });
             }
             catch (Exception e)
             {
-                Console.WriteLine(e);
+                Log.Error(e, e.Message);
             }
         }
 
