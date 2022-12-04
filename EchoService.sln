@@ -48,6 +48,12 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "k8s", "k8s", "{E3059CBC-15F
 		k8s\dapr_server.yaml = k8s\dapr_server.yaml
 	EndProjectSection
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "assets", "assets", "{33E77379-8B98-4AC7-B01E-3D0E5AFC2F41}"
+	ProjectSection(SolutionItems) = preProject
+		assets\echo-local.pfx = assets\echo-local.pfx
+		assets\wcfstorm.png = assets\wcfstorm.png
+	EndProjectSection
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -102,6 +108,7 @@ Global
 		{F457910A-8334-442E-8CEC-11DEE085C912} = {A63D38FB-22D6-46F4-9DDE-42DB8A6DF683}
 		{32C0B9E4-EF09-458C-BFD7-058BAA677A7A} = {F457910A-8334-442E-8CEC-11DEE085C912}
 		{E3059CBC-15F3-4591-B30C-C03664FF98BA} = {A63D38FB-22D6-46F4-9DDE-42DB8A6DF683}
+		{33E77379-8B98-4AC7-B01E-3D0E5AFC2F41} = {A63D38FB-22D6-46F4-9DDE-42DB8A6DF683}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {1E9E819F-CA38-4713-993C-282ED2F98EF6}
