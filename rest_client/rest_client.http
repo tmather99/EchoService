@@ -3,6 +3,13 @@ GET http://localhost:8081/event
 ###
 GET http://localhost:8081/event/cfb88e29-4744-48c0-94fa-b25b92dea317
 
+### WebApi RestClient
+GET http://localhost:8082/event
+###
+GET http://localhost:8082/event/cfb88e29-4744-48c0-94fa-b25b92dea317
+
+
+
 
 ### Dapr service invoke
 GET http://localhost:3501/v1.0/invoke/catalog/method/event
@@ -11,6 +18,7 @@ GET http://localhost:3501/v1.0/invoke/catalog/method/event/cfb88e29-4744-48c0-94
 ###
 GET http://localhost:3501/event/cfb88e29-4744-48c0-94fa-b25b92dea319
 dapr-app-id: catalog
+
 
 
 
