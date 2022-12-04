@@ -1,3 +1,19 @@
+### WebApi RestClient
+GET http://localhost:8081/event
+###
+GET http://localhost:8081/event/cfb88e29-4744-48c0-94fa-b25b92dea317
+
+
+### Dapr service invoke
+GET http://localhost:3501/v1.0/invoke/catalog/method/event
+###
+GET http://localhost:3501/v1.0/invoke/catalog/method/event/cfb88e29-4744-48c0-94fa-b25b92dea317
+###
+GET http://localhost:3501/event/cfb88e29-4744-48c0-94fa-b25b92dea319
+dapr-app-id: catalog
+
+
+
 ### Dapr statestore
 POST http://localhost:3501/v1.0/state/shopstate
 content-type: application/json
@@ -33,19 +49,4 @@ GET  http://localhost:3501/v1.0/state/shopstate/example
 GET  http://localhost:3501/v1.0/secrets/secretstore/eventcatalogdb
 ###
 GET  http://localhost:3501/v1.0/secrets/secretstore/bulk
-
-### WebApi RestClient
-GET http://localhost:8081/event
-###
-GET http://localhost:8081/event/cfb88e29-4744-48c0-94fa-b25b92dea317
-
-
-### Dapr service invoke
-GET http://localhost:3501/v1.0/invoke/catalog/method/event
-###
-GET http://localhost:3501/v1.0/invoke/catalog/method/event/cfb88e29-4744-48c0-94fa-b25b92dea317
-###
-GET http://localhost:3501/event/cfb88e29-4744-48c0-94fa-b25b92dea319
-dapr-app-id: catalog
-
 

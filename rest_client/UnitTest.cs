@@ -15,7 +15,7 @@ namespace Bechmark
         // Use a single HttpClient instance for multiple requests as it will pool connections 
         private static HttpClient httpClient = new HttpClient();
 
-        private WebAPIGeneratedWrapper client;
+        private WebAPIGeneratedWrapper webapiClient;
 
         public UnitTest()
         {
@@ -28,15 +28,17 @@ namespace Bechmark
             Log.Information($"SEQ_SERVER_URL={Program.SEQ_SERVER_URL}");
 
             // Using a wrapper generated based on the service OpenAPI definition
-            this.client = new WebAPIGeneratedWrapper($"http://{Program.API_SERVER}:{Program.API_PORT}/", UnitTest.httpClient);
+            this.webapiClient = new WebAPIGeneratedWrapper($"http://{Program.API_SERVER}:{Program.API_PORT}/", UnitTest.httpClient);
         }
+
+        // WCF Rest endpoints
 
         [Benchmark]
         [TestMethod]
         public async Task PathEndpoint()
         {
             // Calls /api/path/{param}
-            string result = await client.PathAsync($"Testing_Path_Endpoint_{Guid.NewGuid()}");
+            string result = await webapiClient.PathAsync($"Testing_Path_Endpoint_{Guid.NewGuid()}");
             Log.Information(result);
         }
 
@@ -45,7 +47,7 @@ namespace Bechmark
         public async Task QueryEndpoint()
         {
             // Calls /api/path/{param}
-            string result = await client.QueryAsync($"Testing Query Endpoint {Guid.NewGuid()}");
+            string result = await webapiClient.QueryAsync($"Testing Query Endpoint {Guid.NewGuid()}");
             Log.Information(result);
         }
 
@@ -55,9 +57,86 @@ namespace Bechmark
         {
             // Calls /api/body with a complex data structure
             var data = Program.CreateExampleContract();
-            var result2 = await client.BodyAsync(data);
+            var result2 = await webapiClient.BodyAsync(data);
             Log.Information(Program.JsonSerialize(result2));
         }
+        
+        // WebApi Rest controllers
+        
+        [Benchmark]
+        [TestMethod]
+        public async Task WebApiGetEvents()
+        {
+            var restClient = new RestClient($"http://{Program.API_SERVER}:{Program.API_PORT}");
+            var request = new RestRequest("event");
+            request.AddHeader("user-agent", "vscode-restclient");
+            var response = await restClient.GetAsync(request);
+            Log.Information(response.Content);
+        }
+
+        [Benchmark]
+        [TestMethod]
+        public async Task WebApiGetEventById()
+        {
+            var restClient = new RestClient($"http://{Program.API_SERVER}:{Program.API_PORT}/event");
+            var request = new RestRequest("cfb88e29-4744-48c0-94fa-b25b92dea317");
+            request.AddHeader("user-agent", "vscode-restclient");
+            var response = await restClient.GetAsync(request);
+            Log.Information(response.Content);
+        }
+
+        // Dapr RestClient service invoke
+
+        [Benchmark]
+        [TestMethod]
+        public async Task RestClientGetEvents()
+        {
+            var restClient = new RestClient($"http://localhost:{Program.DAPR_HTTP_PORT}");
+            var request = new RestRequest("event");
+            request.AddHeader("user-agent", "vscode-restclient");
+            request.AddHeader("dapr-app-id", "catalog");
+            var response = await restClient.GetAsync(request);
+            Log.Information(response.Content);
+        }
+
+        [Benchmark]
+        [TestMethod]
+        public async Task RestClientGetEventById()
+        {
+            var restClient = new RestClient($"http://localhost:{Program.DAPR_HTTP_PORT}/event");
+            var request = new RestRequest(Guid.NewGuid().ToString());
+            request.AddHeader("user-agent", "vscode-restclient");
+            request.AddHeader("dapr-app-id", "catalog");
+            var response = await restClient.GetAsync(request);
+            Log.Information(response.Content);
+        }
+
+        // Dapr SDK service invoke
+
+        [Benchmark]
+        [TestMethod]
+        public async Task DaprSDKGetEvents()
+        {
+            using var daprClient = new DaprClientBuilder().Build();
+            var request = daprClient.CreateInvokeMethodRequest(HttpMethod.Get, appId: "catalog", methodName: "event");
+            var respone = await daprClient.InvokeMethodWithResponseAsync(request);
+            var content = await respone.Content.ReadAsStringAsync();
+            Log.Information(content);
+        }
+
+        [Benchmark]
+        [TestMethod]
+        public async Task DaprSDKGetEventById()
+        {
+            using var daprClient = new DaprClientBuilder().Build();
+            var request = daprClient.CreateInvokeMethodRequest(
+                HttpMethod.Get, appId: "catalog", methodName: $"event/{Guid.NewGuid()}");
+            var respone = await daprClient.InvokeMethodWithResponseAsync(request);
+            var content = await respone.Content.ReadAsStringAsync();
+            Log.Information(content);
+        }
+        
+        // Daper statestore
 
         [Benchmark]
         [TestMethod]
@@ -69,6 +148,8 @@ namespace Bechmark
             var result = await daprClient.GetStateAsync<ExampleContract>(storeName: "shopstate", key: "example");
             Log.Information(Program.JsonSerialize(result));
         }
+
+        // Dapr secrets
 
         [Benchmark]
         [TestMethod]
@@ -90,6 +171,8 @@ namespace Bechmark
                 Log.Error(e, e.Message);
             }
         }
+
+        // Dapr pubsub
 
         [Benchmark]
         [TestMethod]
@@ -126,76 +209,6 @@ namespace Bechmark
             using var daprClient = new DaprClientBuilder().Build();
             await daprClient.PublishEventAsync<OrderForCreation>(pubsubName: "pubsub", topicName: "orders", data: order);
             Log.Information($"Publihsed orderId={order.OrderId}");
-        }
-
-        [Benchmark]
-        [TestMethod]
-        public async Task WebApiGetEvents()
-        {
-            var restClient = new RestClient($"http://{Program.API_SERVER}:{Program.API_PORT}");
-            var request = new RestRequest("event");
-            request.AddHeader("user-agent", "vscode-restclient");
-            var response = await restClient.GetAsync(request);
-            Log.Information(response.Content);
-        }
-
-        [Benchmark]
-        [TestMethod]
-        public async Task WebApiGetEventById()
-        {
-            var restClient = new RestClient($"http://{Program.API_SERVER}:{Program.API_PORT}/event");
-            var request = new RestRequest("cfb88e29-4744-48c0-94fa-b25b92dea317");
-            request.AddHeader("user-agent", "vscode-restclient");
-            var response = await restClient.GetAsync(request);
-            Log.Information(response.Content);
-        }
-
-
-        [Benchmark]
-        [TestMethod]
-        public async Task DaprSDKGetEvents()
-        {
-            using var daprClient = new DaprClientBuilder().Build();
-            var request = daprClient.CreateInvokeMethodRequest(HttpMethod.Get, appId: "catalog", methodName: "event");
-            var respone = await daprClient.InvokeMethodWithResponseAsync(request);
-            var content = await respone.Content.ReadAsStringAsync();
-            Log.Information(content);
-        }
-
-        [Benchmark]
-        [TestMethod]
-        public async Task RestClientGetEvents()
-        {
-            var restClient = new RestClient($"http://localhost:{Program.DAPR_HTTP_PORT}");
-            var request = new RestRequest("event");
-            request.AddHeader("user-agent", "vscode-restclient");
-            request.AddHeader("dapr-app-id", "catalog");
-            var response = await restClient.GetAsync(request);
-            Log.Information(response.Content);
-        }
-
-        [Benchmark]
-        [TestMethod]
-        public async Task DaprSDKGetEventById()
-        {
-            using var daprClient = new DaprClientBuilder().Build();
-            var request = daprClient.CreateInvokeMethodRequest(
-                HttpMethod.Get, appId: "catalog", methodName: $"event/{Guid.NewGuid()}");
-            var respone = await daprClient.InvokeMethodWithResponseAsync(request);
-            var content = await respone.Content.ReadAsStringAsync();
-            Log.Information(content);
-        }
-
-        [Benchmark]
-        [TestMethod]
-        public async Task RestClientGetEventById()
-        {
-            var restClient = new RestClient($"http://localhost:{Program.DAPR_HTTP_PORT}/event");
-            var request = new RestRequest(Guid.NewGuid().ToString());
-            request.AddHeader("user-agent", "vscode-restclient");
-            request.AddHeader("dapr-app-id", "catalog");
-            var response = await restClient.GetAsync(request);
-            Log.Information(response.Content);
         }
 
         public void Dispose()
