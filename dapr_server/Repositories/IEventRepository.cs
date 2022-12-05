@@ -1,3 +1,5 @@
+using GloboTicket.Catalog.Model;
+
 namespace GloboTicket.Catalog.Repositories;
 
 public interface IEventRepository

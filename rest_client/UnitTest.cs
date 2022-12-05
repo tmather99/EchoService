@@ -176,7 +176,7 @@ namespace Bechmark
 
         [Benchmark]
         [TestMethod]
-        public async Task DaprStatePublishOrder()
+        public async Task DaprPublishOrder()
         {
             var guid = Guid.NewGuid();
             var order = new OrderForCreation()

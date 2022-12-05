@@ -20,6 +20,10 @@
 
 	<ItemGroup>
 		<PackageReference Include="BenchmarkDotNet" Version="0.13.2" />
+		<PackageReference Include="RestSharp" Version="108.0.3" />
+	</ItemGroup>
+
+	<ItemGroup>
 		<PackageReference Include="Microsoft.NET.Test.Sdk" Version="17.4.0" />
 		<PackageReference Include="Microsoft.VisualStudio.Azure.Containers.Tools.Targets" Version="1.17.0" />
 		<PackageReference Include="MSTest.TestAdapter" Version="2.2.10" />
@@ -28,11 +32,15 @@
 			<PrivateAssets>all</PrivateAssets>
 			<IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
 		</PackageReference>
+	</ItemGroup>
 
+	<ItemGroup>
 		<PackageReference Include="System.ServiceModel.Http" Version="4.10.0" />
 		<PackageReference Include="System.ServiceModel.NetTcp" Version="4.10.0" />
 		<PackageReference Include="System.ServiceModel.Primitives" Version="4.10.0" />
+	</ItemGroup>
 
+	<ItemGroup>
 		<PackageReference Include="Serilog.AspNetCore" Version="6.0.1" />
 		<PackageReference Include="Serilog.Sinks.Seq" Version="5.2.2" />
 		<PackageReference Include="Serilog.Enrichers.ClientInfo" Version="1.2.0" />
@@ -42,7 +50,6 @@
 		<PackageReference Include="Serilog.Enrichers.Process" Version="2.0.2" />
 		<PackageReference Include="Serilog.Enrichers.Thread" Version="3.1.0" />
 	</ItemGroup>
-
 
 	<ItemGroup>
 	  <None Update="WcfClient\echo-local.pfx">

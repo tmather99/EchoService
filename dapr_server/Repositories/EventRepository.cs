@@ -1,5 +1,6 @@
 using System.Text.Json;
 using Dapr.Client;
+using GloboTicket.Catalog.Model;
 
 namespace GloboTicket.Catalog.Repositories;
 

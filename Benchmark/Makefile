@@ -52,3 +52,22 @@ REPLICAS = 1
 
 scale:
 	kubectl scale deployment echo-server-app --replicas=$(REPLICAS)
+
+
+### Ingres controller
+
+
+ingress-events: 
+	powershell $$env:API_SERVER='127.0.0.1'; $$env:API_PORT=8083; dotnet run -c Release -- -f *GetEvents* --iterationCount 1
+
+ingress-id: 
+	powershell $$env:API_SERVER='127.0.0.1'; $$env:API_PORT=8083; dotnet run -c Release -- -f *GetEventById* --iterationCount 1
+
+ingress-statestore: 
+	powershell $$env:API_SERVER='127.0.0.1'; $$env:API_PORT=8083; dotnet run -c Release -- -f *StateStore* --iterationCount 1
+
+ingress-secrets: 
+	powershell $$env:API_SERVER='127.0.0.1'; $$env:API_PORT=8083; dotnet run -c Release -- -f *Secrets* --iterationCount 1
+
+ingress-publish: 
+	powershell $$env:API_SERVER='127.0.0.1'; $$env:API_PORT=8083; dotnet run -c Release -- -f *Publish* --iterationCount 1

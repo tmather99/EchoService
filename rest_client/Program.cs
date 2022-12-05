@@ -29,19 +29,19 @@ namespace WebHttpClient
                     var httpClient = new HttpClient();
 
                     // Using a wrapper generated based on the service OpenAPI definition
-                    var client = new WebAPIGeneratedWrapper($"http://{Program.API_SERVER}:{Program.API_PORT}/", httpClient);
+                    var webapiClient = new WebAPIGeneratedWrapper($"http://{Program.API_SERVER}:{Program.API_PORT}/", httpClient);
 
                     // Calls /api/path/{param}
-                    string result = await client.PathAsync("Testing_the_path_endpoint");
+                    string result = await webapiClient.PathAsync("Testing_the_path_endpoint");
                     Log.Information(result);
 
                     // Calls /api/query?param=value
-                    result = await client.QueryAsync("Testing the query endpoint");
+                    result = await webapiClient.QueryAsync("Testing the query endpoint");
                     Log.Information(result);
 
                     // Calls /api/body with a complex data structure
                     var data = CreateExampleContract();
-                    var result2 = await client.BodyAsync(data);
+                    var result2 = await webapiClient.BodyAsync(data);
                     Log.Information(JsonSerialize(result2));
                 }
                 else

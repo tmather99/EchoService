@@ -1,0 +1,49 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: echo-server-app
+spec:
+  selector:
+    matchLabels:
+      app: echo-server-app
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: echo-server-app
+    spec:      
+      containers:
+      - name: seq
+        image: tmather99/echo_server:latest
+        ports:
+        - containerPort: 8088
+        - containerPort: 8443
+        - containerPort: 8090
+        resources:
+          limits:
+            memory: "128Mi"
+            cpu: "200m"  
+        env:
+        - name: SEQ_SERVER_URL
+          value: "http://globoseq-service"        
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: echo-server-service
+spec:
+  selector:
+    app: echo-server-app  
+  type: ClusterIP  
+  ports:
+  - name: http-binding
+    port: 8088
+    targetPort: 8088  
+  - name: wshttp-binding
+    port: 8443
+    targetPort: 8443  
+  - name: net-tcp-binding
+    port: 8090
+    targetPort: 8090
+  

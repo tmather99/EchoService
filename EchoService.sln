@@ -54,6 +54,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "assets", "assets", "{33E773
 		assets\wcfstorm.png = assets\wcfstorm.png
 	EndProjectSection
 EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "dapr_client", "dapr_client\dapr_client.csproj", "{6D32A26C-57A7-400F-B172-2C590B0F7B56}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -100,6 +102,10 @@ Global
 		{BA20D611-8DC9-429B-9554-3EF37AE3A7D4}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{BA20D611-8DC9-429B-9554-3EF37AE3A7D4}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{BA20D611-8DC9-429B-9554-3EF37AE3A7D4}.Release|Any CPU.Build.0 = Release|Any CPU
+		{6D32A26C-57A7-400F-B172-2C590B0F7B56}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{6D32A26C-57A7-400F-B172-2C590B0F7B56}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{6D32A26C-57A7-400F-B172-2C590B0F7B56}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{6D32A26C-57A7-400F-B172-2C590B0F7B56}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

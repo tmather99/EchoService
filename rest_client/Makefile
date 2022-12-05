@@ -115,4 +115,4 @@ dapr-publish:
 	powershell $$env:DAPR_HTTP_PORT=3500; \
 		dapr run --app-id rest_client \
                  --dapr-http-port $$env:DAPR_HTTP_PORT \
-                 -- dotnet run -c Release -- -f *DaprStatePublishOrder* --iterationCount 1
+                 -- dotnet run -c Release -- -f *DaprPublishOrder* --iterationCount 1

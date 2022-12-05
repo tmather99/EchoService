@@ -3,6 +3,7 @@ using System.Net;
 using System.Threading.Tasks;
 using BenchmarkDotNet.Attributes;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+using RestSharp;
 using Serilog;
 
 namespace Bechmark
@@ -76,6 +77,64 @@ namespace Bechmark
         public async Task CallCalculator()
         {
             await Wcf.Client.CallCalculator();
+        }
+
+
+        // Ingress controller requests
+
+        [Benchmark]
+        [TestMethod]
+        public async Task GetEvents()
+        {
+            var restClient = new RestClient($"http://{Program.API_SERVER}:{Program.API_PORT}/ingress");
+            var request = new RestRequest("event");
+            request.AddHeader("user-agent", "vscode-restclient");
+            var response = await restClient.GetAsync(request);
+            Log.Information(response.Content);
+        }
+
+        [Benchmark]
+        [TestMethod]
+        public async Task GetEventById()
+        {
+            var restClient = new RestClient($"http://{Program.API_SERVER}:{Program.API_PORT}/ingress/event");
+            var request = new RestRequest(Guid.NewGuid().ToString());
+            request.AddHeader("user-agent", "vscode-restclient");
+            var response = await restClient.GetAsync(request);
+            Log.Information(response.Content);
+        }
+
+        [Benchmark]
+        [TestMethod]
+        public async Task StateStore()
+        {
+            var restClient = new RestClient($"http://{Program.API_SERVER}:{Program.API_PORT}/ingress");
+            var request = new RestRequest("statestore");
+            request.AddHeader("user-agent", "vscode-restclient");
+            var response = await restClient.GetAsync(request);
+            Log.Information(response.Content);
+        }
+
+        [Benchmark]
+        [TestMethod]
+        public async Task Secrets()
+        {
+            var restClient = new RestClient($"http://{Program.API_SERVER}:{Program.API_PORT}/ingress");
+            var request = new RestRequest("secrets");
+            request.AddHeader("user-agent", "vscode-restclient");
+            var response = await restClient.GetAsync(request);
+            Log.Information(response.Content);
+        }
+
+        [Benchmark]
+        [TestMethod]
+        public async Task Publish()
+        {
+            var restClient = new RestClient($"http://{Program.API_SERVER}:{Program.API_PORT}/ingress");
+            var request = new RestRequest("publish");
+            request.AddHeader("user-agent", "vscode-restclient");
+            var response = await restClient.GetAsync(request);
+            Log.Information(response.Content);
         }
 
         public void Dispose()
