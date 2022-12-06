@@ -8,7 +8,6 @@ namespace WebHttpServer
 {
     public class Program
     {
-        public static int API_PORT = int.Parse(Environment.GetEnvironmentVariable("API_PORT") ?? "8080");
         public static string SEQ_SERVER_URL = Environment.GetEnvironmentVariable("SEQ_SERVER_URL") ?? "http://localhost:5341";
 
         static void Main(string[] args)
@@ -27,7 +26,6 @@ namespace WebHttpServer
                     .UseKestrel(options =>
                     {
                         options.AllowSynchronousIO = true;
-                        options.ListenAnyIP(Program.API_PORT);
                     })
                     .UseStartup<Startup>();
                 

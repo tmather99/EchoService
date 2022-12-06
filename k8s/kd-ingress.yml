@@ -14,7 +14,7 @@ spec:
   tls:
     - hosts:
         - kd.local.com
-      secretName: kdlocal-tls
+      secretName: kd-local-tls
   rules:
     - host: kd.local.com
       http:

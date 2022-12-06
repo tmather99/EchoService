@@ -26,28 +26,31 @@ dapr-dashboard:
 	dapr dashboard -p 8888
 
 dapr-run:
-	powershell $$env:ASPNETCORE_URLS=8081; \
+	powershell $$env:ASPNETCORE_URLS=\"http://*:8081\"; \
+               $$env:ASPNETCORE_ENVIRONMENT=\"Development\"; \
         dapr run \
             --app-id catalog \
-            --app-port $$env:ASPNETCORE_URLS \
+            --app-port 8081 \
             --dapr-http-port 3501 \
             --components-path ../dapr/components \
             -- dotnet run -c Release
 
 dapr-run-debug:
-	powershell $$env:ASPNETCORE_URLS=8081; \
+	powershell $$env:ASPNETCORE_URLS=\"http://*:8081\"; \
+               $$env:ASPNETCORE_ENVIRONMENT=\"Development\"; \
         dapr run \
             --app-id catalog \
-            --app-port $$env:ASPNETCORE_URLS \
+            --app-port 8081 \
             --dapr-http-port 3501 \
             --components-path ../dapr/components \
             -- dotnet run -c Debug
 
 dapr-run-1:
-	powershell $$env:ASPNETCORE_URLS=8082; \
+	powershell $$env:ASPNETCORE_URLS=\"http://*:8082\"; \
+               $$env:ASPNETCORE_ENVIRONMENT=\"Development\"; \
         dapr run \
             --app-id catalog \
-            --app-port $$env:ASPNETCORE_URLS \
+            --app-port 8082 \
             --dapr-http-port 3502 \
             --components-path ../dapr/components \
-            -- dotnet run -c Release --urls http://loalhost:8082
+            -- dotnet run -c Release --urls http://*:8082

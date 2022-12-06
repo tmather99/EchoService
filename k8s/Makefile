@@ -2,13 +2,13 @@ context:
 	kubectl config use-context docker-desktop
 
 build:
-	cd ..; docker build -f ./echo_server/Dockerfile -t tmather99/echo_server .
-	cd ..; docker build -f ./rest_server/Dockerfile -t tmather99/rest_server .
-	cd ..; docker build -f ./dapr_server/Dockerfile -t tmather99/dapr_server .
+	cd ../rest_server; docker build -t tmather99/rest_server .
+	cd ../dapr_client; docker build -t tmather99/dapr_client .
+	cd ../dapr_server; docker build -t tmather99/dapr_server .
 
 push:
-	docker push tmather99/echo_server
 	docker push tmather99/rest_server
+	docker push tmather99/dapr_client
 	docker push tmather99/dapr_server
 
 dashboard:
@@ -26,24 +26,30 @@ rm-nginx:
 	kubectl delete -f https://raw.githubusercontent.com/kubernetes/ingress-nginx/controller-v1.4.0/deploy/static/provider/cloud/deploy.yaml
 
 ingress:
-	kubectl apply -f globo-ingress.yml
+	kubectl apply -f dapr-ingress.yml
 	kubectl apply -f kd-ingress.yml
 
 rm-ingress:
-	kubectl delete -f globo-ingress.yml
+	kubectl delete -f dapr-ingress.yml
 	kubectl delete -f kd-ingress.yml
 
 seq:
-	kubectl apply -f globo-seq.yml
+	kubectl apply -f seq.yml
 
 rm-seq:
-	kubectl delete -f globo-seq.yml
+	kubectl delete -f seq.yml
 
-echo:
-	kubectl apply -f echo-server.yml
+rest-server:
+	kubectl apply -f rest-server.yml
 
-rm-echo:
-	kubectl delete -f echo-server.yml
+rm-rest-server:
+	kubectl delete -f rest-server.yml
+
+dapr-client:
+	kubectl apply -f dapr-client.yml
+
+rm-dapr-client:
+	kubectl delete -f dapr-client.yml
 
 #make scale REPLICAS=2
 REPLICAS = 1
@@ -52,22 +58,16 @@ scale:
 	kubectl scale deployment echo-server-app --replicas=$(REPLICAS)
 
 config:
-	kubectl create secret generic globoconn-secrets \
-                --from-literal=ConnectionStrings__IS4DbConnection="Server=globosql-service;Database=GlobomanticsIdSrv;User Id=sa;Password=Th@nhy99;MultipleActiveResultSets=true;" \
-                --from-literal=ConnectionStrings__GlobomanticsDb="Server=globosql-service;Database=Globomantics;User Id=globo_dbuser;Password=Th@nhy99;MultipleActiveResultSets=true;"
-	kubectl create secret tls idlocal-tls --key="certs/id-local.key" --cert="certs/id-local.crt"
-	kubectl create secret tls seqlocal-tls --key="certs/seq-local.key" --cert="certs/seq-local.crt"
-	kubectl create secret tls wwwlocal-tls --key="certs/www-local.key" --cert="certs/www-local.crt"
-	kubectl create secret tls echolocal-tls --key="certs/echo-local.key" --cert="certs/echo-local.crt"
-	kubectl -n kubernetes-dashboard create secret tls kdlocal-tls --key="certs/kd-local.key" --cert="certs/kd-local.crt"
+	kubectl create secret tls seq-local-tls --key="certs/seq-local.key" --cert="certs/seq-local.crt"
+	kubectl create secret tls rest-local-tls --key="certs/rest-local.key" --cert="certs/rest-local.crt"
+	kubectl create secret tls ingress-local-tls --key="certs/ingress-local.key" --cert="certs/ingress-local.crt"
+	kubectl -n kubernetes-dashboard create secret tls kd-local-tls --key="certs/kd-local.key" --cert="certs/kd-local.crt"
 
 rm-config:
-	kubectl delete secret globoconn-secrets
-	kubectl delete secret idlocal-tls
-	kubectl delete secret seqlocal-tls
-	kubectl delete secret wwwlocal-tls
-	kubectl delete secret echolocal-tls
-	kubectl delete secret -n kubernetes-dashboard kdlocal-tls
+	kubectl delete secret seq-local-tls
+	kubectl delete secret rest-local-tls
+	kubectl delete secret ingress-local-tls
+	kubectl delete secret -n kubernetes-dashboard kd-local-tls
 
 get-token:
 	kubectl -n kubernetes-dashboard create token admin-user

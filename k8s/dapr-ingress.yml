@@ -1,0 +1,61 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: dapr-ingress  
+spec:
+  ingressClassName: nginx
+  tls:
+  - hosts:
+      - rest.local.com
+    secretName: rest-local-tls  
+  - hosts:
+      - echo.local.com
+    secretName: echo-local-tls  
+  - hosts:
+      - ingress.local.com
+    secretName: ingress-local-tls  
+  - hosts:
+      - seq.local.com
+    secretName: seq-local-tls   
+  rules:
+  - host: rest.local.com
+    http:
+      paths:      
+      - path: /
+        pathType: Prefix
+        backend:
+          service:
+            name: rest-server-service
+            port: 
+              number: 8080  
+  - host: echo.local.com
+    http:
+      paths:      
+      - path: /
+        pathType: Prefix
+        backend:
+          service:
+            name: echo-server-service
+            port: 
+              number: 8088  
+  - host: ingress.local.com
+    http:
+      paths:      
+      - path: /
+        pathType: Prefix
+        backend:
+          service:
+            name: dapr-client-service
+            port: 
+              number: 8083  
+  - host: seq.local.com
+    http:
+      paths:      
+      - path: /
+        pathType: Prefix
+        backend:
+          service:
+            name: seq-service
+            port: 
+              number: 80  
+

@@ -11,9 +11,15 @@ push:
 	docker push tmather99/dapr_client
 
 run:
-	docker run -e API_SERVER=$(API_SERVER) -e API_PORT=$(API_PORT) -e SEQ_SERVER_URL=$(SEQ_SERVER_URL) --name dapr_client --rm tmather99/dapr_client
+	docker run -p 8083:8083 \
+               -e ASPNETCORE_URLS=http://*:8083 \
+               -e ASPNETCORE_ENVIRONMENT="Development" \
+               -e SEQ_SERVER_URL=$(SEQ_SERVER_URL) \
+			   --name dapr_client \
+			   --rm tmather99/dapr_client 
 
-
+stop:
+	docker stop dapr_client
 
 
 ### dotnet CLI
@@ -21,6 +27,10 @@ run:
 dotnet-build:
 	dotnet build -c Release
 
+dotnet-run:
+	powershell $$env:ASPNETCORE_URLS=\"http://*:8083\"; \
+               $$env:ASPNETCORE_ENVIRONMENT=\"Development\"; \
+	      dotnet run -c Release --urls http://localhost:8083
 
 ### Dapr sidecar for unit test debugging
 
@@ -32,8 +42,10 @@ dapr-sidecar:
 ### Dapr statestore
 
 dapr-run: 
-	powershell $$env:DAPR_HTTP_PORT=3500; \
-		dapr run --app-id rest_client \
+	powershell $$env:ASPNETCORE_URLS=\"http://*:8083\"; \
+               $$env:ASPNETCORE_ENVIRONMENT=\"Development\"; \
+               $$env:DAPR_HTTP_PORT=3500; \
+		dapr run --app-id dapr_client \
                  --dapr-http-port $$env:DAPR_HTTP_PORT \
                  --components-path ../dapr/components \
-                 -- dotnet run -c Release
+                 -- dotnet run -c Release --urls http://localhost:8083

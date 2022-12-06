@@ -1,16 +1,16 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: globoseq-app
+  name: seq-app
 spec:
   selector:
     matchLabels:
-      app: globoseq-app
+      app: seq-app
   replicas: 1
   template:
     metadata:
       labels:
-        app: globoseq-app
+        app: seq-app
     spec:      
       containers:
       - name: seq
@@ -29,26 +29,12 @@ spec:
 apiVersion: v1
 kind: Service
 metadata:
-  name: globoseq-service
+  name: seq-service
 spec:
   selector:
-    app: globoseq-app  
+    app: seq-app  
   type: ClusterIP  
   ports:
     - protocol: TCP 
       port: 80
       targetPort: 80  
-  
----
-apiVersion: v1
-kind: Service
-metadata:
-  name: globoseq
-spec:
-  clusterIP: None # headless service
-  selector:
-    app: globoseq-app
-  ports:
-    - protocol: TCP
-      port: 5341
-      targetPort: 5341
