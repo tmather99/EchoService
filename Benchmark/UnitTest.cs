@@ -86,7 +86,7 @@ namespace Bechmark
         [TestMethod]
         public async Task GetEvents()
         {
-            var restClient = new RestClient($"http://{Program.API_SERVER}:{Program.API_PORT}/ingress");
+            var restClient = new RestClient($"{Program.API_PROTOCOL}://{Program.API_SERVER}:{Program.API_PORT}/ingress");
             var request = new RestRequest("event");
             request.AddHeader("user-agent", "vscode-restclient");
             var response = await restClient.GetAsync(request);
@@ -97,7 +97,7 @@ namespace Bechmark
         [TestMethod]
         public async Task GetEventById()
         {
-            var restClient = new RestClient($"http://{Program.API_SERVER}:{Program.API_PORT}/ingress/event");
+            var restClient = new RestClient($"{Program.API_PROTOCOL}://{Program.API_SERVER}:{Program.API_PORT}/ingress/event");
             var request = new RestRequest(Guid.NewGuid().ToString());
             request.AddHeader("user-agent", "vscode-restclient");
             var response = await restClient.GetAsync(request);
@@ -108,7 +108,7 @@ namespace Bechmark
         [TestMethod]
         public async Task StateStore()
         {
-            var restClient = new RestClient($"http://{Program.API_SERVER}:{Program.API_PORT}/ingress");
+            var restClient = new RestClient($"{Program.API_PROTOCOL}://{Program.API_SERVER}:{Program.API_PORT}/ingress");
             var request = new RestRequest("statestore");
             request.AddHeader("user-agent", "vscode-restclient");
             var response = await restClient.GetAsync(request);
@@ -119,7 +119,7 @@ namespace Bechmark
         [TestMethod]
         public async Task Secrets()
         {
-            var restClient = new RestClient($"http://{Program.API_SERVER}:{Program.API_PORT}/ingress");
+            var restClient = new RestClient($"{Program.API_PROTOCOL}://{Program.API_SERVER}:{Program.API_PORT}/ingress");
             var request = new RestRequest("secrets");
             request.AddHeader("user-agent", "vscode-restclient");
             var response = await restClient.GetAsync(request);
@@ -130,7 +130,7 @@ namespace Bechmark
         [TestMethod]
         public async Task Publish()
         {
-            var restClient = new RestClient($"http://{Program.API_SERVER}:{Program.API_PORT}/ingress");
+            var restClient = new RestClient($"{Program.API_PROTOCOL}://{Program.API_SERVER}:{Program.API_PORT}/ingress");
             var request = new RestRequest("publish");
             request.AddHeader("user-agent", "vscode-restclient");
             var response = await restClient.GetAsync(request);

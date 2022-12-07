@@ -13,6 +13,7 @@ namespace Bechmark
     {
         public static int DAPR_HTTP_PORT = int.Parse(Environment.GetEnvironmentVariable("DAPR_HTTP_PORT") ?? "3500");
         public static int API_PORT = int.Parse(Environment.GetEnvironmentVariable("API_PORT") ?? "8083");
+        public static string API_PROTOCOL = Environment.GetEnvironmentVariable("API_PROTOCOL") ?? "http";
         public static string API_SERVER = Environment.GetEnvironmentVariable("API_SERVER") ?? "localhost";
         public static string SEQ_SERVER_URL = Environment.GetEnvironmentVariable("SEQ_SERVER_URL") ?? "http://localhost:5341";
 

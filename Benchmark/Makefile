@@ -71,3 +71,35 @@ ingress-secrets:
 
 ingress-publish: 
 	powershell $$env:API_SERVER='127.0.0.1'; $$env:API_PORT=8083; dotnet run -c Release -- -f *Publish* --iterationCount 1
+
+
+
+k8s-ingress-events: 
+	powershell $$env:API_PROTOCOL=\'https\'; \
+               $$env:API_SERVER=\'ingress.local.com\'; \
+               $$env:API_PORT=443; \
+               dotnet run -c Release -- -f *GetEvents* --iterationCount 1
+
+k8s-ingress-id: 
+	powershell $$env:API_PROTOCOL=\'https\'; \
+               $$env:API_SERVER=\'ingress.local.com\'; \
+               $$env:API_PORT=443; \
+               dotnet run -c Release -- -f *GetEventById* --iterationCount 1
+
+k8s-ingress-statestore: 
+	powershell $$env:API_PROTOCOL=\'https\'; \
+               $$env:API_SERVER=\'ingress.local.com\'; \
+               $$env:API_PORT=443; \
+               dotnet run -c Release -- -f *StateStore* --iterationCount 1
+
+k8s-ingress-secrets: 
+	powershell $$env:API_PROTOCOL=\'https\'; \
+               $$env:API_SERVER=\'ingress.local.com\'; \
+               $$env:API_PORT=443; \
+               dotnet run -c Release -- -f *Secrets* --iterationCount 1
+
+k8s-ingress-publish: 
+	powershell $$env:API_PROTOCOL=\'https\'; \
+               $$env:API_SERVER=\'ingress.local.com\'; \
+               $$env:API_PORT=443; \
+               dotnet run -c Release -- -f *Publish* --iterationCount 1
