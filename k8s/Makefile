@@ -42,8 +42,10 @@ rm-seq:
 dapr-dashboard:
 	dapr dashboard -k -p 8888
 
+# helm repo add bitnami https://charts.bitnami.com/bitnami
+# helm repo update
 redis:
-	helm install redis --set auth.password=Th@nhy99 bitnami/redis
+	helm install redis bitnami/redis
 
 rm-redis:
 	helm delete redis	
