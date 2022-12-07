@@ -1,3 +1,5 @@
+SEQ_SERVER_URL = http://flash.vmwuem.com:5341
+
 build:
 	docker build . -t tmather99/dapr_server
 
@@ -28,7 +30,8 @@ dapr-dashboard:
 dapr-run:
 	powershell $$env:ASPNETCORE_URLS=\"http://*:8081\"; \
                $$env:ASPNETCORE_ENVIRONMENT=\"Development\"; \
-        dapr run \
+               $$env:SEQ_SERVER_URL=\'$(SEQ_SERVER_URL)\'; \
+		dapr run \
             --app-id catalog \
             --app-port 8081 \
             --dapr-http-port 3501 \
@@ -38,7 +41,8 @@ dapr-run:
 dapr-run-debug:
 	powershell $$env:ASPNETCORE_URLS=\"http://*:8081\"; \
                $$env:ASPNETCORE_ENVIRONMENT=\"Development\"; \
-        dapr run \
+               $$env:SEQ_SERVER_URL=\'$(SEQ_SERVER_URL)\'; \
+		dapr run \
             --app-id catalog \
             --app-port 8081 \
             --dapr-http-port 3501 \
@@ -48,7 +52,8 @@ dapr-run-debug:
 dapr-run-1:
 	powershell $$env:ASPNETCORE_URLS=\"http://*:8082\"; \
                $$env:ASPNETCORE_ENVIRONMENT=\"Development\"; \
-        dapr run \
+               $$env:SEQ_SERVER_URL=\'$(SEQ_SERVER_URL)\'; \
+		dapr run \
             --app-id catalog \
             --app-port 8082 \
             --dapr-http-port 3502 \

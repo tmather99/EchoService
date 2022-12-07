@@ -4,6 +4,9 @@ build:
 push:
 	docker push tmather99/benchmark
 
+seq:
+	docker run --name seq.local.com -d --restart unless-stopped -e ACCEPT_EULA=Y -p 5341:80 datalust/seq:latest
+	
 run-http:
 	docker run -e ECHO_SERVER='flash.vmwuem.com' -e HTTP_PORT=8088 --rm -e SEQ_SERVER_URL='http://flash.vmwuem.com:5341' tmather99/benchmark -f *CallBasicHttpBinding* --iterationCount 1 -m
 
@@ -78,28 +81,33 @@ k8s-ingress-events:
 	powershell $$env:API_PROTOCOL=\'https\'; \
                $$env:API_SERVER=\'ingress.local.com\'; \
                $$env:API_PORT=443; \
+			   $$env:SEQ_SERVER_URL=\'http://seq.local.com\'; \
                dotnet run -c Release -- -f *GetEvents* --iterationCount 1
 
 k8s-ingress-id: 
 	powershell $$env:API_PROTOCOL=\'https\'; \
                $$env:API_SERVER=\'ingress.local.com\'; \
                $$env:API_PORT=443; \
+			   $$env:SEQ_SERVER_URL=\'http://seq.local.com\'; \
                dotnet run -c Release -- -f *GetEventById* --iterationCount 1
 
 k8s-ingress-statestore: 
 	powershell $$env:API_PROTOCOL=\'https\'; \
                $$env:API_SERVER=\'ingress.local.com\'; \
                $$env:API_PORT=443; \
+			   $$env:SEQ_SERVER_URL=\'http://seq.local.com\'; \
                dotnet run -c Release -- -f *StateStore* --iterationCount 1
 
 k8s-ingress-secrets: 
 	powershell $$env:API_PROTOCOL=\'https\'; \
                $$env:API_SERVER=\'ingress.local.com\'; \
                $$env:API_PORT=443; \
+			   $$env:SEQ_SERVER_URL=\'http://seq.local.com\'; \
                dotnet run -c Release -- -f *Secrets* --iterationCount 1
 
 k8s-ingress-publish: 
 	powershell $$env:API_PROTOCOL=\'https\'; \
                $$env:API_SERVER=\'ingress.local.com\'; \
                $$env:API_PORT=443; \
+			   $$env:SEQ_SERVER_URL=\'http://seq.local.com\'; \
                dotnet run -c Release -- -f *Publish* --iterationCount 1
