@@ -2,30 +2,28 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: dapr-server
+  name: dapr-server-app
   labels:
-    app: dapr-server
+    app: dapr-server-app
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app: dapr-server
+      app: dapr-server-app
   template:
     metadata:
       labels:
-        app: dapr-server
+        app: dapr-server-app
       annotations:
         dapr.io/enabled: "true"
         dapr.io/app-id: "catalog"
-        dapr.io/app-port: "80"
-        dapr.io/config: "appconfig"
+        dapr.io/app-port: "8081"
     spec:
       containers:
-      - name: dapr_server
+      - name: dapr-server
         image: tmather99/dapr_server
         ports:
         - containerPort: 8081
-        imagePullPolicy: Always
         resources:
           limits:
             memory: "128Mi"
@@ -33,10 +31,12 @@ spec:
         env:
         - name: SEQ_SERVER_URL
           value: "http://seq-service"        
-        - name: SECRET_STORE_NAME
-          value: "kubernetes"
         - name: ASPNETCORE_URLS
           value: "http://*:8081"        
+        - name: ASPNETCORE_ENVIRONMENT
+          value: "Development"
+        - name: SECRET_STORE_NAME
+          value: "kubernetes"
 
 ---
 apiVersion: v1

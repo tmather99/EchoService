@@ -54,16 +54,14 @@ public class IngressController : ControllerBase
     }
 
     [HttpGet("secrets", Name = "GetSecrets")]
-    public async Task<Dictionary<string, Dictionary<string, string>>> GetSecretsAsync()
+    public async Task<Dictionary<string, string>> GetSecretsAsync()
     {
-        var secretStoreName = Environment.GetEnvironmentVariable("SECRET_STORE_NAME") ?? "secretstore";
-        var secrets = await this.daprClient.GetBulkSecretAsync(storeName: secretStoreName);
+        var secretStoreName = Environment.GetEnvironmentVariable("SECRET_STORE_NAME") ?? "kubernetes";
+        var secrets = await daprClient.GetSecretAsync(secretStoreName, "mysecret");
         secrets.Keys.Order().ToList().ForEach(key =>
         {
-            var secret = secrets[key].First();
-            this.logger.LogInformation($"{secret.Key} => {secret.Value}");
+            this.logger.LogInformation($"{key} => {secrets[key]}");
         });
-
         return secrets;
     }
 

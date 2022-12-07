@@ -39,6 +39,27 @@ seq:
 rm-seq:
 	kubectl delete -f seq.yml
 
+dapr-dashboard:
+	dapr dashboard -k -p 8888
+
+redis:
+	helm install redis --set auth.password=Th@nhy99 bitnami/redis
+
+rm-redis:
+	helm delete redis	
+
+dapr-pubsub:
+	kubectl apply -f dapr/pubsub.yml
+
+rm-dapr-pubsub:
+	kubectl delete -f dapr/pubsub.yml
+
+dapr-statestore:
+	kubectl apply -f dapr/statestore.yml
+
+rm-dapr-statestore:
+	kubectl delete -f dapr/statestore.yml
+
 rest-server:
 	kubectl apply -f rest-server.yml
 
@@ -51,19 +72,34 @@ dapr-client:
 rm-dapr-client:
 	kubectl delete -f dapr-client.yml
 
+dapr-server:
+	kubectl apply -f dapr-server.yml
+
+rm-dapr-server:
+	kubectl delete -f dapr-server.yml
+
 #make scale REPLICAS=2
 REPLICAS = 1
 
-scale:
-	kubectl scale deployment echo-server-app --replicas=$(REPLICAS)
+scale-dapr-client:
+	kubectl scale deployment dapr-client-app --replicas=$(REPLICAS)
 
-config:
+scale-dapr-server:
+	kubectl scale deployment dapr-server-app --replicas=$(REPLICAS)
+
+dapr-secrets:
+	kubectl create secret generic mysecret --from-file dapr/secrets.json
+
+rm-dapr-secrets:
+	kubectl delete secret mysecret
+
+secrets:
 	kubectl create secret tls seq-local-tls --key="certs/seq-local.key" --cert="certs/seq-local.crt"
 	kubectl create secret tls rest-local-tls --key="certs/rest-local.key" --cert="certs/rest-local.crt"
 	kubectl create secret tls ingress-local-tls --key="certs/ingress-local.key" --cert="certs/ingress-local.crt"
 	kubectl -n kubernetes-dashboard create secret tls kd-local-tls --key="certs/kd-local.key" --cert="certs/kd-local.crt"
 
-rm-config:
+rm-secrets:
 	kubectl delete secret seq-local-tls
 	kubectl delete secret rest-local-tls
 	kubectl delete secret ingress-local-tls

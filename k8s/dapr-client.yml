@@ -13,9 +13,8 @@ spec:
         app: dapr-client-app
       annotations:
         dapr.io/enabled: "true"
-        dapr.io/app-id: "dapr_client"
+        dapr.io/app-id: "dapr-client"
         dapr.io/app-port: "8083"
-        dapr.io/enable-api-logging: "true"
     spec:      
       containers:
       - name: dapr-client
@@ -33,6 +32,9 @@ spec:
           value: "http://*:8083"        
         - name: ASPNETCORE_ENVIRONMENT
           value: "Development"
+        - name: SECRET_STORE_NAME
+          value: "kubernetes"
+          
 
 ---
 apiVersion: v1
