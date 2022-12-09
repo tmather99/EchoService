@@ -23,7 +23,19 @@ stop:
 
 seq:
 	docker run --name seq.local.com -d --restart unless-stopped -e ACCEPT_EULA=Y -p 5341:80 datalust/seq:latest
-	
+
+dapr-dashboard:
+	dapr dashboard -p 8888
+
+zipkin-dashboard:
+	powershell start-process http://localhost:9411
+
+dapr-client-swagger:
+	powershell start-process http://localhost:8083/swagger
+
+dapr-server-swagger:
+	powershell start-process http://localhost:8081/swagger
+
 ### dotnet CLI
 
 dotnet-build:

@@ -27,6 +27,15 @@ dotnet-run:
 dapr-dashboard:
 	dapr dashboard -p 8888
 
+zipkin-dashboard:
+	powershell start-process http://localhost:9411
+
+dapr-client-swagger:
+	powershell start-process http://localhost:8083/swagger
+
+dapr-server-swagger:
+	powershell start-process http://localhost:8081/swagger
+
 dapr-run:
 	powershell $$env:ASPNETCORE_URLS=\"http://*:8081\"; \
                $$env:ASPNETCORE_ENVIRONMENT=\"Development\"; \
