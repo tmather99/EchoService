@@ -53,4 +53,5 @@ dapr-run:
 		dapr run --app-id dapr_client \
                  --dapr-http-port $$env:DAPR_HTTP_PORT \
                  --components-path ../dapr/components \
+                 --config ../dapr/config.yml \
                  -- dotnet run -c Release --urls http://localhost:8083

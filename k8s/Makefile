@@ -47,6 +47,14 @@ dapr-dashboard:
 redis:
 	helm install redis bitnami/redis
 
+zipkin:
+	kubectl apply -f zipkin.yml
+	kubectl apply -f dapr/tracing.yml
+
+rm-zipkin:
+	kubectl delete -f zipkin.yml
+	kubectl delete -f dapr/tracing.yml
+
 rm-redis:
 	helm delete redis	
 
@@ -97,12 +105,14 @@ rm-dapr-secrets:
 
 secrets:
 	kubectl create secret tls seq-local-tls --key="certs/seq-local.key" --cert="certs/seq-local.crt"
+	kubectl create secret tls zipkin-local-tls --key="certs/zipkin-local.key" --cert="certs/zipkin-local.crt"
 	kubectl create secret tls rest-local-tls --key="certs/rest-local.key" --cert="certs/rest-local.crt"
 	kubectl create secret tls ingress-local-tls --key="certs/ingress-local.key" --cert="certs/ingress-local.crt"
 	kubectl -n kubernetes-dashboard create secret tls kd-local-tls --key="certs/kd-local.key" --cert="certs/kd-local.crt"
 
 rm-secrets:
 	kubectl delete secret seq-local-tls
+	kubectl delete secret zipkin-local-tls
 	kubectl delete secret rest-local-tls
 	kubectl delete secret ingress-local-tls
 	kubectl delete secret -n kubernetes-dashboard kd-local-tls

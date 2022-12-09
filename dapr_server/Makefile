@@ -36,6 +36,7 @@ dapr-run:
             --app-port 8081 \
             --dapr-http-port 3501 \
             --components-path ../dapr/components \
+            --config ../dapr/config.yml \
             -- dotnet run -c Release
 
 dapr-run-debug:
@@ -58,4 +59,5 @@ dapr-run-1:
             --app-port 8082 \
             --dapr-http-port 3502 \
             --components-path ../dapr/components \
+            --config ../dapr/config.yml \
             -- dotnet run -c Release --urls http://*:8082

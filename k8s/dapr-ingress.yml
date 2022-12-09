@@ -17,6 +17,9 @@ spec:
   - hosts:
       - seq.local.com
     secretName: seq-local-tls   
+  - hosts:
+      - zipkin.local.com
+    secretName: zipkin-local-tls   
   rules:
   - host: rest.local.com
     http:
@@ -58,4 +61,14 @@ spec:
             name: seq-service
             port: 
               number: 80  
+  - host: zipkin.local.com
+    http:
+      paths:      
+      - path: /
+        pathType: Prefix
+        backend:
+          service:
+            name: zipkin-service
+            port: 
+              number: 9411  
 

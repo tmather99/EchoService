@@ -18,6 +18,7 @@ spec:
         dapr.io/enabled: "true"
         dapr.io/app-id: "catalog"
         dapr.io/app-port: "8081"
+        dapr.io/config: "tracing"
     spec:
       containers:
       - name: dapr-server
