@@ -29,6 +29,7 @@ spec:
           limits:
             memory: "128Mi"
             cpu: "200m"  
+        imagePullPolicy: Always
         env:
         - name: SEQ_SERVER_URL
           value: "http://seq-service"        

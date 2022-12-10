@@ -99,9 +99,13 @@ scale-dapr-server:
 
 dapr-secrets:
 	kubectl create secret generic mysecret --from-file dapr/secrets.json
+	kubectl create secret generic eventcatalogdb \
+          --from-literal=eventcatalogdb="Event Catalog Connection String from Kubernetes"
+	
 
 rm-dapr-secrets:
 	kubectl delete secret mysecret
+	kubectl delete secret eventcatalogdb
 
 secrets:
 	kubectl create secret tls seq-local-tls --key="certs/seq-local.key" --cert="certs/seq-local.crt"
