@@ -1,3 +1,30 @@
+###
+GET http://localhost:8080/api/path/Testing_Path_Endpoint_cfb88e29-4744-48c0-94fa-b25b92dea317
+
+###
+GET http://localhost:8080/api/query?param=Testing%20Query%20Endpoint%20cfb88e29-4744-48c0-94fa-b25b92dea317
+
+###
+POST http://localhost:8080/api/body
+content-type: application/json
+
+{
+  "SimpleProperty": "string",
+  "ComplexProperty": {
+    "Name": "string"
+  },
+  "SimpleCollection": [
+    "string"
+  ],
+  "ComplexCollection": [
+    {
+      "Name": "string"
+    }
+  ]
+}
+
+
+
 ### WebApi RestClient
 GET http://localhost:8081/event
 ###

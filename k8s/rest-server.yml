@@ -11,6 +11,11 @@ spec:
     metadata:
       labels:
         app: rest-server-app
+      annotations:
+        dapr.io/enabled: "true"
+        dapr.io/app-id: "rest-server"
+        dapr.io/app-port: "8080"
+        dapr.io/config: "tracing"
     spec:      
       containers:
       - name: rest-server

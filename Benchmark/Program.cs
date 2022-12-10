@@ -5,6 +5,7 @@ namespace Bechmark
     using BenchmarkDotNet.Running;
     using Serilog;
     using Serilog.Events;
+    using WebHttpClient;
 
     /// <summary>
     /// Singleton instance Command Processor.
@@ -55,6 +56,32 @@ namespace Bechmark
             {
                 Log.CloseAndFlush();
             }
+        }
+
+        public static ExampleContract CreateExampleContract()
+        {
+            return new ExampleContract()
+            {
+                SimpleProperty = "House Stark",
+                ComplexProperty = new() { Name = "Jon Snow" },
+                SimpleCollection = "Winter is coming".Split(" "),
+                ComplexCollection = new ExampleContractArrayInnerContract[]
+                {
+                    new() { Name = Guid.NewGuid().ToString() },
+                    new() { Name = "Arya Stark" },
+                    new() { Name = "Sansa Stark" }
+                }
+            };
+        }
+
+        public static string JsonSerialize<T>(T thing)
+        {
+            var jsonSerializer = new Newtonsoft.Json.JsonSerializer();
+            var sw = new StringWriter();
+            var writer = new Newtonsoft.Json.JsonTextWriter(sw);
+            writer.Formatting = Newtonsoft.Json.Formatting.Indented;
+            jsonSerializer.Serialize(writer, thing);
+            return sw.ToString();
         }
     }
 }

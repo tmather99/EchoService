@@ -42,6 +42,17 @@ dotnet-run-body:
 	powershell $$env:API_SERVER='127.0.0.1'; $$env:API_PORT=$(API_PORT); dotnet run -c Release -- -f *BodyContract* --iterationCount 1
 
 
+
+
+
+dapr-run-path:
+	powershell $$env:DAPR_HTTP_PORT=3500; \
+		dapr run --app-id rest_client \
+                 --dapr-http-port $$env:DAPR_HTTP_PORT \
+                 -- dotnet run -c Release -- -f *RestClientGetEvents* --iterationCount 1
+
+
+
 ### WebApi Rest controllers
 
 

@@ -5,6 +5,7 @@ using BenchmarkDotNet.Attributes;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using RestSharp;
 using Serilog;
+using WebHttpClient;
 
 namespace Bechmark
 {
@@ -79,6 +80,86 @@ namespace Bechmark
             await Wcf.Client.CallCalculator();
         }
 
+        // WCF WebHttpBinding
+
+        [Benchmark]
+        [TestMethod]
+        public async Task PathEndpoint()
+        {
+            // Calls /api/path/{param}
+            var restClient = new RestClient($"{Program.API_PROTOCOL}://{Program.API_SERVER}:{Program.API_PORT}/api/path");
+            var request = new RestRequest($"Testing_Path_Endpoint_{Guid.NewGuid()}");
+            request.AddHeader("user-agent", "vscode-restclient");
+            var response = await restClient.GetAsync(request);
+            Log.Information(response.Content);
+        }
+
+        [Benchmark]
+        [TestMethod]
+        public async Task QueryEndpoint()
+        {
+            // Calls /api/path/{param}
+            var restClient = new RestClient($"{Program.API_PROTOCOL}://{Program.API_SERVER}:{Program.API_PORT}/api/query");
+            var request = new RestRequest($"?param=Testing Query Endpoint {Guid.NewGuid()}");
+            request.AddHeader("user-agent", "vscode-restclient");
+            var response = await restClient.GetAsync(request);
+            Log.Information(response.Content);
+        }
+
+        [Benchmark]
+        [TestMethod]
+        public async Task BodyContract()
+        {
+            // Calls /api/body with a complex data structure
+            var restClient = new RestClient($"{Program.API_PROTOCOL}://{Program.API_SERVER}:{Program.API_PORT}/api/body");
+            var request = new RestRequest();
+            request.AddHeader("user-agent", "vscode-restclient");
+            var data = Program.JsonSerialize<ExampleContract>(Program.CreateExampleContract());
+            request.AddJsonBody(data);
+            var response = await restClient.PostAsync(request);
+            Log.Information(Program.JsonSerialize(response.Content));
+        }
+
+
+        // Dapr RestClient service invoke
+
+        [Benchmark]
+        [TestMethod]
+        public async Task DaprPathEndpoint()
+        {
+            var restClient = new RestClient($"http://localhost:{Program.DAPR_HTTP_PORT}/api/path");
+            var request = new RestRequest($"Testing_Path_Endpoint_{Guid.NewGuid()}");
+            request.AddHeader("user-agent", "vscode-restclient");
+            request.AddHeader("dapr-app-id", "rest-server");
+            var response = await restClient.GetAsync(request);
+            Log.Information(response.Content);
+        }
+
+        [Benchmark]
+        [TestMethod]
+        public async Task DarpQueryEndpoint()
+        {
+            var restClient = new RestClient($"http://localhost:{Program.DAPR_HTTP_PORT}/api/query");
+            var request = new RestRequest($"?param=Testing Query Endpoint {Guid.NewGuid()}");
+            request.AddHeader("user-agent", "vscode-restclient");
+            request.AddHeader("dapr-app-id", "rest-server");
+            var response = await restClient.GetAsync(request);
+            Log.Information(response.Content);
+        }
+
+        [Benchmark]
+        [TestMethod]
+        public async Task DaprBodyContract()
+        {
+            var restClient = new RestClient($"http://localhost:{Program.DAPR_HTTP_PORT}/api/body");
+            var request = new RestRequest();
+            request.AddHeader("user-agent", "vscode-restclient");
+            request.AddHeader("dapr-app-id", "rest-server");
+            var data = Program.JsonSerialize<ExampleContract>(Program.CreateExampleContract());
+            request.AddJsonBody(data);
+            var response = await restClient.PostAsync(request);
+            Log.Information(Program.JsonSerialize(response.Content));
+        }
 
         // Ingress controller requests
 

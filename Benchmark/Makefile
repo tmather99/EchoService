@@ -43,6 +43,61 @@ dotnet-run-cal:
 	powershell $$env:TCP_SERVER='127.0.0.1'; $$env:TCP_PORT=8089; dotnet run -c Release -- -f *CallCalculator* --iterationCount 1
 
 
+### WCF Rest wsHttpBinding
+
+dotnet-run-path: 
+	powershell $$env:API_SERVER='127.0.0.1'; $$env:API_PORT=8080; dotnet run -c Release -- -f *PathEndpoint* --iterationCount 1
+
+dotnet-run-query: 
+	powershell $$env:API_SERVER='127.0.0.1'; $$env:API_PORT=8080; dotnet run -c Release -- -f *QueryEndpoint* --iterationCount 1
+
+dotnet-run-body: 
+	powershell $$env:API_SERVER='127.0.0.1'; $$env:API_PORT=8080; dotnet run -c Release -- -f *BodyContract* --iterationCount 1
+
+
+### Dapr RestClient service invoke
+
+dapr-run-path:
+	powershell $$env:DAPR_HTTP_PORT=3581; \
+		dapr run --app-id benchmark \
+                 --dapr-http-port $$env:DAPR_HTTP_PORT \
+                 -- dotnet run -c Release -- -f *DaprPathEndpoint* --iterationCount 1
+
+dapr-run-query:
+	powershell $$env:DAPR_HTTP_PORT=3581; \
+		dapr run --app-id benchmark \
+                 --dapr-http-port $$env:DAPR_HTTP_PORT \
+                 -- dotnet run -c Release -- -f *DarpQueryEndpoint* --iterationCount 1
+
+dapr-run-body:
+	powershell $$env:DAPR_HTTP_PORT=3581; \
+		dapr run --app-id benchmark \
+                 --dapr-http-port $$env:DAPR_HTTP_PORT \
+                 -- dotnet run -c Release -- -f *DaprBodyContract* --iterationCount 1
+
+### K8s ingress endpoint
+
+k8s-run-path: 
+	powershell $$env:API_PROTOCOL=\'https\'; \
+               $$env:API_SERVER=\'rest.local.com\'; \
+               $$env:API_PORT=443; \
+			   $$env:SEQ_SERVER_URL=\'http://seq.local.com\'; \
+               dotnet run -c Release -- -f *PathEndpoint* --iterationCount 1
+
+k8s-run-query: 
+	powershell $$env:API_PROTOCOL=\'https\'; \
+               $$env:API_SERVER=\'rest.local.com\'; \
+               $$env:API_PORT=443; \
+			   $$env:SEQ_SERVER_URL=\'http://seq.local.com\'; \
+               dotnet run -c Release -- -f *DaprBodyContract* --iterationCount 1
+
+k8s-run-body: 
+	powershell $$env:API_PROTOCOL=\'https\'; \
+               $$env:API_SERVER=\'rest.local.com\'; \
+               $$env:API_PORT=443; \
+			   $$env:SEQ_SERVER_URL=\'http://seq.local.com\'; \
+               dotnet run -c Release -- -f *BodyContract* --iterationCount 1
+
 
 k8s-run-http:
 	powershell $$env:ECHO_SERVER=\'echo.local.com\'; $$env:HTTP_PORT=443; $$env:SEQ_SERVER_URL=\'https://seq.local.com\'; dotnet run -c Release -- -f *CallSecureBasicHttpBinding* --iterationCount 1
