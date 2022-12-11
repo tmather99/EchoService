@@ -1,0 +1,46 @@
+kind: Service
+apiVersion: v1
+metadata:
+  name: calculator-front-end
+  labels:
+    app: calculator-front-end
+spec:
+  selector:
+    app: calculator-front-end
+  ports:
+  - protocol: TCP
+    port: 80
+    targetPort: 8080
+
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: calculator-front-end
+  labels:
+    app: calculator-front-end
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: calculator-front-end
+  template:
+    metadata:
+      labels:
+        app: calculator-front-end
+      annotations:
+        dapr.io/enabled: "true"
+        dapr.io/app-id: "calculator-front-end"
+        dapr.io/app-port: "8080"
+        dapr.io/config: "tracing"
+    spec:
+      containers:
+      - name: calculator-front-end
+        image: tmather99/distributed-calculator-react-calculator:latest-linux-amd64
+        ports:
+        - containerPort: 8080
+        resources:
+          limits:
+            memory: "128Mi"
+            cpu: "200m"  
+        imagePullPolicy: Always

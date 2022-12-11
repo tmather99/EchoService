@@ -104,6 +104,20 @@ dapr-server:
 rm-dapr-server:
 	kubectl delete -f dapr-server.yml
 
+calculator:
+	kubectl apply -f dapr/dotnet-subtractor.yaml
+	kubectl apply -f dapr/go-adder.yaml
+	kubectl apply -f dapr/node-divider.yaml
+	kubectl apply -f dapr/python-multiplier.yaml
+	kubectl apply -f dapr/react-calculator.yaml
+	
+rm-calculator:
+	kubectl delete -f dapr/dotnet-subtractor.yaml
+	kubectl delete -f dapr/go-adder.yaml
+	kubectl delete -f dapr/node-divider.yaml
+	kubectl delete -f dapr/python-multiplier.yaml
+	kubectl delete -f dapr/react-calculator.yaml
+
 #make scale REPLICAS=2
 REPLICAS = 1
 
@@ -128,6 +142,7 @@ secrets:
 	kubectl create secret tls zipkin-local-tls --key="certs/zipkin-local.key" --cert="certs/zipkin-local.crt"
 	kubectl create secret tls rest-local-tls --key="certs/rest-local.key" --cert="certs/rest-local.crt"
 	kubectl create secret tls ingress-local-tls --key="certs/ingress-local.key" --cert="certs/ingress-local.crt"
+	kubectl create secret tls calculator-local-tls --key="certs/calculator-local.key" --cert="certs/calculator-local.crt"
 	kubectl -n kubernetes-dashboard create secret tls kd-local-tls --key="certs/kd-local.key" --cert="certs/kd-local.crt"
 
 rm-secrets:
@@ -135,6 +150,7 @@ rm-secrets:
 	kubectl delete secret zipkin-local-tls
 	kubectl delete secret rest-local-tls
 	kubectl delete secret ingress-local-tls
+	kubectl delete secret calculator-local-tls
 	kubectl delete secret -n kubernetes-dashboard kd-local-tls
 
 get-token:

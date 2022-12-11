@@ -6,6 +6,9 @@ spec:
   ingressClassName: nginx
   tls:
   - hosts:
+      - calculator.local.com
+    secretName: calculator-local-tls  
+  - hosts:
       - rest.local.com
     secretName: rest-local-tls  
   - hosts:
@@ -21,6 +24,16 @@ spec:
       - zipkin.local.com
     secretName: zipkin-local-tls   
   rules:
+  - host: calculator.local.com
+    http:
+      paths:      
+      - path: /
+        pathType: Prefix
+        backend:
+          service:
+            name: calculator-front-end
+            port: 
+              number: 8080  
   - host: rest.local.com
     http:
       paths:      
