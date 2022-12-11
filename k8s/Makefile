@@ -47,6 +47,19 @@ dapr-dashboard:
 redis:
 	helm install redis bitnami/redis
 
+rm-redis:
+	helm delete redis	
+
+prometheus:
+	helm install dapr-prom prometheus-community/prometheus -n dapr-monitoring \
+		--set nodeExporter.hostRootfs=false \
+		--set alertmanager.persistentVolume.enable=false \
+		--set pushgateway.persistentVolume.enabled=false \
+		--set server.persistentVolume.enabled=false
+
+rm-prometheus::
+	helm delete dapr-prom -n dapr-monitoring 
+
 zipkin:
 	kubectl apply -f zipkin.yml
 	kubectl apply -f dapr/tracing.yml
@@ -54,9 +67,6 @@ zipkin:
 rm-zipkin:
 	kubectl delete -f zipkin.yml
 	kubectl delete -f dapr/tracing.yml
-
-rm-redis:
-	helm delete redis	
 
 dapr-pubsub:
 	kubectl apply -f dapr/pubsub.yml
@@ -70,6 +80,12 @@ dapr-statestore:
 rm-dapr-statestore:
 	kubectl delete -f dapr/statestore.yml
 
+dapr-cron:
+	kubectl apply -f dapr/cron.yml
+
+rm-dapr-cron:
+	kubectl delete -f dapr/cron.yml
+	
 rest-server:
 	kubectl apply -f rest-server.yml
 

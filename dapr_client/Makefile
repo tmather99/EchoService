@@ -36,6 +36,18 @@ dapr-client-swagger:
 dapr-server-swagger:
 	powershell start-process http://localhost:8081/swagger
 
+### metrics
+
+prometheus:
+	docker run \
+		-p 8090:8090 \
+		-v C:/github/EchoService/Dapr/prometheus.yml:/etc/prometheus/prometheus.yml \
+		--rm --name prometheus \
+		prom/prometheus --config.file=/etc/prometheus/prometheus.yml --web.listen-address=:8090
+
+rm-prometheus:
+	docker stop prometheus
+
 ### dotnet CLI
 
 dotnet-build:
