@@ -1,14 +1,15 @@
 API_PORT = 8083
 API_SERVER = flash.vmwuem.com
 SEQ_SERVER_URL = http://flash.vmwuem.com:5341
+VERSION = v1
 
 ### docker 
 
 build:
-	docker build . -t tmather99/dapr_client
+	docker build . -t tmather99/dapr_client:$(VERSION)
 
 push:
-	docker push tmather99/dapr_client
+	docker push tmather99/dapr_client:$(VERSION)
 
 run:
 	docker run -p 8083:8083 \

@@ -165,6 +165,17 @@ namespace Bechmark
 
         [Benchmark]
         [TestMethod]
+        public async Task GetVersion()
+        {
+            var restClient = new RestClient($"{Program.API_PROTOCOL}://{Program.API_SERVER}:{Program.API_PORT}/ingress");
+            var request = new RestRequest("version");
+            request.AddHeader("user-agent", "vscode-restclient");
+            var response = await restClient.GetAsync(request);
+            Log.Information(response.Content);
+        }
+
+        [Benchmark]
+        [TestMethod]
         public async Task GetEvents()
         {
             var restClient = new RestClient($"{Program.API_PROTOCOL}://{Program.API_SERVER}:{Program.API_PORT}/ingress");

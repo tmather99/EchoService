@@ -21,6 +21,22 @@ public class IngressController : ControllerBase
         this.logger = logger;
     }
 
+    [HttpGet("version", Name = "GetVerion")]
+    public async Task<string> GetVerionAsync()
+    {
+        try
+        {
+            var request = daprClient.CreateInvokeMethodRequest(HttpMethod.Get, appId: "catalog", methodName: $"event/version");
+            var respone = await daprClient.InvokeMethodWithResponseAsync(request);
+            var dapr_server_version = await respone.Content.ReadAsStringAsync();
+            return "dapr_client:v2 => " + dapr_server_version;
+        }
+        catch (Exception e)
+        {
+            return "dapr_client:v2 -- " + e.Message;
+        }
+    }
+
     [HttpGet("event", Name = "GetEvents")]
     public async Task<IEnumerable<Event>> GetAllEventsAsync()
     {

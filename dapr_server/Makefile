@@ -1,10 +1,11 @@
 SEQ_SERVER_URL = http://flash.vmwuem.com:5341
+VERSION = v1
 
 build:
-	docker build . -t tmather99/dapr_server
+	docker build . -t tmather99/dapr_server:$(VERSION)
 
 push:
-	docker push tmather99/dapr_server
+	docker push tmather99/dapr_server:$(VERSION)
 
 run:
 	docker run  \

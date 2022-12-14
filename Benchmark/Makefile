@@ -132,6 +132,13 @@ ingress-publish:
 
 
 
+k8s-ingress-version: 
+	powershell $$env:API_PROTOCOL=\'https\'; \
+               $$env:API_SERVER=\'ingress.local.com\'; \
+               $$env:API_PORT=443; \
+			   $$env:SEQ_SERVER_URL=\'http://seq.local.com\'; \
+               dotnet run -c Release -- -f *GetVersion* --iterationCount 100
+
 k8s-ingress-events: 
 	powershell $$env:API_PROTOCOL=\'https\'; \
                $$env:API_SERVER=\'ingress.local.com\'; \

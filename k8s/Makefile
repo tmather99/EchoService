@@ -93,13 +93,23 @@ rm-rest-server:
 	kubectl delete -f rest-server.yml
 
 dapr-client:
-	kubectl apply -f dapr-client.yml
+	kubectl apply -f dapr-client$(VERSION).yml
+	kubectl rollout status deployment dapr-client-app
+
+undo-dapr-client:
+	kubectl rollout undo deployment dapr-client-app
+	kubectl rollout status deployment dapr-client-app
 
 rm-dapr-client:
 	kubectl delete -f dapr-client.yml
 
 dapr-server:
-	kubectl apply -f dapr-server.yml
+	kubectl apply -f dapr-server$(VERSION).yml
+	kubectl rollout status deployment dapr-server-app
+
+undo-dapr-server:
+	kubectl rollout undo deployment dapr-server-app
+	kubectl rollout status deployment dapr-server-app
 
 rm-dapr-server:
 	kubectl delete -f dapr-server.yml
@@ -132,6 +142,11 @@ dapr-secrets:
 	kubectl create secret generic eventcatalogdb \
           --from-literal=eventcatalogdb="Event Catalog Connection String from Kubernetes"
 	
+client-rollout-status:
+	kubectl rollout status deployment dapr-client-app
+
+server-rollout-status:
+	kubectl rollout status deployment dapr-server-app
 
 rm-dapr-secrets:
 	kubectl delete secret mysecret

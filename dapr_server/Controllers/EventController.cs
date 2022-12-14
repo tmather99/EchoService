@@ -23,6 +23,12 @@ public class EventController : ControllerBase
         this.logger = logger;
     }
 
+    [HttpGet("version", Name = "GetVerion")]
+    public async Task<string> GetVerionAsync()
+    {
+        return "dapr_server:v2";
+    }
+
     [HttpGet(Name = "GetEvents")]
     public async Task<IEnumerable<Event>> GetAll()
     {
