@@ -1,11 +1,12 @@
 API_SERVER = 'flash.vmwuem.com'
 SEQ_SERVER_URL = 'http://flash.vmwuem.com:5341'
+VERSION = v1
 
 build:
-	docker build . -t tmather99/rest_server
+	docker build . -t tmather99/rest_server:$(VERSION)
 
 push:
-	docker push tmather99/rest_server
+	docker push tmather99/rest_server:$(VERSION)
 
 run:
 	docker run -p 8080:8080 \

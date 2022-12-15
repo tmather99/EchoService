@@ -29,11 +29,11 @@ public class IngressController : ControllerBase
             var request = daprClient.CreateInvokeMethodRequest(HttpMethod.Get, appId: "catalog", methodName: $"event/version");
             var respone = await daprClient.InvokeMethodWithResponseAsync(request);
             var dapr_server_version = await respone.Content.ReadAsStringAsync();
-            return "dapr_client:v2 => " + dapr_server_version;
+            return $"dapr_client:v1 => {dapr_server_version}";
         }
         catch (Exception e)
         {
-            return "dapr_client:v2 -- " + e.Message;
+            return "dapr_client:v1 -- " + e.Message;
         }
     }
 

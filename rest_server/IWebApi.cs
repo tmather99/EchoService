@@ -16,6 +16,12 @@ namespace WebHttp
     internal interface IWebApi
     {
         [OperationContract]
+        [WebGet(UriTemplate = "/version")]
+        [OpenApiTag("Tag")]
+        [OpenApiResponse(ContentTypes = new[] { "application/json", "text/xml" }, Description = "Success", StatusCode = HttpStatusCode.OK, Type = typeof(string))]
+        string Version();
+
+        [OperationContract]
         [WebGet(UriTemplate = "/path/{param}")]
         [OpenApiTag("Tag")]
         [OpenApiResponse(ContentTypes = new[] { "application/json", "text/xml" }, Description = "Success", StatusCode = HttpStatusCode.OK, Type = typeof(string))]

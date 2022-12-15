@@ -26,7 +26,18 @@ public class EventController : ControllerBase
     [HttpGet("version", Name = "GetVerion")]
     public async Task<string> GetVerionAsync()
     {
-        return "dapr_server:v2";
+        try
+        {
+            var restClient = new RestClient($"http://localhost:{Program.DAPR_HTTP_PORT}/api/version");
+            var request = new RestRequest();
+            request.AddHeader("dapr-app-id", "rest-server");
+            var rest_server_version = await restClient.GetAsync(request);
+            return $"dapr_server:v1 => {rest_server_version.Content.Trim('"')}";
+        }
+        catch (Exception e)
+        {
+            return "dapr_server:v1 -- " + e.Message;
+        }
     }
 
     [HttpGet(Name = "GetEvents")]

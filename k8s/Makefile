@@ -87,7 +87,12 @@ rm-dapr-cron:
 	kubectl delete -f dapr/cron.yml
 	
 rest-server:
-	kubectl apply -f rest-server.yml
+	kubectl apply -f rest-server$(VERSION).yml
+	kubectl rollout status deployment rest-server-app
+
+undo-rest-server:
+	kubectl rollout undo deployment rest-server-app
+	kubectl rollout status deployment rest-server-app
 
 rm-rest-server:
 	kubectl delete -f rest-server.yml
@@ -113,6 +118,12 @@ undo-dapr-server:
 
 rm-dapr-server:
 	kubectl delete -f dapr-server.yml
+
+deploy: dapr-client dapr-server rest-server
+
+undo-deploy: undo-dapr-client undo-dapr-server undo-rest-server
+
+rm-deploy: rm-dapr-client rm-dapr-server rm-rest-server
 
 calculator:
 	kubectl apply -f dapr/dotnet-subtractor.yaml

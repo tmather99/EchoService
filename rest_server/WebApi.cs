@@ -10,6 +10,11 @@ namespace WebHttp
     [ServiceBehavior(IncludeExceptionDetailInFaults = true)]
     internal class WebApi : IWebApi
     {
+        public string Version()
+        {
+            return "rest_server:v1";
+        }
+
         public string PathEcho(string param)
         {
             Log.Information(param);
