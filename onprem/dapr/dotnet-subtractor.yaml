@@ -1,0 +1,31 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: subtractapp
+  labels:
+    app: subtract
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: subtract
+  template:
+    metadata:
+      labels:
+        app: subtract
+      annotations:
+        dapr.io/enabled: "true"
+        dapr.io/app-id: "subtractapp"
+        dapr.io/app-port: "80"
+        dapr.io/config: "tracing"
+    spec:
+      containers:
+      - name: subtract
+        image: tmather99/distributed-calculator-csharp:latest-linux-amd64
+        ports:
+        - containerPort: 80
+        resources:
+          limits:
+            memory: "128Mi"
+            cpu: "200m"  
+        imagePullPolicy: Always

@@ -1,0 +1,87 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: dapr-ingress  
+spec:
+  ingressClassName: nginx
+  tls:
+  - hosts:
+      - calculator.onprem.com
+    secretName: calculator-onprem-tls  
+  - hosts:
+      - rest.onprem.com
+    secretName: rest-onprem-tls  
+  - hosts:
+      - echo.onprem.com
+    secretName: echo-onprem-tls  
+  - hosts:
+      - ingress.onprem.com
+    secretName: ingress-onprem-tls  
+  - hosts:
+      - seq.onprem.com
+    secretName: seq-onprem-tls   
+  - hosts:
+      - zipkin.onprem.com
+    secretName: zipkin-onprem-tls   
+  rules:
+  - host: calculator.onprem.com
+    http:
+      paths:      
+      - path: /
+        pathType: Prefix
+        backend:
+          service:
+            name: calculator-front-end
+            port: 
+              number: 8080  
+  - host: rest.onprem.com
+    http:
+      paths:      
+      - path: /
+        pathType: Prefix
+        backend:
+          service:
+            name: rest-server-service
+            port: 
+              number: 8080  
+  - host: echo.onprem.com
+    http:
+      paths:      
+      - path: /
+        pathType: Prefix
+        backend:
+          service:
+            name: echo-server-service
+            port: 
+              number: 8088  
+  - host: ingress.onprem.com
+    http:
+      paths:      
+      - path: /
+        pathType: Prefix
+        backend:
+          service:
+            name: dapr-client-service
+            port: 
+              number: 8083  
+  - host: seq.onprem.com
+    http:
+      paths:      
+      - path: /
+        pathType: Prefix
+        backend:
+          service:
+            name: seq-service
+            port: 
+              number: 80  
+  - host: zipkin.onprem.com
+    http:
+      paths:      
+      - path: /
+        pathType: Prefix
+        backend:
+          service:
+            name: zipkin-service
+            port: 
+              number: 9411  
+

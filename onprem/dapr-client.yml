@@ -1,0 +1,55 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: dapr-client-app
+spec:
+  selector:
+    matchLabels:
+      app: dapr-client-app
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: dapr-client-app
+      annotations:
+        dapr.io/enabled: "true"
+        dapr.io/app-id: "dapr-client"
+        dapr.io/app-port: "8083"
+        dapr.io/config: "tracing"
+        dapr.io/enable-metrics: "true"
+        dapr.io/metrics-port: "9090"        
+    spec:      
+      containers:
+      - name: dapr-client
+        image: tmather99/dapr_client:latest
+        ports:
+        - containerPort: 8083
+        resources:
+          limits:
+            memory: "128Mi"
+            cpu: "200m"  
+        imagePullPolicy: Always
+        env:
+        - name: SEQ_SERVER_URL
+          value: "http://seq-service"        
+        - name: ASPNETCORE_URLS
+          value: "http://*:8083"        
+        - name: ASPNETCORE_ENVIRONMENT
+          value: "Development"
+        - name: SECRET_STORE_NAME
+          value: "kubernetes"
+          
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: dapr-client-service
+spec:
+  selector:
+    app: dapr-client-app  
+  type: ClusterIP  
+  ports:
+    - protocol: TCP 
+      port: 8083
+      targetPort: 8083

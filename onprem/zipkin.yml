@@ -1,0 +1,36 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: zipkin-app
+spec:
+  selector:
+    matchLabels:
+      app: zipkin-app
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: zipkin-app
+    spec:      
+      containers:
+      - name: zipkin
+        image: openzipkin/zipkin:latest
+        ports:
+        - containerPort: 9411
+        resources:
+          limits:
+            memory: "1000Mi"
+            cpu: "512m"  
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: zipkin-service
+spec:
+  selector:
+    app: zipkin-app  
+  type: ClusterIP  
+  ports:
+    - protocol: TCP 
+      port: 9411
+      targetPort: 9411
