@@ -44,11 +44,23 @@ dapr-dashboard:
 
 # helm repo add bitnami https://charts.bitnami.com/bitnami
 # helm repo update
+#	helm install redis --set "master.persistence.enabled=false" --set "slave.persistence.enabled=false" bitnami/redis
 redis:
 	helm install redis bitnami/redis
 
 rm-redis:
 	helm delete redis	
+
+redis-pv:
+	kubectl apply -f redis-pv.yml
+
+rm-redis-pv:
+	kubectl delete -f redis-pv.yml
+
+rm-redis-pvc:
+	kubectl delete pvc redis-data-redis-master-0
+	kubectl delete pvc redis-data-redis-replicas-0
+	kubectl delete pvc redis-data-redis-replicas-1
 
 prometheus:
 	helm install dapr-prom prometheus-community/prometheus -n dapr-monitoring \
@@ -87,13 +99,18 @@ rm-dapr-cron:
 	kubectl delete -f dapr/cron.yml
 	
 rest-server:
-	kubectl apply -f rest-server.yml
+	kubectl apply -f rest-server-$(VERSION).yml
+	kubectl rollout status deployment rest-server-app
+
+undo-rest-server:
+	kubectl rollout undo deployment rest-server-app
+	kubectl rollout status deployment rest-server-app
 
 rm-rest-server:
 	kubectl delete -f rest-server.yml
 
 dapr-client:
-	kubectl apply -f dapr-client$(VERSION).yml
+	kubectl apply -f dapr-client-$(VERSION).yml
 	kubectl rollout status deployment dapr-client-app
 
 undo-dapr-client:
@@ -104,7 +121,7 @@ rm-dapr-client:
 	kubectl delete -f dapr-client.yml
 
 dapr-server:
-	kubectl apply -f dapr-server$(VERSION).yml
+	kubectl apply -f dapr-server-$(VERSION).yml
 	kubectl rollout status deployment dapr-server-app
 
 undo-dapr-server:
@@ -113,6 +130,12 @@ undo-dapr-server:
 
 rm-dapr-server:
 	kubectl delete -f dapr-server.yml
+
+deploy: dapr-client dapr-server rest-server
+
+undo-deploy: undo-dapr-client undo-dapr-server undo-rest-server
+
+rm-deploy: rm-dapr-client rm-dapr-server rm-rest-server
 
 calculator:
 	kubectl apply -f dapr/dotnet-subtractor.yaml
