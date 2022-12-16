@@ -1,3 +1,5 @@
+VERSION = v1
+
 context:
 	kubectl config use-context docker-desktop
 
@@ -42,6 +44,12 @@ rm-seq:
 dapr-dashboard:
 	dapr dashboard -k -p 8888
 
+pv-pvc:
+	kubectl apply -f pv-pvc.yml
+
+rm-pv-pvc:
+	kubectl delete -f pv-pvc.yml
+
 # helm repo add bitnami https://charts.bitnami.com/bitnami
 # helm repo update
 #	helm install redis --set "master.persistence.enabled=false" --set "slave.persistence.enabled=false" bitnami/redis
@@ -50,17 +58,6 @@ redis:
 
 rm-redis:
 	helm delete redis	
-
-redis-pv:
-	kubectl apply -f redis-pv.yml
-
-rm-redis-pv:
-	kubectl delete -f redis-pv.yml
-
-rm-redis-pvc:
-	kubectl delete pvc redis-data-redis-master-0
-	kubectl delete pvc redis-data-redis-replicas-0
-	kubectl delete pvc redis-data-redis-replicas-1
 
 prometheus:
 	helm install dapr-prom prometheus-community/prometheus -n dapr-monitoring \

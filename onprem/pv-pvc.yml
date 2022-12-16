@@ -1,0 +1,120 @@
+apiVersion: v1
+kind: PersistentVolume
+metadata:
+  name: data-redis-master
+spec:
+  accessModes:
+    - ReadWriteOnce
+  capacity:
+    storage: 8Gi
+  nfs:
+    server: 192.168.1.14
+    path: "/export/volumes/data-redis-master"
+
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: redis-data-redis-master-0
+spec:
+  accessModes:
+    - ReadWriteOnce
+  resources:
+    requests:
+      storage: 8Gi
+  volumeName: data-redis-master
+
+---
+apiVersion: v1
+kind: PersistentVolume
+metadata:
+  name: data-redis-replicas-0
+spec:
+  accessModes:
+    - ReadWriteOnce
+  capacity:
+    storage: 8Gi
+  nfs:
+    server: 192.168.1.14
+    path: "/export/volumes/data-redis-replicas-0"
+
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: redis-data-redis-replicas-0
+spec:
+  accessModes:
+    - ReadWriteOnce
+  resources:
+    requests:
+      storage: 8Gi
+  volumeName: data-redis-replicas-0
+
+---
+apiVersion: v1
+kind: PersistentVolume
+metadata:
+  name: data-redis-replicas-1
+spec:
+  accessModes:
+    - ReadWriteOnce
+  capacity:
+    storage: 8Gi
+  nfs:
+    server: 192.168.1.14
+    path: "/export/volumes/data-redis-replicas-1"
+
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: redis-data-redis-replicas-1
+spec:
+  accessModes:
+    - ReadWriteOnce
+  resources:
+    requests:
+      storage: 8Gi
+  volumeName: data-redis-replicas-1
+
+---
+apiVersion: v1
+kind: PersistentVolume
+metadata:
+  name: data-redis-replicas-2
+spec:
+  accessModes:
+    - ReadWriteOnce
+  capacity:
+    storage: 8Gi
+  nfs:
+    server: 192.168.1.14
+    path: "/export/volumes/data-redis-replicas-2"
+
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: redis-data-redis-replicas-2
+spec:
+  accessModes:
+    - ReadWriteOnce
+  resources:
+    requests:
+      storage: 8Gi
+  volumeName: data-redis-replicas-2
+
+---
+apiVersion: v1
+kind: PersistentVolume
+metadata:
+  name: storage-dapr-prom-alertmanager
+spec:
+  accessModes:
+    - ReadWriteOnce
+  capacity:
+    storage: 8Gi
+  nfs:
+    server: 192.168.1.14
+    path: "/export/volumes/storage-dapr-prom-alertmanager"
