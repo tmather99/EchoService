@@ -93,6 +93,8 @@ spec:
       - path: /
         pathType: Prefix
         backend:
-            serviceName: redis-commander
-            servicePort: 8081
+          service:
+            name: redis-commander
+            port: 
+              number: 8081  
 

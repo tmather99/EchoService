@@ -59,6 +59,12 @@ redis:
 rm-redis:
 	helm delete redis	
 
+redis-commander:
+	kubectl apply -f redis-commander.yml
+
+rm-redis-commander:
+	kubectl delete -f redis-commander.yml
+
 prometheus:
 	helm install dapr-prom prometheus-community/prometheus -n dapr-monitoring \
 		--set nodeExporter.hostRootfs=false \
@@ -178,6 +184,7 @@ secrets:
 	kubectl create secret tls rest-onprem-tls --key="certs/rest-onprem.key" --cert="certs/rest-onprem.crt"
 	kubectl create secret tls ingress-onprem-tls --key="certs/ingress-onprem.key" --cert="certs/ingress-onprem.crt"
 	kubectl create secret tls calculator-onprem-tls --key="certs/calculator-onprem.key" --cert="certs/calculator-onprem.crt"
+	kubectl create secret tls redis-onprem-tls --key="certs/redis-onprem.key" --cert="certs/redis-onprem.crt"
 	kubectl -n kubernetes-dashboard create secret tls kd-onprem-tls --key="certs/kd-onprem.key" --cert="certs/kd-onprem.crt"
 
 rm-secrets:
@@ -186,6 +193,7 @@ rm-secrets:
 	kubectl delete secret rest-onprem-tls
 	kubectl delete secret ingress-onprem-tls
 	kubectl delete secret calculator-onprem-tls
+	kubectl delete secret redis-onprem-tls
 	kubectl delete secret -n kubernetes-dashboard kd-onprem-tls
 
 get-token:

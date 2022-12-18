@@ -28,11 +28,14 @@ spec:
           imagePullPolicy: Always
           env:
             - name: REDIS_HOST
-              value: redis-master.default.svc.cluster.local:6379
+              value: "redis-master.default.svc.cluster.local"
+            - name: REDIS_PORT
+              value: "6379"
             - name: REDIS_PASSWORD
-              secretKeyRef:
-                name: redis
-                key: redis-password
+              valueFrom:
+                secretKeyRef:
+                  name: redis
+                  key: redis-password
             - name: K8S_SIGTERM
               value: "1"
           ports:
