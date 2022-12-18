@@ -8,7 +8,7 @@ spec:
   capacity:
     storage: 8Gi
   nfs:
-    server: 192.168.1.14
+    server: node-storage
     path: "/export/volumes/data-redis-master"
 
 ---
@@ -35,7 +35,7 @@ spec:
   capacity:
     storage: 8Gi
   nfs:
-    server: 192.168.1.14
+    server: node-storage
     path: "/export/volumes/data-redis-replicas-0"
 
 ---
@@ -62,7 +62,7 @@ spec:
   capacity:
     storage: 8Gi
   nfs:
-    server: 192.168.1.14
+    server: node-storage
     path: "/export/volumes/data-redis-replicas-1"
 
 ---
@@ -89,7 +89,7 @@ spec:
   capacity:
     storage: 8Gi
   nfs:
-    server: 192.168.1.14
+    server: node-storage
     path: "/export/volumes/data-redis-replicas-2"
 
 ---
@@ -116,5 +116,5 @@ spec:
   capacity:
     storage: 8Gi
   nfs:
-    server: 192.168.1.14
+    server: node-storage
     path: "/export/volumes/storage-dapr-prom-alertmanager"

@@ -1,7 +1,7 @@
 VERSION = v1
 
 context:
-	kubectl config use-context docker-desktop
+	kubectl config use-context kubernetes-admin@kubernetes
 
 build:
 	cd ../rest_server; docker build -t tmather99/rest_server .
@@ -173,20 +173,20 @@ rm-dapr-secrets:
 	kubectl delete secret eventcatalogdb
 
 secrets:
-	kubectl create secret tls seq-local-tls --key="certs/seq-local.key" --cert="certs/seq-local.crt"
-	kubectl create secret tls zipkin-local-tls --key="certs/zipkin-local.key" --cert="certs/zipkin-local.crt"
-	kubectl create secret tls rest-local-tls --key="certs/rest-local.key" --cert="certs/rest-local.crt"
-	kubectl create secret tls ingress-local-tls --key="certs/ingress-local.key" --cert="certs/ingress-local.crt"
-	kubectl create secret tls calculator-local-tls --key="certs/calculator-local.key" --cert="certs/calculator-local.crt"
-	kubectl -n kubernetes-dashboard create secret tls kd-local-tls --key="certs/kd-local.key" --cert="certs/kd-local.crt"
+	kubectl create secret tls seq-onprem-tls --key="certs/seq-onprem.key" --cert="certs/seq-onprem.crt"
+	kubectl create secret tls zipkin-onprem-tls --key="certs/zipkin-onprem.key" --cert="certs/zipkin-onprem.crt"
+	kubectl create secret tls rest-onprem-tls --key="certs/rest-onprem.key" --cert="certs/rest-onprem.crt"
+	kubectl create secret tls ingress-onprem-tls --key="certs/ingress-onprem.key" --cert="certs/ingress-onprem.crt"
+	kubectl create secret tls calculator-onprem-tls --key="certs/calculator-onprem.key" --cert="certs/calculator-onprem.crt"
+	kubectl -n kubernetes-dashboard create secret tls kd-onprem-tls --key="certs/kd-onprem.key" --cert="certs/kd-onprem.crt"
 
 rm-secrets:
-	kubectl delete secret seq-local-tls
-	kubectl delete secret zipkin-local-tls
-	kubectl delete secret rest-local-tls
-	kubectl delete secret ingress-local-tls
-	kubectl delete secret calculator-local-tls
-	kubectl delete secret -n kubernetes-dashboard kd-local-tls
+	kubectl delete secret seq-onprem-tls
+	kubectl delete secret zipkin-onprem-tls
+	kubectl delete secret rest-onprem-tls
+	kubectl delete secret ingress-onprem-tls
+	kubectl delete secret calculator-onprem-tls
+	kubectl delete secret -n kubernetes-dashboard kd-onprem-tls
 
 get-token:
 	kubectl -n kubernetes-dashboard create token admin-user
