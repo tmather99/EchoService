@@ -23,6 +23,9 @@ spec:
   - hosts:
       - zipkin.onprem.com
     secretName: zipkin-onprem-tls   
+  - hosts:
+      - redis.onprem.com
+    secretName: redis-onprem-tls   
   rules:
   - host: calculator.onprem.com
     http:
@@ -84,4 +87,12 @@ spec:
             name: zipkin-service
             port: 
               number: 9411  
+  - host: redis.onprem.com
+    http:
+      paths:      
+      - path: /
+        pathType: Prefix
+        backend:
+            serviceName: redis-commander
+            servicePort: 8081
 
