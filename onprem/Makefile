@@ -30,10 +30,12 @@ rm-nginx:
 ingress:
 	kubectl apply -f dapr-ingress.yml
 	kubectl apply -f kd-ingress.yml
+	kubectl apply -f grafana-ingress.yml
 
 rm-ingress:
 	kubectl delete -f dapr-ingress.yml
 	kubectl delete -f kd-ingress.yml
+	kubectl delete -f grafana-ingress.yml
 
 seq:
 	kubectl apply -f seq.yml
@@ -65,6 +67,9 @@ redis-commander:
 rm-redis-commander:
 	kubectl delete -f redis-commander.yml
 
+# helm repo add prometheus-community https://prometheus-community.github.io/helm-charts
+# helm repo update
+# kubectl create namespace dapr-monitoring
 prometheus:
 	helm install dapr-prom prometheus-community/prometheus -n dapr-monitoring \
 		--set nodeExporter.hostRootfs=false \
@@ -74,6 +79,14 @@ prometheus:
 
 rm-prometheus::
 	helm delete dapr-prom -n dapr-monitoring 
+
+# helm repo add grafana https://grafana.github.io/helm-charts
+# helm repo update
+grafana:
+	helm install grafana grafana/grafana -n dapr-monitoring
+
+rm-grafana:
+	helm delete grafana -n dapr-monitoring
 
 zipkin:
 	kubectl apply -f zipkin.yml
