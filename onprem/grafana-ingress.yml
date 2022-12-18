@@ -4,11 +4,8 @@ metadata:
   name: grafana
   namespace: dapr-monitoring
   labels:
+    app.kubernetes.io/instance: grafana
     app.kubernetes.io/name: grafana
-  annotations:
-    nginx.ingress.kubernetes.io/backend-protocol: "HTTPS"
-    nginx.ingress.kubernetes.io/rewrite-target: /
-    nginx.ingress.kubernetes.io/ssl-redirect: "true"
 spec:
   ingressClassName: nginx
   tls:
@@ -25,4 +22,4 @@ spec:
               service:
                 name: grafana
                 port:
-                  number: 8080
+                  number: 80

@@ -88,6 +88,9 @@ grafana:
 rm-grafana:
 	helm delete grafana -n dapr-monitoring
 
+grafana-password:
+	kubectl get secret --namespace dapr-monitoring grafana -o jsonpath="{.data.admin-password}" | base64 --decode ; echo
+
 zipkin:
 	kubectl apply -f zipkin.yml
 	kubectl apply -f dapr/tracing.yml
@@ -198,6 +201,7 @@ secrets:
 	kubectl create secret tls ingress-onprem-tls --key="certs/ingress-onprem.key" --cert="certs/ingress-onprem.crt"
 	kubectl create secret tls calculator-onprem-tls --key="certs/calculator-onprem.key" --cert="certs/calculator-onprem.crt"
 	kubectl create secret tls redis-onprem-tls --key="certs/redis-onprem.key" --cert="certs/redis-onprem.crt"
+	kubectl create secret tls grafana-onprem-tls --key="certs/grafana-onprem.key" --cert="certs/grafana-onprem.crt"
 	kubectl -n kubernetes-dashboard create secret tls kd-onprem-tls --key="certs/kd-onprem.key" --cert="certs/kd-onprem.crt"
 
 rm-secrets:
@@ -207,6 +211,7 @@ rm-secrets:
 	kubectl delete secret ingress-onprem-tls
 	kubectl delete secret calculator-onprem-tls
 	kubectl delete secret redis-onprem-tls
+	kubectl delete secret grafana-onprem-tls
 	kubectl delete secret -n kubernetes-dashboard kd-onprem-tls
 
 get-token:
