@@ -42,7 +42,6 @@ dapr-pubsub-rabbitmq:
 rm-dapr-pubsub-rabbitmq:
 	kubectl delete -f deploy/dapr-pubsub-rabbitmq.yml
 
-
 csharp-sub:
 	kubectl apply -f deploy/csharp-subscriber.yml
 	kubectl rollout status deploy/csharp-subscriber

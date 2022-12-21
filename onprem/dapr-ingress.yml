@@ -32,6 +32,9 @@ spec:
   - hosts:
       - react.onprem.com
     secretName: react-onprem-tls   
+  - hosts:
+      - dapr.onprem.com
+    secretName: dapr-onprem-tls   
   rules:
   - host: calculator.onprem.com
     http:
@@ -123,3 +126,13 @@ spec:
             name: react-form
             port: 
               number: 80  
+  - host: dapr.onprem.com
+    http:
+      paths:      
+      - path: /
+        pathType: Prefix
+        backend:
+          service:
+            name: dapr-dashboard
+            port: 
+              number: 8080  
