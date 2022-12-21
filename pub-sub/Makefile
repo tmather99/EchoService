@@ -34,7 +34,7 @@ dapr-pubsub-redis:
 	kubectl apply -f deploy/dapr-pubsub-redis.yml
 
 rm-dapr-pubsub-redis:
-	kubectl apply -f deploy/dapr-pubsub-redis.yml
+	kubectl delete -f deploy/dapr-pubsub-redis.yml
 
 dapr-pubsub-rabbitmq:
 	kubectl apply -f deploy/dapr-pubsub-rabbitmq.yml
@@ -84,12 +84,12 @@ rm-rabbit-rbac:
 # helm repo add bitnami https://charts.bitnami.com/bitnami
 rabbitmq:
 	helm install rabbitmq \
-	--set auth.username=admin,auth.password=admin,auth.erlangCookie=secretcookie \
+	--set auth.username=admin,auth.password=admin,auth.erlangCookie=secretcookie,replicaCount=3 \
 	bitnami/rabbitmq
 	
 rm-rabbitmq:
 	helm delete rabbitmq
 
-rabbitmq-managment:
+rabbitmq-management:
 	kubectl port-forward --namespace default svc/rabbitmq 15672:15672
 	
