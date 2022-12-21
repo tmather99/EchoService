@@ -1,3 +1,5 @@
+VERSION = v1
+
 context:
 	kubectl config use-context docker-desktop
 
@@ -44,12 +46,28 @@ dapr-dashboard:
 
 # helm repo add bitnami https://charts.bitnami.com/bitnami
 # helm repo update
+#	helm install redis --set "master.persistence.enabled=false" --set "slave.persistence.enabled=false" bitnami/redis
 redis:
 	helm install redis bitnami/redis
 
 rm-redis:
 	helm delete redis	
 
+redis-commander:
+	kubectl apply -f redis-commander.yml
+
+rm-redis-commander:
+	kubectl delete -f redis-commander.yml
+
+redisinsight:
+	kubectl apply -f redisinsight.yml
+
+rm-redisinsight:
+	kubectl delete -f redisinsight.yml
+
+# helm repo add prometheus-community https://prometheus-community.github.io/helm-charts
+# helm repo update
+# kubectl create namespace dapr-monitoring
 prometheus:
 	helm install dapr-prom prometheus-community/prometheus -n dapr-monitoring \
 		--set nodeExporter.hostRootfs=false \
@@ -59,6 +77,17 @@ prometheus:
 
 rm-prometheus::
 	helm delete dapr-prom -n dapr-monitoring 
+
+# helm repo add grafana https://grafana.github.io/helm-charts
+# helm repo update
+grafana:
+	helm install grafana grafana/grafana -n dapr-monitoring
+
+rm-grafana:
+	helm delete grafana -n dapr-monitoring
+
+grafana-password:
+	kubectl get secret --namespace dapr-monitoring grafana -o jsonpath="{.data.admin-password}" | base64 --decode ; echo
 
 zipkin:
 	kubectl apply -f zipkin.yml
@@ -87,7 +116,7 @@ rm-dapr-cron:
 	kubectl delete -f dapr/cron.yml
 	
 rest-server:
-	kubectl apply -f rest-server$(VERSION).yml
+	kubectl apply -f rest-server-$(VERSION).yml
 	kubectl rollout status deployment rest-server-app
 
 undo-rest-server:
@@ -98,7 +127,7 @@ rm-rest-server:
 	kubectl delete -f rest-server.yml
 
 dapr-client:
-	kubectl apply -f dapr-client$(VERSION).yml
+	kubectl apply -f dapr-client-$(VERSION).yml
 	kubectl rollout status deployment dapr-client-app
 
 undo-dapr-client:
@@ -109,7 +138,7 @@ rm-dapr-client:
 	kubectl delete -f dapr-client.yml
 
 dapr-server:
-	kubectl apply -f dapr-server$(VERSION).yml
+	kubectl apply -f dapr-server-$(VERSION).yml
 	kubectl rollout status deployment dapr-server-app
 
 undo-dapr-server:
@@ -169,6 +198,11 @@ secrets:
 	kubectl create secret tls rest-local-tls --key="certs/rest-local.key" --cert="certs/rest-local.crt"
 	kubectl create secret tls ingress-local-tls --key="certs/ingress-local.key" --cert="certs/ingress-local.crt"
 	kubectl create secret tls calculator-local-tls --key="certs/calculator-local.key" --cert="certs/calculator-local.crt"
+	kubectl create secret tls redis-local-tls --key="certs/redis-local.key" --cert="certs/redis-local.crt"
+	kubectl create secret tls rabbitmq-local-tls --key="certs/rabbitmq-local.key" --cert="certs/rabbitmq-local.crt"
+	kubectl create secret tls react-local-tls --key="certs/react-local.key" --cert="certs/react-local.crt"
+	kubectl create secret tls redisinsight-local-tls --key="certs/redisinsight-local.key" --cert="certs/redisinsight-local.crt"
+	kubectl create secret tls grafana-local-tls --key="certs/grafana-local.key" --cert="certs/grafana-local.crt"
 	kubectl -n kubernetes-dashboard create secret tls kd-local-tls --key="certs/kd-local.key" --cert="certs/kd-local.crt"
 
 rm-secrets:
@@ -177,6 +211,11 @@ rm-secrets:
 	kubectl delete secret rest-local-tls
 	kubectl delete secret ingress-local-tls
 	kubectl delete secret calculator-local-tls
+	kubectl delete secret redis-local-tls
+	kubectl delete secret rabbitmq-local-tls
+	kubectl delete secret react-local-tls
+	kubectl delete secret redisinsight-local-tls
+	kubectl delete secret grafana-local-tls
 	kubectl delete secret -n kubernetes-dashboard kd-local-tls
 
 get-token:

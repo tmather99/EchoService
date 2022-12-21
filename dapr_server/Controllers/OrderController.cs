@@ -20,6 +20,6 @@ public class OrderController : ControllerBase
     public IActionResult Submit(OrderForCreation order)
     { 
         logger.LogInformation($"Received a new order from {order.CustomerDetails.Name}");
-        return Ok();
+        return Ok(order);
     }
 }

@@ -26,6 +26,12 @@ spec:
   - hosts:
       - redis.onprem.com
     secretName: redis-onprem-tls   
+  - hosts:
+      - rabbitmq.onprem.com
+    secretName: rabbitmq-onprem-tls   
+  - hosts:
+      - react.onprem.com
+    secretName: react-onprem-tls   
   rules:
   - host: calculator.onprem.com
     http:
@@ -97,3 +103,23 @@ spec:
             name: redis-commander
             port: 
               number: 8081  
+  - host: rabbitmq.onprem.com
+    http:
+      paths:      
+      - path: /
+        pathType: Prefix
+        backend:
+          service:
+            name: rabbitmq
+            port: 
+              number: 15672  
+  - host: react.onprem.com
+    http:
+      paths:      
+      - path: /
+        pathType: Prefix
+        backend:
+          service:
+            name: react-form
+            port: 
+              number: 80  

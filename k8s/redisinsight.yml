@@ -1,0 +1,49 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: redisinsight
+  labels:
+    app: redisinsight
+spec:
+  selector:
+    matchLabels:
+      app: redisinsight
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: redisinsight
+    spec:
+      containers:
+      - name:  redisinsight
+        image: redislabs/redisinsight:latest
+        resources:
+          limits:
+            memory: "128Mi"
+            cpu: "200m"  
+        imagePullPolicy: Always
+        env:
+        - name: RITRUSTEDORIGINS
+          value: "https://redisinsight.local.com"        
+        volumeMounts:
+        - name: db
+          mountPath: /db
+        ports:
+        - containerPort: 8001
+          protocol: TCP
+      volumes:
+      - name: db
+        emptyDir: {}
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: redisinsight-service 
+spec:
+  selector:
+    app: redisinsight
+  type: LoadBalancer
+  ports:
+    - port: 80
+      targetPort: 8001

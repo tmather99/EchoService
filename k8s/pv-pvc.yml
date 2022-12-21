@@ -118,30 +118,3 @@ spec:
   nfs:
     server: node-storage
     path: "/export/volumes/storage-dapr-prom-alertmanager"
-
----
-apiVersion: v1
-kind: PersistentVolume
-metadata:
-  name: data-rabbitmq
-spec:
-  accessModes:
-    - ReadWriteOnce
-  capacity:
-    storage: 8Gi
-  nfs:
-    server: node-storage
-    path: "/export/volumes/data-rabbitmq"
-
----
-apiVersion: v1
-kind: PersistentVolumeClaim
-metadata:
-  name: data-rabbitmq-0
-spec:
-  accessModes:
-    - ReadWriteOnce
-  resources:
-    requests:
-      storage: 8Gi
-  volumeName: data-rabbitmq

@@ -23,6 +23,18 @@ spec:
   - hosts:
       - zipkin.local.com
     secretName: zipkin-local-tls   
+  - hosts:
+      - redis.local.com
+    secretName: redis-local-tls   
+  - hosts:
+      - rabbitmq.local.com
+    secretName: rabbitmq-local-tls   
+  - hosts:
+      - react.local.com
+    secretName: react-local-tls   
+  - hosts:
+      - redisinsight.local.com
+    secretName: redisinsight-local-tls   
   rules:
   - host: calculator.local.com
     http:
@@ -84,4 +96,45 @@ spec:
             name: zipkin-service
             port: 
               number: 9411  
+  - host: redis.local.com
+    http:
+      paths:      
+      - path: /
+        pathType: Prefix
+        backend:
+          service:
+            name: redis-commander
+            port: 
+              number: 8081  
+  - host: rabbitmq.local.com
+    http:
+      paths:      
+      - path: /
+        pathType: Prefix
+        backend:
+          service:
+            name: rabbitmq
+            port: 
+              number: 15672  
+  - host: react.local.com
+    http:
+      paths:      
+      - path: /
+        pathType: Prefix
+        backend:
+          service:
+            name: react-form
+            port: 
+              number: 80  
+  - host: redisinsight.local.com
+    http:
+      paths:      
+      - path: /
+        pathType: Prefix
+        backend:
+          service:
+            name: redisinsight-service
+            port: 
+              number: 8001
+
 

@@ -1,0 +1,30 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: csharp-subscriber
+  labels:
+    app: csharp-subscriber
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: csharp-subscriber
+  template:
+    metadata:
+      labels:
+        app: csharp-subscriber
+      annotations:
+        dapr.io/enabled: "true"
+        dapr.io/app-id: "csharp-subscriber"
+        dapr.io/app-port: "5009"
+    spec:
+      containers:
+      - name: csharp-subscriber
+        image: tmather99/pubsub-csharp-subscriber:latest-linux-amd64
+        ports:
+        - containerPort: 5009
+        imagePullPolicy: Always
+        resources:
+          limits:
+            memory: "128Mi"
+            cpu: "200m"  

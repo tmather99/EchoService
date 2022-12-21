@@ -63,9 +63,16 @@ public class IngressController : ControllerBase
     public async Task<ExampleContract> GetStateStoreAsync()
     {
         var data = this.CreateExampleContract();
+
+        var metadata = new Dictionary<string, string>
+        {
+            { "ttlInSeconds", "10" }
+        };
+
+        //await daprClient.SaveStateAsync<ExampleContract>(storeName: "shopstate", key: "example", value: data, metadata: metadata);
         await daprClient.SaveStateAsync<ExampleContract>(storeName: "shopstate", key: "example", value: data);
         var result = await this.daprClient.GetStateAsync<ExampleContract>(storeName: "shopstate", key: "example");
-        this.logger.LogInformation(this.JsonSerialize(result));
+        this.logger.LogInformation($"ttlInSeconds={metadata["ttlInSeconds"]}\n" + this.JsonSerialize(result));
         return result;
     }
 
@@ -126,8 +133,14 @@ public class IngressController : ControllerBase
             }
         };
 
+        var metadata = new Dictionary<string, string>
+        {
+            { "ttlInSeconds", "10" }
+        };
+
+        //await this.daprClient.PublishEventAsync<OrderForCreation>(pubsubName: "pubsub", topicName: "orders", data: order, metadata: metadata);
         await this.daprClient.PublishEventAsync<OrderForCreation>(pubsubName: "pubsub", topicName: "orders", data: order);
-        this.logger.LogInformation($"Publihsed orderId={order.OrderId}");
+        this.logger.LogInformation($"Publihsed orderId={order.OrderId}, ttlInSeconds={metadata["ttlInSeconds"]}");
         return order.OrderId;
     }
 
