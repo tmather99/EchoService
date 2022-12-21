@@ -21,19 +21,22 @@ rm-dashboard:
 	kubectl delete -f https://raw.githubusercontent.com/kubernetes/dashboard/v2.7.0/aio/deploy/recommended.yaml
 	kubectl delete -f https://gist.githubusercontent.com/dahlsailrunner/bbd453f3bb6259b66c08a70d0908283f/raw/5727723217e2df4b65d8933adf04d009cfb0fe3f/local-dashboard-account.yml
 
+# kubectl apply -f https://raw.githubusercontent.com/kubernetes/ingress-nginx/controller-v1.4.0/deploy/static/provider/cloud/deploy.yaml
 nginx:
-	kubectl apply -f https://raw.githubusercontent.com/kubernetes/ingress-nginx/controller-v1.4.0/deploy/static/provider/cloud/deploy.yaml
+	kubectl apply -f ingress-nginx-controller-v1.4.0.yml
 
 rm-nginx:
-	kubectl delete -f https://raw.githubusercontent.com/kubernetes/ingress-nginx/controller-v1.4.0/deploy/static/provider/cloud/deploy.yaml
+	kubectl delete -f ingress-nginx-controller-v1.4.0.yml
 
 ingress:
-	kubectl apply -f dapr-ingress.yml
+	kubectl apply -f dapr-ingress.yml 
+	kubectl apply -f dapr-dashboard-ingress.yml
 	kubectl apply -f kd-ingress.yml
 	kubectl apply -f grafana-ingress.yml
 
 rm-ingress:
 	kubectl delete -f dapr-ingress.yml
+	kubectl delete -f dapr-dashboard-ingress.yml
 	kubectl delete -f kd-ingress.yml
 	kubectl delete -f grafana-ingress.yml
 
@@ -183,6 +186,7 @@ dapr-secrets:
 	kubectl create secret generic mysecret --from-file dapr/secrets.json
 	kubectl create secret generic eventcatalogdb \
           --from-literal=eventcatalogdb="Event Catalog Connection String from Kubernetes"
+	kubectl create secret tls dapr-onprem-tls --key="certs/dapr-onprem.key" --cert="certs/dapr-onprem.crt" -n dapr-system
 	
 client-rollout-status:
 	kubectl rollout status deployment dapr-client-app
@@ -193,6 +197,7 @@ server-rollout-status:
 rm-dapr-secrets:
 	kubectl delete secret mysecret
 	kubectl delete secret eventcatalogdb
+	kubectl delete secret dapr-onprem-tls -n dapr-system
 
 secrets:
 	kubectl create secret tls seq-onprem-tls --key="certs/seq-onprem.key" --cert="certs/seq-onprem.crt"
@@ -201,7 +206,6 @@ secrets:
 	kubectl create secret tls ingress-onprem-tls --key="certs/ingress-onprem.key" --cert="certs/ingress-onprem.crt"
 	kubectl create secret tls calculator-onprem-tls --key="certs/calculator-onprem.key" --cert="certs/calculator-onprem.crt"
 	kubectl create secret tls redis-onprem-tls --key="certs/redis-onprem.key" --cert="certs/redis-onprem.crt"
-	kubectl create secret tls dapr-onprem-tls --key="certs/dapr-onprem.key" --cert="certs/dapr-onprem.crt"
 	kubectl create secret tls rabbitmq-onprem-tls --key="certs/rabbitmq-onprem.key" --cert="certs/rabbitmq-onprem.crt"
 	kubectl create secret tls react-onprem-tls --key="certs/react-onprem.key" --cert="certs/react-onprem.crt"
 	kubectl create secret tls grafana-onprem-tls --key="certs/grafana-onprem.key" --cert="certs/grafana-onprem.crt"
@@ -214,7 +218,6 @@ rm-secrets:
 	kubectl delete secret ingress-onprem-tls
 	kubectl delete secret calculator-onprem-tls
 	kubectl delete secret redis-onprem-tls
-	kubectl delete secret dapr-onprem-tls
 	kubectl delete secret rabbitmq-onprem-tls
 	kubectl delete secret react-onprem-tls
 	kubectl delete secret grafana-onprem-tls
