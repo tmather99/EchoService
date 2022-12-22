@@ -21,18 +21,21 @@ rm-dashboard:
 	kubectl delete -f https://raw.githubusercontent.com/kubernetes/dashboard/v2.7.0/aio/deploy/recommended.yaml
 	kubectl delete -f https://gist.githubusercontent.com/dahlsailrunner/bbd453f3bb6259b66c08a70d0908283f/raw/5727723217e2df4b65d8933adf04d009cfb0fe3f/local-dashboard-account.yml
 
+# kubectl apply -f https://raw.githubusercontent.com/kubernetes/ingress-nginx/controller-v1.4.0/deploy/static/provider/cloud/deploy.yaml
 nginx:
-	kubectl apply -f https://raw.githubusercontent.com/kubernetes/ingress-nginx/controller-v1.4.0/deploy/static/provider/cloud/deploy.yaml
+	kubectl apply -f ingress-nginx-controller-v1.4.0.yml
 
 rm-nginx:
-	kubectl delete -f https://raw.githubusercontent.com/kubernetes/ingress-nginx/controller-v1.4.0/deploy/static/provider/cloud/deploy.yaml
+	kubectl delete -f ingress-nginx-controller-v1.4.0.yml
 
 ingress:
 	kubectl apply -f dapr-ingress.yml
+	kubectl apply -f dapr-dashboard-ingress.yml
 	kubectl apply -f kd-ingress.yml
 
 rm-ingress:
 	kubectl delete -f dapr-ingress.yml
+	kubectl delete -f dapr-dashboard-ingress.yml
 	kubectl delete -f kd-ingress.yml
 
 seq:
@@ -181,6 +184,7 @@ dapr-secrets:
 	kubectl create secret generic mysecret --from-file dapr/secrets.json
 	kubectl create secret generic eventcatalogdb \
           --from-literal=eventcatalogdb="Event Catalog Connection String from Kubernetes"
+	kubectl create secret tls dapr-local-tls --key="certs/dapr-local.key" --cert="certs/dapr-local.crt" -n dapr-system
 	
 client-rollout-status:
 	kubectl rollout status deployment dapr-client-app
@@ -191,6 +195,7 @@ server-rollout-status:
 rm-dapr-secrets:
 	kubectl delete secret mysecret
 	kubectl delete secret eventcatalogdb
+	kubectl delete secret dapr-local-tls -n dapr-system
 
 secrets:
 	kubectl create secret tls seq-local-tls --key="certs/seq-local.key" --cert="certs/seq-local.crt"
