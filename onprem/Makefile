@@ -57,7 +57,6 @@ rm-pv-pvc:
 
 # helm repo add bitnami https://charts.bitnami.com/bitnami
 # helm repo update
-#	helm install redis --set "master.persistence.enabled=false" --set "slave.persistence.enabled=false" bitnami/redis
 redis:
 	helm install redis bitnami/redis
 
@@ -85,6 +84,8 @@ rm-prometheus::
 
 # helm repo add grafana https://grafana.github.io/helm-charts
 # helm repo update
+# https://github.com/RicardoNiepel/dapr-docs/blob/master/howto/setup-monitoring-tools/setup-prometheus-grafana.md
+# http://dapr-prom-prometheus-server.dapr-monitoring
 grafana:
 	helm install grafana grafana/grafana -n dapr-monitoring
 
@@ -208,7 +209,7 @@ secrets:
 	kubectl create secret tls redis-onprem-tls --key="certs/redis-onprem.key" --cert="certs/redis-onprem.crt"
 	kubectl create secret tls rabbitmq-onprem-tls --key="certs/rabbitmq-onprem.key" --cert="certs/rabbitmq-onprem.crt"
 	kubectl create secret tls react-onprem-tls --key="certs/react-onprem.key" --cert="certs/react-onprem.crt"
-	kubectl create secret tls grafana-onprem-tls --key="certs/grafana-onprem.key" --cert="certs/grafana-onprem.crt"
+	kubectl create secret tls grafana-onprem-tls --key="certs/grafana-onprem.key" --cert="certs/grafana-onprem.crt" -n dapr-monitoring
 	kubectl -n kubernetes-dashboard create secret tls kd-onprem-tls --key="certs/kd-onprem.key" --cert="certs/kd-onprem.crt"
 
 rm-secrets:
@@ -220,7 +221,7 @@ rm-secrets:
 	kubectl delete secret redis-onprem-tls
 	kubectl delete secret rabbitmq-onprem-tls
 	kubectl delete secret react-onprem-tls
-	kubectl delete secret grafana-onprem-tls
+	kubectl delete secret grafana-onprem-tls -n dapr-monitoring
 	kubectl delete secret -n kubernetes-dashboard kd-onprem-tls
 
 get-token:
