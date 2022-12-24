@@ -32,11 +32,13 @@ ingress:
 	kubectl apply -f dapr-ingress.yml
 	kubectl apply -f dapr-dashboard-ingress.yml
 	kubectl apply -f kd-ingress.yml
+	kubectl apply -f grafana-ingress.yml
 
 rm-ingress:
 	kubectl delete -f dapr-ingress.yml
 	kubectl delete -f dapr-dashboard-ingress.yml
 	kubectl delete -f kd-ingress.yml
+	kubectl delete -f grafana-ingress.yml
 
 seq:
 	kubectl apply -f seq.yml
@@ -49,7 +51,6 @@ dapr-dashboard:
 
 # helm repo add bitnami https://charts.bitnami.com/bitnami
 # helm repo update
-#	helm install redis --set "master.persistence.enabled=false" --set "slave.persistence.enabled=false" bitnami/redis
 redis:
 	helm install redis bitnami/redis
 
@@ -72,11 +73,10 @@ rm-redisinsight:
 # helm repo update
 # kubectl create namespace dapr-monitoring
 prometheus:
-	helm install dapr-prom prometheus-community/prometheus -n dapr-monitoring \
-		--set nodeExporter.hostRootfs=false \
-		--set alertmanager.persistentVolume.enable=false \
-		--set pushgateway.persistentVolume.enabled=false \
-		--set server.persistentVolume.enabled=false
+	helm install dapr-prom prometheus-community/prometheus -n dapr-monitoring
+	kubectl patch ds dapr-prom-prometheus-node-exporter \
+	   --type "json" -p '[{"op": "remove", "path" : "/spec/template/spec/containers/0/volumeMounts/2/mountPropagation"}]' \
+	   -n dapr-monitoring	
 
 rm-prometheus::
 	helm delete dapr-prom -n dapr-monitoring 
@@ -89,8 +89,9 @@ grafana:
 rm-grafana:
 	helm delete grafana -n dapr-monitoring
 
+# http://dapr-prom-kube-prometheus-prometheus.dapr-monitoring
 grafana-password:
-	kubectl get secret --namespace dapr-monitoring grafana -o jsonpath="{.data.admin-password}" | base64 --decode ; echo
+	kubectl get secret --namespace dapr-monitoring grafana -o jsonpath="{.data.admin-password}" | base64 -d
 
 zipkin:
 	kubectl apply -f zipkin.yml
@@ -207,7 +208,7 @@ secrets:
 	kubectl create secret tls rabbitmq-local-tls --key="certs/rabbitmq-local.key" --cert="certs/rabbitmq-local.crt"
 	kubectl create secret tls react-local-tls --key="certs/react-local.key" --cert="certs/react-local.crt"
 	kubectl create secret tls redisinsight-local-tls --key="certs/redisinsight-local.key" --cert="certs/redisinsight-local.crt"
-	kubectl create secret tls grafana-local-tls --key="certs/grafana-local.key" --cert="certs/grafana-local.crt"
+	kubectl create secret tls grafana-local-tls --key="certs/grafana-local.key" --cert="certs/grafana-local.crt" -n dapr-monitoring
 	kubectl -n kubernetes-dashboard create secret tls kd-local-tls --key="certs/kd-local.key" --cert="certs/kd-local.crt"
 
 rm-secrets:
@@ -220,7 +221,7 @@ rm-secrets:
 	kubectl delete secret rabbitmq-local-tls
 	kubectl delete secret react-local-tls
 	kubectl delete secret redisinsight-local-tls
-	kubectl delete secret grafana-local-tls
+	kubectl delete secret grafana-local-tls -n dapr-monitoring
 	kubectl delete secret -n kubernetes-dashboard kd-local-tls
 
 get-token:
