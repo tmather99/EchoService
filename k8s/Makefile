@@ -89,7 +89,7 @@ grafana:
 rm-grafana:
 	helm delete grafana -n dapr-monitoring
 
-# http://dapr-prom-kube-prometheus-prometheus.dapr-monitoring
+# http://dapr-prom-prometheus-server.dapr-monitoring
 grafana-password:
 	kubectl get secret --namespace dapr-monitoring grafana -o jsonpath="{.data.admin-password}" | base64 -d
 
