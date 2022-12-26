@@ -84,7 +84,7 @@ rm-prometheus::
 # helm repo add grafana https://grafana.github.io/helm-charts
 # helm repo update
 grafana:
-	helm install grafana grafana/grafana -n dapr-monitoring
+	helm install grafana grafana/grafana --set persistence.enabled=true -n dapr-monitoring
 
 rm-grafana:
 	helm delete grafana -n dapr-monitoring
