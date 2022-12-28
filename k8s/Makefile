@@ -63,12 +63,6 @@ redis-commander:
 rm-redis-commander:
 	kubectl delete -f redis-commander.yml
 
-redisinsight:
-	kubectl apply -f redisinsight.yml
-
-rm-redisinsight:
-	kubectl delete -f redisinsight.yml
-
 helm-repo:
 	helm repo add bitnami https://charts.bitnami.com/bitnami
 	helm repo add prometheus-community https://prometheus-community.github.io/helm-charts

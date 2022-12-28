@@ -69,6 +69,13 @@ redis-commander:
 rm-redis-commander:
 	kubectl delete -f redis-commander.yml
 
+helm-repo:
+	helm repo add bitnami https://charts.bitnami.com/bitnami
+	helm repo add prometheus-community https://prometheus-community.github.io/helm-charts
+	helm repo add grafana https://grafana.github.io/helm-charts
+	helm repo add metrics-server https://kubernetes-sigs.github.io/metrics-server/
+	helm repo update
+
 # helm repo add prometheus-community https://prometheus-community.github.io/helm-charts
 # helm repo update
 # kubectl create namespace dapr-monitoring
@@ -102,6 +109,14 @@ zipkin:
 rm-zipkin:
 	kubectl delete -f zipkin.yml
 	kubectl delete -f dapr/tracing.yml
+
+# helm repo add metrics-server https://kubernetes-sigs.github.io/metrics-server/
+# helm repo update     
+metrics-server:
+	helm install --set 'args={--kubelet-insecure-tls}' -n kube-system metrics metrics-server/metrics-server
+
+rm-metrics-server:
+	helm delete metrics -n kube-system 
 
 dapr-pubsub:
 	kubectl apply -f dapr/pubsub.yml
