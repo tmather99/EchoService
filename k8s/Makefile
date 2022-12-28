@@ -73,6 +73,7 @@ helm-repo:
 	helm repo add bitnami https://charts.bitnami.com/bitnami
 	helm repo add prometheus-community https://prometheus-community.github.io/helm-charts
 	helm repo add grafana https://grafana.github.io/helm-charts
+	helm repo add metrics-server https://kubernetes-sigs.github.io/metrics-server/
 	helm repo update
 
 # helm repo add prometheus-community https://prometheus-community.github.io/helm-charts
@@ -107,11 +108,13 @@ rm-zipkin:
 	kubectl delete -f zipkin.yml
 	kubectl delete -f dapr/tracing.yml
 
+# helm repo add metrics-server https://kubernetes-sigs.github.io/metrics-server/
+# helm repo update     
 metrics-server:
-	kubectl apply -f https://github.com/kubernetes-sigs/metrics-server/releases/latest/download/components.yaml
+	helm install --set 'args={--kubelet-insecure-tls}' -n kube-system metrics metrics-server/metrics-server
 
 rm-metrics-server:
-	kubectl delete -f https://github.com/kubernetes-sigs/metrics-server/releases/latest/download/components.yaml
+	helm delete metrics -n kube-system 
 
 dapr-pubsub:
 	kubectl apply -f dapr/pubsub.yml
