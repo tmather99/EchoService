@@ -109,7 +109,8 @@ spec:
 apiVersion: v1
 kind: PersistentVolume
 metadata:
-  name: storage-dapr-prom-alertmanager
+  name: storage-dapr-prom-alertmanager-0
+  namespace: dapr-monitoring
 spec:
   accessModes:
     - ReadWriteOnce
@@ -118,6 +119,70 @@ spec:
   nfs:
     server: node-storage
     path: "/export/volumes/storage-dapr-prom-alertmanager"
+
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: storage-dapr-prom-alertmanager-0 
+  namespace: dapr-monitoring
+spec:
+  accessModes:
+    - ReadWriteOnce
+  resources:
+    requests:
+      storage: 8Gi
+  volumeName: storage-dapr-prom-alertmanager-0
+
+---
+apiVersion: v1
+kind: PersistentVolume
+metadata:
+  name: dapr-prom-prometheus-server
+  namespace: dapr-monitoring
+spec:
+  accessModes:
+    - ReadWriteOnce
+  capacity:
+    storage: 8Gi
+  nfs:
+    server: node-storage
+    path: "/export/volumes/storage-dapr-prom-prometheus-server"
+
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: dapr-prom-prometheus-server 
+  namespace: dapr-monitoring
+  labels:
+    app: prometheus
+    app.kubernetes.io/managed-by: Helm
+  annotations:
+    meta.helm.sh/release-name: "dapr-prom"
+    meta.helm.sh/release-namespace: "dapr-monitoring"
+spec:
+  accessModes:
+    - ReadWriteOnce
+  resources:
+    requests:
+      storage: 8Gi
+  volumeName: dapr-prom-prometheus-server
+
+---
+apiVersion: v1
+kind: PersistentVolume
+metadata:
+  name: storage-grafana
+  namespace: dapr-monitoring
+spec:
+  accessModes:
+    - ReadWriteOnce
+  capacity:
+    storage: 8Gi
+  nfs:
+    server: node-storage
+    path: "/export/volumes/storage-grafana"
 
 ---
 apiVersion: v1

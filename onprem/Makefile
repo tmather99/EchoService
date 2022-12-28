@@ -52,6 +52,8 @@ dapr-dashboard:
 pv-pvc:
 	kubectl apply -f pv-pvc.yml
 
+# kubectl patch pv  storage-dapr-prom-alertmanager -p '{"metadata":{"finalizers":null}}'
+# kubectl patch pvc storage-dapr-prom-alertmanager-0 -n dapr-monitoring -p '{"metadata":{"finalizers":null}}'
 rm-pv-pvc:
 	kubectl delete -f pv-pvc.yml
 
@@ -254,6 +256,7 @@ autoscale-apache:
 rm-autoscale-apache:
 	kubectl delete hpa php-apache
 
+# kubectl get hpa php-apache --watch
 load-generator:
 	kubectl run -i --tty load-generator --rm \
 	    --image=busybox:1.28 --restart=Never -- /bin/sh -c \
