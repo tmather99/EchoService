@@ -101,6 +101,12 @@ rm-zipkin:
 	kubectl delete -f zipkin.yml
 	kubectl delete -f dapr/tracing.yml
 
+metrics-server:
+	kubectl apply -f https://github.com/kubernetes-sigs/metrics-server/releases/latest/download/components.yaml
+
+rm-metrics-server:
+	kubectl delete -f https://github.com/kubernetes-sigs/metrics-server/releases/latest/download/components.yaml
+
 dapr-pubsub:
 	kubectl apply -f dapr/pubsub.yml
 
