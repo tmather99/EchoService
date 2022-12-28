@@ -242,3 +242,22 @@ rm-secrets:
 get-token:
 	kubectl -n kubernetes-dashboard create token admin-user
 
+apache:
+	kubectl apply -f php-apache.yml
+
+rm-apache:
+	kubectl delete -f php-apache.yml	
+
+autoscale-apache:
+	kubectl autoscale deployment php-apache --cpu-percent=50 --min=1 --max=10
+
+rm-autoscale-apache:
+	kubectl delete hpa php-apache
+
+load-generator:
+	kubectl run -i --tty load-generator --rm \
+	    --image=busybox:1.28 --restart=Never -- /bin/sh -c \
+		  "while sleep 0.1; do wget -q -O- http://php-apache; done"	
+
+rm-load-generator:
+	kubectl delete pod load-generator
