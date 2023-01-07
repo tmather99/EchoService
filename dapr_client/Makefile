@@ -76,6 +76,7 @@ dapr-run:
                $$env:DAPR_HTTP_PORT=3500; \
                $$env:SEQ_SERVER_URL=\'$(SEQ_SERVER_URL)\'; \
 		dapr run --app-id dapr-client \
+		         --app-port 8083 \
                  --dapr-http-port $$env:DAPR_HTTP_PORT \
                  --components-path ../dapr/components \
                  --config ../dapr/config.yml \
