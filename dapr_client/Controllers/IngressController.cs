@@ -62,16 +62,17 @@ public class IngressController : ControllerBase
     [HttpGet("statestore", Name = "GetStateStore")]
     public async Task<ExampleContract> GetStateStoreAsync()
     {
-        var data = this.CreateExampleContract();
-
+        var key = Guid.NewGuid().ToString();
+        var data = this.CreateExampleContract(key);
+        
         var metadata = new Dictionary<string, string>
         {
             { "ttlInSeconds", "10" }
         };
 
         //await daprClient.SaveStateAsync<ExampleContract>(storeName: "shopstate", key: "example", value: data, metadata: metadata);
-        await daprClient.SaveStateAsync<ExampleContract>(storeName: "shopstate", key: "example", value: data);
-        var result = await this.daprClient.GetStateAsync<ExampleContract>(storeName: "shopstate", key: "example");
+        await daprClient.SaveStateAsync<ExampleContract>(storeName: "shopstate", key, value: data);
+        var result = await this.daprClient.GetStateAsync<ExampleContract>(storeName: "shopstate", key);
         this.logger.LogInformation($"ttlInSeconds={metadata["ttlInSeconds"]}\n" + this.JsonSerialize(result));
         return result;
     }
@@ -144,7 +145,7 @@ public class IngressController : ControllerBase
         return order.OrderId;
     }
 
-    private ExampleContract CreateExampleContract()
+    private ExampleContract CreateExampleContract(string key)
     {
         return new ExampleContract()
         {
@@ -153,7 +154,7 @@ public class IngressController : ControllerBase
             SimpleCollection = "Winter is coming".Split(" "),
             ComplexCollection = new ExampleContractArrayInnerContract[]
             {
-                new() { Name = Guid.NewGuid().ToString() },
+                new() { Name = key },
                 new() { Name = "Arya Stark" },
                 new() { Name = "Sansa Stark" }
             }

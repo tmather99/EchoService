@@ -2,6 +2,7 @@ VERSION = v1
 
 context:
 	kubectl config use-context docker-desktop
+	kubectl create namespace dapr-monitoring
 
 build:
 	cd ../rest_server; docker build -t tmather99/rest_server .
