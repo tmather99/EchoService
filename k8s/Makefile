@@ -237,3 +237,10 @@ rm-secrets:
 get-token:
 	kubectl -n kubernetes-dashboard create token admin-user
 
+# helm repo add metrics-server https://kubernetes-sigs.github.io/metrics-server/
+# helm repo update     
+metrics-server:
+	helm install --set 'args={--kubelet-insecure-tls}' -n kube-system metrics metrics-server/metrics-server
+
+rm-metrics-server:
+	helm delete metrics -n kube-system 

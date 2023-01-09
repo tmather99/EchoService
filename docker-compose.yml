@@ -1,26 +1,61 @@
 version: '3.7'
 
 services:
+  dapr_client:
+    image: tmather99/dapr_client
+    build:
+      context: dapr_client
+      dockerfile: Dockerfile
+
+  dapr_server:
+    image: tmather99/dapr_server
+    build:
+      context: dapr_server
+      dockerfile: Dockerfile
+
+  rest_server:
+    image: tmather99/rest_server
+    build:
+      context: rest_server
+      dockerfile: Dockerfile
+
+  rest_client:
+    image: tmather99/rest_client
+    build:
+      context: rest_client
+      dockerfile: Dockerfile
+
   echo_server:
     image: tmather99/echo_server
     build:
-      context: ./echo_server
-      dockerfile: Dockerfile
-
-  tcp_server:
-    image: tmather99/tcp_server
-    build:
-      context: ./tcp_server
+      context: echo_server
       dockerfile: Dockerfile
 
   echo_client:
     image: tmather99/echo_client
     build:
-      context: ./echo_client
+      context: echo_client
       dockerfile: Dockerfile
+
+  tcp_server:
+    image: tmather99/tcp_server
+    build:
+      context: tcp_server
+      dockerfile: Dockerfile
+
+  globosql:
+    build:
+      context: mssql
+      dockerfile: Dockerfile
+    restart: always
+    ports:
+      - "1440:1433"   
+    environment:      
+      - ACCEPT_EULA=Y
+      - SA_PASSWORD=Th@nhy99
 
   benchmark:
     image: tmather99/benchmark
     build:
-      context: ./Benchmark
+      context: Benchmark
       dockerfile: Dockerfile

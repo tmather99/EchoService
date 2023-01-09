@@ -56,6 +56,15 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "assets", "assets", "{33E773
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "dapr_client", "dapr_client\dapr_client.csproj", "{6D32A26C-57A7-400F-B172-2C590B0F7B56}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "mssql", "mssql", "{01548A17-F22A-4E32-B9FA-EA5A3255FDE0}"
+	ProjectSection(SolutionItems) = preProject
+		mssql\Dockerfile = mssql\Dockerfile
+		mssql\entrypoint.sh = mssql\entrypoint.sh
+		mssql\InitializeGlobomanticsDb.sql = mssql\InitializeGlobomanticsDb.sql
+		mssql\setup.sh = mssql\setup.sh
+		mssql\wait-for-it.sh = mssql\wait-for-it.sh
+	EndProjectSection
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
